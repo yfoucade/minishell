@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 SRC_DIR = src
-SRC = minishell.c environ.c
+SRC = main.c minishell.c environ.c
 OBJ = $(addprefix $(SRC_DIR)/, $(SRC:.c=.o))
 
 INCLUDE_DIR = include
