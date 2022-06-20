@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 SRC_DIR = src
-SRC = minishell.c
+SRC = minishell.c environ.c
 OBJ = $(addprefix $(SRC_DIR)/, $(SRC:.c=.o))
 
 INCLUDE_DIR = include
@@ -16,10 +16,10 @@ INCLUDE = $(addprefix $(INCLUDE_DIR)/, $(HEADERS))
 all: ${NAME}
 
 ${NAME}: ${OBJ}
-	${CC} ${CFLAGS} -o ${NAME} ${OBJ}
+	${CC} ${CFLAGS} -o ${NAME} ${OBJ} -lreadline
 
 %.o: %.c ${INCLUDE}
-	${CC} -Iinclude -c ${CFLAGS} $< -o $@
+	${CC} -c ${CFLAGS} -I${INCLUDE_DIR} -o $@ $<
 
 clean:
 	${RM} ${OBJ}
