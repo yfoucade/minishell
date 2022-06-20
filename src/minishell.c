@@ -6,13 +6,13 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/20 21:25:09 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/20 22:22:09 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	CONTINUE;
+char	g_continue;
 
 unsigned char	execute_command(t_environ *environ)
 {
@@ -45,8 +45,8 @@ void	decide_add_history(t_environ *environ)
 
 int	run_shell(t_environ *environ)
 {
-	CONTINUE = 1;
-	while (CONTINUE)
+	g_continue = 1;
+	while (g_continue)
 	{
 		update_environ(environ);
 		environ->curr_command = readline(PS1);
