@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 09:59:21 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 10:26:25 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define TRUE 1
+# define FALSE 0
 # define PS1 "$ "
 # define PS2 "> "
 
@@ -34,7 +36,14 @@ void	init_environ(t_environ *environ);
 void	update_environ(t_environ *environ);
 void	free_environ(t_environ *environ);
 
-//minishell.c
+// history.c
+void	decide_add_history(t_environ *environ);
+
+// minishell.c
 void	run_shell(t_environ *environ);
+
+// ft_strutils.c
+int		ft_strcmp(char *s1, char *s2);
+char	is_blank_str(char *str);
 
 #endif

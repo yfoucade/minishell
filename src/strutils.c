@@ -1,38 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   strutils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 10:26:01 by yfoucade         ###   ########.fr       */
+/*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
+/*   Updated: 2022/06/21 10:23:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	g_continue;
-
-unsigned char	execute_command(t_environ *environ)
+int	ft_strcmp(char *s1, char *s2)
 {
-	(void)environ;
-	return (0);
+	while (*s1 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
 }
 
-void	run_shell(t_environ *environ)
+char	is_blank_chr(char c)
 {
-	g_continue = 1;
-	while (g_continue)
+	if (c == ' ' || c == '\n' || c == '\t')
+		return (TRUE);
+	if (c == '\v' || c == '\f' || c == '\r')
+		return (TRUE);
+	return (FALSE);
+}
+
+char	is_blank_str(char *str)
+{
+	while (*str)
 	{
-		update_environ(environ);
-		environ->curr_command = readline(PS1);
-		if (*environ->curr_command)
-		{
-			decide_add_history(environ);
-			environ->exit_status = execute_command(environ);
-			free(environ->last_command);
-			environ->last_command = environ->curr_command;
-		}
+		if (!is_blank_chr(*str++))
+			return (FALSE);
 	}
+	return (TRUE);
 }
