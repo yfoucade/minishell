@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 14:56:07 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:38:00 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	ft_strcmp(char *s1, char *s2)
 
 char	is_blank_chr(char c)
 {
-	if (c == ' ' || c == '\n' || c == '\t')
+	if (c == ' ' || c == '\t')
 		return (TRUE);
-	if (c == '\v' || c == '\f' || c == '\r')
-		return (TRUE);
+	// if (c == '\v' || c == '\f' || c == '\r')
+	// 	return (TRUE);
 	return (FALSE);
 }
 
