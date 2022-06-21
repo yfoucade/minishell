@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/20 21:26:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 09:59:21 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef struct s_environ
 // environ.c
 void	init_environ(t_environ *environ);
 void	update_environ(t_environ *environ);
-void	free_environ(t_environ *environ, int mask);
+void	free_environ(t_environ *environ);
 
 //minishell.c
-int		run_shell(t_environ *environ);
+void	run_shell(t_environ *environ);
 
 #endif

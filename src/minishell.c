@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/20 22:22:09 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 09:58:14 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	decide_add_history(t_environ *environ)
 		add_history(environ->curr_command);
 }
 
-int	run_shell(t_environ *environ)
+void	run_shell(t_environ *environ)
 {
 	g_continue = 1;
 	while (g_continue)
@@ -58,5 +58,4 @@ int	run_shell(t_environ *environ)
 			environ->last_command = environ->curr_command;
 		}
 	}
-	return (0);
 }

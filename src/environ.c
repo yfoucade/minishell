@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/20 22:21:44 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 09:59:32 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	update_environ(t_environ *environ)
 	environ->path = getenv("PATH");
 }
 
-void	free_environ(t_environ *environ, int mask)
+void	free_environ(t_environ *environ)
 {
-	(void)mask;
 	free(environ->path);
 }
