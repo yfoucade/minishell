@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 10:26:25 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:33:26 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef struct s_environ
 	unsigned char	exit_status;
 }	t_environ;
 
+typedef struct s_token
+{
+	char			*token;
+	struct s_token	*next;
+} t_token;
+
 // environ.c
 void	init_environ(t_environ *environ);
 void	update_environ(t_environ *environ);
@@ -44,6 +50,7 @@ void	run_shell(t_environ *environ);
 
 // ft_strutils.c
 int		ft_strcmp(char *s1, char *s2);
+char	is_blank_chr(char c);
 char	is_blank_str(char *str);
 
 #endif
