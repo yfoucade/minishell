@@ -6,46 +6,13 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 14:48:58 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:55:57 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char	g_continue;
-
-char	*ft_strdup(char *str, int n)
-{
-	char	*res;
-	int		i;
-	
-	res = malloc(n + 1);
-	i = -1;
-	while (++i < n + 1)
-		res[i] = str[i];
-	res[i] = '\0';
-	return (res);
-}
-
-char	*trim(char *str)
-{
-	char	*res;
-	char	*start;
-	char	*end;
-
-	start = str;
-	while (*start && is_blank_chr(*start))
-		start++;
-	end = start;
-	res = start - 1;
-	while (*++res)
-	{
-		if (!is_blank_chr(*res))
-			end = res;
-	}
-	res = ft_strdup(start, end - start);
-	return (res);
-}
 
 unsigned char	execute_command(t_environ *environ)
 {

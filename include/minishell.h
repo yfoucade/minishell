@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 14:33:26 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:56:26 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ void	run_shell(t_environ *environ);
 int		ft_strcmp(char *s1, char *s2);
 char	is_blank_chr(char c);
 char	is_blank_str(char *str);
+char	*ft_strdup(char *str, int n);
+char	*trim(char *str);
 
 #endif

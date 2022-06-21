@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 10:23:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:56:07 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,37 @@ char	is_blank_str(char *str)
 			return (FALSE);
 	}
 	return (TRUE);
+}
+
+char	*ft_strdup(char *str, int n)
+{
+	char	*res;
+	int		i;
+	
+	res = malloc(n + 1);
+	i = -1;
+	while (++i < n + 1)
+		res[i] = str[i];
+	res[i] = '\0';
+	return (res);
+}
+
+char	*trim(char *str)
+{
+	char	*res;
+	char	*start;
+	char	*end;
+
+	start = str;
+	while (*start && is_blank_chr(*start))
+		start++;
+	end = start;
+	res = start - 1;
+	while (*++res)
+	{
+		if (!is_blank_chr(*res))
+			end = res;
+	}
+	res = ft_strdup(start, end - start);
+	return (res);
 }
