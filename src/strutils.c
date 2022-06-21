@@ -6,11 +6,18 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 16:38:00 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:28:42 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strchr(char *haystack, char needle)
+{
+	while (*haystack && *haystack != needle)
+		haystack++;
+	return (haystack);
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
