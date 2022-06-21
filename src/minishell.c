@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 14:55:57 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:42:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,33 @@
 
 char	g_continue;
 
+char	*add_next_token(t_token *tokens, char *command)
+{
+	
+}
+
+t_token	*tokenize(char	*command)
+{
+	t_token	*res;
+
+	res = malloc(sizeof(res));
+	res = NULL;
+	while (*command)
+		command = add_next_token(res, command);
+	return (res);
+}
+
 unsigned char	execute_command(t_environ *environ)
 {
 	char		*command;
-	// t_token		*tokens;
+	t_token		*tokens;
 
 	printf("execute_command: received command: |%s|\n", environ->curr_command);
 	command = trim(environ->curr_command);
 	printf("execute_command: trimmed command: |%s|\n", command);
 	// if (!command)
 	// 	exit_minishell(environ);
-	// tokens = tokenize(command);
+	tokens = tokenize(command);
 	return (0);
 }
 
