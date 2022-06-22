@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 18:12:44 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/22 20:38:37 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	add_next_token(t_token **tokens, char **command)
 	new_token = malloc(sizeof(new_token));
 	new_token->next = NULL;
 	// end is the first character that doesn't belong to the token
-	new_token->token = ft_strdup(*command, end - *command - 1);
+	new_token->token = ft_strdup(*command, end - *command);
 	*command = end;
 	if (!*tokens)
 		*tokens = new_token;
@@ -93,7 +93,7 @@ t_token	*tokenize(char	*command)
 	while (*command)
 	{
 		add_next_token(&res, &command);
-		printf("tokenize: token added, remaining: |%s|\n", command);
+		// printf("tokenize: token added, remaining: |%s|\n", command);
 	}
 	return (res);
 }
@@ -102,6 +102,7 @@ unsigned char	execute_command(t_environ *environ)
 {
 	char		*command;
 	t_token		*tokens;
+	// t_token		*expanded_tokens;
 
 	printf("execute_command: received command: |%s|\n", environ->curr_command);
 	command = trim(environ->curr_command);
@@ -110,6 +111,8 @@ unsigned char	execute_command(t_environ *environ)
 	// 	exit_minishell(environ);
 	tokens = tokenize(command);
 	print_tokens(tokens);
+	free(command);
+	// expanded_tokens = expand(tokens);
 	// free_tokens(tokens);
 	return (0);
 }
