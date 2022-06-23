@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 11:53:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 15:21:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	decide_add_history(t_environ *environ);
 void	run_shell(t_environ *environ);
 
 // ft_strutils.c
+char	is_digit(char c);
+char	ft_strchr_chr(char *haystack, char needle);
 int		ft_strcmp(char *s1, char *s2);
 char	is_blank_chr(char c);
 char	is_blank_str(char *str);
@@ -60,5 +62,8 @@ char	is_meta_except_dollar(char *c);
 // tokenizer.c
 t_token	*tokenize(char	*command);
 void	print_tokens(t_token *tokens);
+
+// expansion.c
+char	*expand(char *command);
 
 #endif
