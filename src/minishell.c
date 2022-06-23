@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 11:47:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 18:15:43 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ unsigned char	execute_command(t_environ *environ)
 	// if (!command)
 	// 	exit_minishell(environ);
 	expanded_command = expand(command);
+	printf("execute_command: expand command: |%s|\n", expanded_command);
 	tokens = tokenize(expanded_command);
 	print_tokens(tokens);
 	free(command);
