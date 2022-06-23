@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/22 19:31:54 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 11:45:53 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,16 @@ char	*trim(char *str)
 	}
 	res = ft_strdup(start, end + 1 - start);
 	return (res);
+}
+
+char	is_meta_except_dollar(char *c)
+{
+	if (*c == ' ' || *c == '\t')
+		return (TRUE);
+	if (*c == '<' || *c == '|' || *c == '>')
+		return (TRUE);
+	if (*c == '\'' || *c == '"') // need to know if it is closed
+		if (*ft_strchr(c + 1, *c) == *c)
+			return (TRUE);
+	return (FALSE);
 }

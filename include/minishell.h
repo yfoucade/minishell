@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 17:31:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 11:53:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,10 @@ char	is_blank_str(char *str);
 char	*ft_strdup(char *str, int n);
 char	*trim(char *str);
 char	*ft_strchr(char *haystack, char needle);
+char	is_meta_except_dollar(char *c);
+
+// tokenizer.c
+t_token	*tokenize(char	*command);
+void	print_tokens(t_token *tokens);
 
 #endif
