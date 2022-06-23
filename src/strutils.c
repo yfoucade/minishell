@@ -6,11 +6,22 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 11:45:53 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 15:21:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	is_digit(char c)
+{
+	return ('0' <= c && c <= '9');
+}
+char	ft_strchr_chr(char *haystack, char needle)
+{
+	while (*haystack && *haystack != needle)
+		haystack++;
+	return (*haystack);
+}
 
 char	*ft_strchr(char *haystack, char needle)
 {
