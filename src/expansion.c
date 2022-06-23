@@ -6,29 +6,65 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 13:00:31 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 16:05:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.c"
+#include "minishell.h"
 
-char	is_variable(char *command)
+char	*find_variable_end(char *s)
 {
-	if (*command++ != '$')
-		return (FALSE);
-	if (is_blank_chr(*command) || !*command)
-		return (FALSE);
-	if (is_meta_except_dollar(*command) || *command == '$')
-		return (FALSE);
-	return (TRUE);
+	char	*closing;
+
+	if (!*s || ft_strchr_chr("<|> \t", *s))
+		return (s);
+	if (is_digit(*s))
+		return (s + 1);
+	if (*s == '\'' || *s == '"')
+	{
+		closing = ft_strchr(s + 1, *s);
+		if (*closing == *s)
+			return (closing + 1);
+	}
+	if (*s == '{')
+	{
+		closing = ft_strchr(s + 1, '}');
+		if (*closing == '}')
+			return (closing + 1);
+	}
+	while (*s && !ft_strchr_chr(" \t\"'<|>", *s))
+		s++;
+	return (s);
+}
+
+char	*find_constant_end(char *command)
+{
+	char	*closing_single_quote;
+
+	while (*command)
+	{
+		if (*command == '$')
+			return (command);
+		if (*command != '\'')
+			command++;
+		else
+		{
+			closing_single_quote = ft_strchr(command + 1, *command);
+			if (*closing_single_quote == *command)
+				command = closing_single_quote + 1;
+			else
+				command++;
+		}
+	}
+	return (command);
 }
 
 char	*find_chunk_end(char *command)
 {
-	if (is_variable(*command))
-		return (find_variable_end(*command));
+	if (*command != '$')
+		return (find_constant_end(command));
 	else
-		return (find_constant_end(*command));
+		return (find_variable_end(command + 1));
 }
 
 void	add_next_chunk(t_token **chunks, char **command)
@@ -66,13 +102,20 @@ t_token	*construct_raw_linked_list(char *command)
 	return (res);
 }
 
+char	*concatenate(t_token *chunks)
+{
+	(void)chunks;
+	return (NULL);
+}
+
 char	*expand(char *command)
 {
 	t_token	*chunks;
 	char	*res;
 
 	chunks = construct_raw_linked_list(command);
-	chunks = substitute(chunks);
+	print_tokens(chunks);
+	// chunks = substitute(chunks);
 	res = concatenate(chunks);
 	//free_tokens(chunks);
 	return (res);
