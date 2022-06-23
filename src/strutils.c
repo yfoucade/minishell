@@ -6,11 +6,21 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 15:21:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:14:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		ft_strlen(char	*str)
+{
+	int	res;
+
+	res = 0;
+	while (*str++)
+		res++;
+	return (res);
+}
 
 char	is_digit(char c)
 {
