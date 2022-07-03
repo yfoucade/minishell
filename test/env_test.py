@@ -19,7 +19,7 @@ if __name__ == '__main__':
 	command = [bin_path]
 	output, return_code, passed = run_cmp(command, expected, 0)
 	if not passed:
-		print(f"\nTest failed #{i + 1}.\n\tExpected: '{expected}'")
+		print(f"\nTest failed.\n\tExpected: '{expected}'")
 		print(f"\tGot: '{output}'")
 		print(f"\tReturn code: {return_code}")
 		print(f"\tExpected return code: {0}")
