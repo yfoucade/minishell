@@ -20,6 +20,15 @@ Cette branche est structurée de cette façon :
 |     |
 |     ---> utils (fonctions pour les tests unitaires)
 |
+|
+|
+|-----> childproc (API pour manipuler les sous-processus)
+|
+|
+|
+|-----> includes (Header files pour les API de cette branche)
+|
+|
 |-----> checks.py (script pour exécuter les tests, verifier la norme et les fonctions externes)
 ```
 
