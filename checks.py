@@ -24,11 +24,9 @@ def find_tests(path: str = TESTS_FOLDER) -> List[str]:
 
 if __name__ == '__main__':
 	c_sources, h_sources = find_sources()
-	print(f"Found {len(c_sources)} C files and {len(h_sources)} H files.")
-
 	print("Checking norme... ", end="")
 	try:
-		subprocess.check_call(["norminette"] + c_sources + h_sources)
+		subprocess.check_call(["norminette"] + c_sources + h_sources, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 		print(Fore.GREEN + "OK!" + Style.RESET_ALL)
 	except:
 		print(Fore.RED + "KO!" + Style.RESET_ALL)
@@ -37,7 +35,6 @@ if __name__ == '__main__':
 	
 	# TODO : Run tests
 	tests = find_tests()
-	print(f"Found {len(tests)} tests.")
 	for test in tests:
 		print(f"Running test {test}...", end="")
 		try:
@@ -49,6 +46,10 @@ if __name__ == '__main__':
 				exit(1)
 
 	# TODO : Check symbols (nm -Dgu)
-	if input("Run git push ? (y/N) ") != "y":
+
+	branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode("utf-8").strip()
+	print("\n" + "-"*30 + "\n")
+	subprocess.check_call(["git", "log", "--oneline", "--decorate", "--graph", "--color", "origin/ja-base..ja-base"])
+	if input("Push these commits ? (y/N) ") != "y":
 		exit(0)
 	subprocess.check_call(["git", "push"])
