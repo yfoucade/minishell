@@ -29,7 +29,6 @@ if __name__ == '__main__':
 		command = [bin_path] + test["args"]
 		output, return_code, passed = run_cmp(command, test["expect"],
 			test["return_code"])
-		print(f"{test['args']} -> {Fore.GREEN + 'OK' if passed else Fore.RED + 'KO'}{Style.RESET_ALL}")
 		if not passed:
 			print(f"\nTest failed #{i + 1}.\n\tExpected: '{test['expect']}'")
 			print(f"\tGot: '{output}'")
