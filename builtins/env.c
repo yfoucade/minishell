@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 21:52:46 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/03 22:01:34 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:32:39 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,4 @@ void	ft_env(char **envp)
 		ft_putstr(envp[i], 1);
 		i++;
 	}
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	(void) argc;
-	(void) argv;
-	ft_env(envp);
-	return (0);
 }

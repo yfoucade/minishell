@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 22:06:39 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/03 22:14:53 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:12:25 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,4 @@ void	ft_print_working_directory(void)
 		ft_putstr("pwd : Read-only file system");
 	else
 		ft_putstr("pwd : Unknown error");
-}
-
-int	main(void)
-{
-	ft_print_working_directory();
-	return (0);
 }
