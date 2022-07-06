@@ -61,7 +61,7 @@ seront traduites en fonctions, qui utiliseront l'algorithme de parsing.
 - [ ] Gérer les pipes
 - [ ] Afficher des erreurs explicites.
 - [ ] Ajouter une fonction `get_path` pour obtenir le chemin d'accès vers un binaire.
-- [x] Refaire le moteur de tests unitaire, afin d'écrire les tests directement en C et provoquer des erreurs.
-- [ ] Faire une fonction `generate_prompt` qui permet de générer le prompt du shell (raccourci si trop long).
 - [ ] Utiliser les variables d'environnement pour décider si oui ou non on utilise des couleurs.
+- [x] Refaire le moteur de tests unitaire, afin d'écrire les tests directement en C et provoquer des erreurs.
+- [x] Faire une fonction `generate_prompt` qui permet de générer le prompt du shell (raccourci si trop long).
 _(liste évidemment non exhaustive)_
