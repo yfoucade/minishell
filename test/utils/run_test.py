@@ -5,9 +5,9 @@ def run_raw(args: List[str]) -> Tuple[str, int]:
 	"""
 	Run a binary and return the output (stdout + stderr) and the return code.
 	"""
-	process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	output, error = process.communicate()
-	return output.decode("utf-8") + error.decode("utf-8"), process.returncode
+	return output.decode("utf-8"), process.returncode
 
 def run_cmp(args: List[str], expected: str,
 		expected_return_code: int) -> Tuple[str, int, bool]:
