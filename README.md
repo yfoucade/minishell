@@ -20,7 +20,7 @@ Cette branche est structurée de cette façon :
 |
 |-----> misc (d'autres fonctions optionnelles pour le projet)
 |
-|-----> utils (fonctions utilisées dans cette branche)
+|-----> neo_libft (ma propre libft)
 |
 |-----> tests (unit-tests pour chaque fonctions)
 |     |
