@@ -1,3 +1,4 @@
+import os
 import subprocess
 from glob import glob
 from typing import List, Tuple
@@ -5,6 +6,13 @@ from colorama import Fore, Style
 
 SOURCE_FOLDER = ["builtins"]
 TESTS_FOLDER = "test/"
+
+CHARACTERS = {
+	"p": {"color": Fore.GREEN, "text": "OK"},
+	"f": {"color": Fore.RED, "text": "FAIL"},
+	"c": {"color": Fore.YELLOW, "text": "CRASH"},
+	"?": {"color": Fore.WHITE, "text": "?"}
+}
 
 def find_sources() -> Tuple[List[str], List[str]]:
 	"""
@@ -18,9 +26,33 @@ def find_sources() -> Tuple[List[str], List[str]]:
 
 def find_tests(path: str = TESTS_FOLDER) -> List[str]:
 	"""
-	Find all *_test.py files in the given path.
+	Find all test_*.(c|py) files in the given path.
 	"""
-	return glob(f"{path}/*_test.py")
+	return glob(f"{path}/test_*.c") + glob(f"{path}/test_*.py")
+
+def compile_and_run(test_path: str, sources: List[str], compiler: str = "cc",
+	flags: List[str] = ["-Wall", "-Werror", "-Wextra"]) -> str:
+	"""
+	Compiles and run the test source, with the function source.
+	After the execution, the built binary is deleted, and the stdout
+	are returned
+	:param test_path: Path to a test_xxxx.c file
+	:return: Stdout
+	"""
+	binary_name = os.path.basename(test_path).replace("test_", "").replace(".c", "")
+	compile_command = [compiler, "-o", binary_name, *flags, *sources, test_path]
+	try:
+		subprocess.check_call(compile_command)
+	except:
+		print(Fore.RED + "Compilation failed : {}".format(" ".join(compile_command)) + Style.RESET_ALL)
+		return None
+	try:
+		output = subprocess.check_output(["./" + binary_name], stderr=subprocess.DEVNULL)
+	except:
+		output = "c"
+	finally:
+		os.remove(binary_name)
+	return output if type(output) == str else output.decode("utf-8").strip()
 
 if __name__ == '__main__':
 	c_sources, h_sources = find_sources()
@@ -32,18 +64,18 @@ if __name__ == '__main__':
 		print(Fore.RED + "KO!" + Style.RESET_ALL)
 		if input("Norme failed. Continue anyway? (y/N) ") != "y":
 			exit(1)
-	
-	# TODO : Run tests
+
 	tests = find_tests()
 	for test in tests:
-		print(f"Running test {test}...", end="")
-		try:
-			subprocess.check_call(["python3", test])
-			print(Fore.GREEN + "OK!" + Style.RESET_ALL)
-		except:
-			print(Fore.RED + "KO!" + Style.RESET_ALL)
-			if input("Test failed. Continue anyway? (y/N) ") != "y":
-				exit(1)
+		print(f"Running test {test}... ", end="")
+		if test.endswith(".c"):
+			source = os.path.join("builtins", os.path.basename(test).replace("test_", ""))
+			test_output = compile_and_run(test, [source])
+		else:
+			test_output = subprocess.check_output(["python3", test], stderr=subprocess.DEVNULL).decode("utf-8").strip()
+		for char in test_output:
+			print(CHARACTERS[char]["color"] + char + Style.RESET_ALL, end="")
+		print()
 
 	# TODO : Check symbols (nm -Dgu)
 
