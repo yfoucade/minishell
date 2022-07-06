@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 20:41:52 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/03 21:32:28 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:49:48 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_echo(char **argv)
 	int			i;
 
 	is_string = 0;
-	i = 0;
+	i = -1;
 	while (argv[++i])
 	{
 		if ((is_string & 0x1) == 0)
@@ -70,13 +70,4 @@ void	ft_echo(char **argv)
 	}
 	if (is_string == 1)
 		ft_putstr("\n", 0);
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc > 1)
-		ft_echo(argv);
-	else
-		return (1);
-	return (0);
 }
