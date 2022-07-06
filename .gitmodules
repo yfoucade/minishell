@@ -1,0 +1,3 @@
+[submodule "neo_libft"]
+	path = neo_libft
+	url = git@github.com:Nuttyb0il/neo_libft.git
