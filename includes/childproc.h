@@ -6,12 +6,22 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 22:30:37 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/03 22:36:40 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:18:26 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHILDPROC_H
 # define CHILDPROC_H
+
+// -- Access mask (ft_access) --
+# define NO_ACCESS 0x0
+# define READABLE 0x1
+# define WRITEABLE 0x2
+# define EXECUTABLE 0x4
+# define IS_DIR 0x8
+# define EXISTS 0x10
+
+int	ft_access(char *path);
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -21,7 +31,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <errno.h>
 
-int	redir_open(char *path, char **argv, char **envp, int fds[]);
-
+int		redir_open(char *path, char **argv, char **envp, int fds[]);
+int		ft_error(char *command, char *message, int ret);
+int		redirect_to_file(char *binary_path, char **args, char **envp, char *output);
+int		redirect_append(char *binary_path, char **args, char **envp, char *output);
 #endif
