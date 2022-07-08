@@ -6,13 +6,15 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 17:14:24 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/07 23:21:55 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
