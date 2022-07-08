@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 15:44:47 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/08 16:33:07 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:35:54 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	redirect_to_file(char *binary_path, char **args, char **envp, char *output)
 {
 	int	fd;
 	int	fds[2];
+	int	error_code;
 
 	fd = prepare_file(output, 0);
 	if (fd <= -1)
@@ -93,13 +94,16 @@ int	redirect_to_file(char *binary_path, char **args, char **envp, char *output)
 		return (-1);
 	fds[0] = fd;
 	fds[1] = 0;
-	return redir_open(binary_path, args, envp, fds);
+	error_code = redir_open(binary_path, args, envp, fds);
+	close(fd);
+	return (error_code);
 }
 
 int	redirect_append(char *binary_path, char **args, char **envp, char *output)
 {
 	int	fd;
 	int	fds[2];
+	int	error_code;
 
 	fd = prepare_file(output, 1);
 	if (fd <= -1)
@@ -108,5 +112,7 @@ int	redirect_append(char *binary_path, char **args, char **envp, char *output)
 		return (-1);
 	fds[0] = fd;
 	fds[1] = 0;
-	return redir_open(binary_path, args, envp, fds);
+	error_code = redir_open(binary_path, args, envp, fds);
+	close(fd);
+	return (error_code);
 }
