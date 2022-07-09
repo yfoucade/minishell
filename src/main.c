@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/08 12:32:55 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/08 22:18:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	install_handlers(void)
 		early_exit();
 	// try invalid handler installation
 	// ret = signal(SIGKILL, SIG_IGN);
+	// if (ret == SIG_ERR)
 	// 	early_exit();
 }
 
