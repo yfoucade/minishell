@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/07 23:21:55 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/11 00:08:29 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ void	print_tokens(t_token *tokens);
 
 // expansion.c
 char	*expand(char *command);
+
+// handlers.c
+void	install_handlers(void);
 
 #endif
