@@ -2,4 +2,3 @@
 *.o
 readline-8.1*
 minishell
-tests
