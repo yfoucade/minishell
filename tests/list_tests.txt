@@ -16,16 +16,19 @@ $ var="o -ne"
 $ ech$var "hello\n"		# works
 
 Solution:
-First split command wrt '|' (pipe character).
+First split command wrt '|' (pipe character)
+	- pipe chars can be reintroduced by expansion, do not interpret.
 For each command:
-- check syntax error
-	- unquoted quotes come in pairs
-	- redirections are followed by a word (or variable with no space in expansion)
-	- $ signs are followed by {} (braces with a name in it) or by a name or by ? (last exit status)
-- search redirections and store them in linked list structure with fields:
-	- redirection symbol (<<, <, >, >>)
-	- filename (single word, or variable)
-	- next (preserve order)
-- expand variables where applicable
-- remove unquoted quotes that do not arise from expanded variables
-- done, first word is the command's name, other words its parameters.
+	- check syntax error
+		- unquoted quotes come in pairs
+		- redirections are followed by a word (or variable with no space in expansion)
+		- $ signs are followed by {} (braces with a name in it) or by a name or by ? (last exit status)
+	- search redirections and store them in linked list structure with fields:
+		- redirection symbol (<<, <, >, >>)
+		- filename (single word, or variable)
+		- next (preserve order)
+	- expand variables where applicable
+	- remove unquoted quotes that do not arise from expanded variables
+	- done, first word is the command's name, other words its parameters.
+	- if empty command (ignoring redirections), return 0 (e.g. ">file.txt")
+End For.
