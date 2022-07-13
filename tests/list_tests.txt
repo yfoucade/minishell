@@ -1,0 +1,31 @@
+$ var=hello | echo $var		# doesn't print anything cause different processes
+$ var=hi
+$ var=hello | echo $var		# prints 'hi', inherits from main shell (fork).
+
+# name of file to redirect to is in variable
+$ var="file.txt"
+$ <$var echo hello	#works fine
+$ var="file.txt >file2.txt"
+$ >$var echo hello	#ambiguous redirect
+>>>>	trimmed value should not contain spaces.
+>>>>	if it is a litteral, spaces are allowed.
+>>>>	this solves the case of expansion redirections.
+
+# Elsewhere, we can have spaces:
+$ var="o -ne"
+$ ech$var "hello\n"		# works
+
+Solution:
+First split command wrt '|' (pipe character).
+For each command:
+- check syntax error
+	- unquoted quotes come in pairs
+	- redirections are followed by a word (or variable with no space in expansion)
+	- $ signs are followed by {} (braces with a name in it) or by a name or by ? (last exit status)
+- search redirections and store them in linked list structure with fields:
+	- redirection symbol (<<, <, >, >>)
+	- filename (single word, or variable)
+	- next (preserve order)
+- expand variables where applicable
+- remove unquoted quotes that do not arise from expanded variables
+- done, first word is the command's name, other words its parameters.
