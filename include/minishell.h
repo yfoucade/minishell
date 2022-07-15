@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/11 00:08:29 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/15 00:32:46 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,21 @@
 # define PS1 "$ "
 # define PS2 "> "
 
+# define BLK "\e[0;30m"
+# define RED "\e[0;31m"
+# define GRN "\e[0;32m"
+# define YEL "\e[0;33m"
+# define BLU "\e[0;34m"
+# define MAG "\e[0;35m"
+# define CYN "\e[0;36m"
+# define WHT "\e[0;37m"
+# define COLOR_RESET "\e[0m"
+# define DEBUG_COLOR RED
+# define DEBUG_PREFIX ">>>"
+# define DEBUG_SUFFIX "<<<"
+# define COLOR(color, str) color str COLOR_RESET
+# define DEBUG(str) printf(COLOR(DEBUG_COLOR, DEBUG_PREFIX) "%s" COLOR(DEBUG_COLOR, DEBUG_SUFFIX) "\n", str)
+
 typedef struct s_environ
 {
 	char			*path;
@@ -35,11 +50,11 @@ typedef struct s_environ
 	unsigned char	exit_status;
 }	t_environ;
 
-typedef struct s_token
+typedef struct s_str_list
 {
-	char			*token;
-	struct s_token	*next;
-} t_token;
+	char				*str;
+	struct s_str_list	*next;
+} t_str_list;
 
 // environ.c
 void	init_environ(t_environ *environ);
@@ -63,15 +78,19 @@ char	*ft_strdup(char *str, int n);
 char	*trim(char *str);
 char	*ft_strchr(char *haystack, char needle);
 char	is_meta_except_dollar(char *c);
+t_str_list	*ft_split_unquoted_c(char *str, char c);
 
 // tokenizer.c
-t_token	*tokenize(char	*command);
-void	print_tokens(t_token *tokens);
+t_str_list	*tokenize(char	*command);
+void	print_tokens(t_str_list *tokens);
 
 // expansion.c
 char	*expand(char *command);
 
 // handlers.c
 void	install_handlers(void);
+
+// print_utils.c
+void	print_str_list(t_str_list *str_list);
 
 #endif

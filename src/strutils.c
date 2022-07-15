@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 17:14:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/15 00:31:29 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,59 @@ char	is_meta_except_dollar(char *c)
 		if (*ft_strchr(c + 1, *c) == *c)
 			return (TRUE);
 	return (FALSE);
+}
+
+int	count(char *str, char c)
+{
+	int	res;
+
+	res = 0;
+	while (*str)
+		res += *str++ == c;
+	return (res);
+}
+
+t_str_list	*lst_add(t_str_list **lst, char *str, char *end)
+{
+	t_str_list	*res;
+	t_str_list	*tmp;
+
+	res = malloc(sizeof(*res));
+	res->str = ft_strdup(str, end - str);
+	res->next = NULL;
+	if (!*lst)
+		return (res);
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = res;
+	return (*lst);
+}
+
+/*
+split a string str at each character c that is not between quotes
+*/
+t_str_list	*ft_split_unquoted_c(char *str, char c)
+{
+	t_str_list	*res;
+	char		*chunk_end;
+
+	if (*str == '|' || str[ft_strlen(str) - 1] == '|')
+		return (NULL);
+	res = NULL;
+	while (*str)
+	{
+		chunk_end = str;
+		while (*chunk_end && *chunk_end != c)
+		{
+			if (*chunk_end == '"' || *chunk_end == '\'')
+				chunk_end = ft_strchr(chunk_end + 1, *chunk_end);
+			if (!*chunk_end)
+				break;
+			chunk_end++;
+		} 
+		res = lst_add(&res, str, chunk_end);
+		str = chunk_end + (*chunk_end == c);
+	}
+	return (res);
 }
