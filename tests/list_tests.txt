@@ -74,4 +74,8 @@ eof_string: raw($ counts as raw) or single_quotes or double_quotes (do not inter
 
 1: check quotes for whole pipeline
 2: split wrt unquoted '|'
+4: check that all commands are non-empty.
+	$ echo "hello world" | cat > file.txt | |
+	bash: syntax error near unexpected token `|'
+	;and file.txt does not exist => check before executing any command.
 3: launch each command
