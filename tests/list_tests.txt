@@ -28,7 +28,50 @@ For each command:
 		- filename (single word, or variable)
 		- next (preserve order)
 	- expand variables where applicable
-	- remove unquoted quotes that do not arise from expanded variables
+		- check error in filename expansion (no space, etc.)
+	- remove unquoted quotes that do not arise from expanded variables.
 	- done, first word is the command's name, other words its parameters.
 	- if empty command (ignoring redirections), return 0 (e.g. ">file.txt" or ">tmp $unset_var")
 End For.
+
+
+NAME = [_A-Za-z][_A-Za-z0-9]*
+1: after an un-singlequoted $: a NAME (optinally between '{' and '}'), or a '?'. Otherwise: bad substitution.
+2: after a >: [>]?[ \t]*(filename|variable)
+3: after a <: ?[ \t]*(filename|variable)
+4: after a <<: [ ]*(token where we do not interpret '$'s) IMPORTANT FOR TOKENIZATION
+5: when ': jump to next '
+6: when ": go to next ", but verify that rule 1 holds.
+
+10 types of tokens:
+1: raw
+2: single_quotes
+3: double_quotes
+4: variable
+5: < (=> filename)
+6: << (=> eof_string)
+7: > (=> filename)
+8: >> (=> filename)
+9: filename
+10: eof_string
+
+Sometimes, we are looking for a specific kind of token (after <<, <, >, >>).
+Otherwise, the first (two) character(s) give us the kind of token (between 1 and 8):
+(', 2) (", 3) ($, 4) (<, 5 or 6) (>, 7 or 8) (everything else, raw).
+
+raw: any char that does not qualify for other types. greedy.
+single_quotes: '.*' if not closed -> error
+double_quotes: ".*" if not closed -> error
+variable: $[({NAME}|NAME|?)]
+	if {NAME}: if NAME is not valid -> error: bad subsitution
+	elif NAME: be greedy
+	elif ?: easy
+	else: '$' alone is substituted by itself. (echo $ $+5 >$)
+filename: raw or single_quotes or double_quotes(expand) or variable
+	if variable: check no space at expansion. otherwise: error: ambiguous redirect
+eof_string: raw($ counts as raw) or single_quotes or double_quotes (do not interpret)
+
+
+1: check quotes for whole pipeline
+2: split wrt unquoted '|'
+3: launch each command
