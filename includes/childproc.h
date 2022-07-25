@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 22:30:37 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/08 16:18:26 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:17:47 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,5 @@ int		redir_open(char *path, char **argv, char **envp, int fds[]);
 int		ft_error(char *command, char *message, int ret);
 int		redirect_to_file(char *binary_path, char **args, char **envp, char *output);
 int		redirect_append(char *binary_path, char **args, char **envp, char *output);
+int		redirect_input(char *command, char *file, char **args, char **envp);
 #endif
