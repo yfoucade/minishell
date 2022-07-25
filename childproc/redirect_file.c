@@ -6,11 +6,12 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 15:44:47 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/08 16:35:54 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:09:11 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/childproc.h"
+#include "../includes/errors.h"
 
 /**
  * @brief Checks that binary exists, and is executable
@@ -24,11 +25,11 @@ int	check_binary(char *bin_path)
 
 	access_mask = ft_access(bin_path);
 	if (!(access_mask & EXISTS))
-		return (ft_error(bin_path, "No such file or directory", -1));
+		return (ft_error(bin_path, NOT_FOUND, -1));
 	if (access_mask & IS_DIR)
-		return (ft_error(bin_path, "Is a directory", -1));
+		return (ft_error(bin_path, IS_A_DIR, -1));
 	if (!(access_mask & EXECUTABLE))
-		return (ft_error(bin_path, "Not an executable file", -1));
+		return (ft_error(bin_path, PERMISSION_DENIED, -1));
 	return (1);
 }
 
@@ -49,7 +50,7 @@ int	open_file_write(char *path, int append)
 		| (O_TRUNC * (append == 0)) | (O_APPEND * append);
 	fd = open(path, mask, 0644);
 	if (fd == -1)
-		return ft_error(path, "Permission denied", -1);
+		return ft_error(path, PERMISSION_DENIED, -1);
 	return (fd);
 }
 
@@ -70,9 +71,9 @@ int	prepare_file(char *output_file, int append)
 	if (access_mask & EXISTS)
 	{
 		if (access_mask & IS_DIR)
-			return ft_error(output_file, "Is a directory.", -1);
+			return ft_error(output_file, IS_A_DIR, -1);
 		if (!(access_mask & WRITEABLE))
-			return ft_error(output_file, "No permission to write.", -1);
+			return ft_error(output_file, PERMISSION_DENIED, -1);
 	}
 	fd = open_file_write(output_file, append);
 	if (fd > 0)
@@ -93,7 +94,7 @@ int	redirect_to_file(char *binary_path, char **args, char **envp, char *output)
 	if (check_binary(binary_path) != 1)
 		return (-1);
 	fds[0] = fd;
-	fds[1] = 0;
+	fds[1] = 2;
 	error_code = redir_open(binary_path, args, envp, fds);
 	close(fd);
 	return (error_code);
@@ -111,7 +112,7 @@ int	redirect_append(char *binary_path, char **args, char **envp, char *output)
 	if (check_binary(binary_path) != 1)
 		return (-1);
 	fds[0] = fd;
-	fds[1] = 0;
+	fds[1] = 2;
 	error_code = redir_open(binary_path, args, envp, fds);
 	close(fd);
 	return (error_code);
