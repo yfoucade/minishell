@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/15 00:31:29 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/18 02:18:22 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ t_str_list	*lst_add(t_str_list **lst, char *str, char *end)
 
 	res = malloc(sizeof(*res));
 	res->str = ft_strdup(str, end - str);
+	res->next = malloc(sizeof(t_str_list));
 	res->next = NULL;
 	if (!*lst)
 		return (res);
@@ -151,6 +152,7 @@ t_str_list	*ft_split_unquoted_c(char *str, char c)
 
 	if (*str == '|' || str[ft_strlen(str) - 1] == '|')
 		return (NULL);
+	res = malloc(sizeof(t_str_list*));
 	res = NULL;
 	while (*str)
 	{
