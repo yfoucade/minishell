@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 10:53:10 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/18 01:18:07 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 void	init_environ(t_environ *environ)
 {
 	environ->path = malloc(sizeof(environ->path));
+	environ->argv = malloc(1);
+	environ->argv = NULL;
 	environ->curr_command = malloc(sizeof(environ->curr_command));
 	environ->curr_command = NULL;
 	environ->last_command = malloc(sizeof(environ->last_command));
