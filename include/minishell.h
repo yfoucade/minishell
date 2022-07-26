@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/15 00:32:46 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/18 01:01:44 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define TRUE 1
 # define FALSE 0
+# define SUCCESS 0
+# define ERROR 1
 # define PS1 "$ "
 # define PS2 "> "
 
