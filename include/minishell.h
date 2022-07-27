@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/18 01:01:44 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/27 16:49:57 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 # define MINISHELL_H
 
 # include <errno.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -55,6 +59,7 @@ typedef struct s_environ
 typedef struct s_str_list
 {
 	char				*str;
+	int					index;
 	struct s_str_list	*next;
 } t_str_list;
 
