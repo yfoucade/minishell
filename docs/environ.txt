@@ -1,0 +1,5 @@
+source: developpement system sous linux (Christophe Blaess), Chapitre 4.
+
+Lorsqu'un programme C demarre, son environnement est automatiquement copie dans un tableau de chaines de caracteres.
+Ce tableau est disponible dans la variable globale 'environ', a declarer ainsi en debut de programme.
+(elle n'est pas declaree dans les fichiers d'en-tete courants).
