@@ -6,32 +6,12 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 15:44:47 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/25 15:09:11 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/28 13:18:57 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/childproc.h"
 #include "../includes/errors.h"
-
-/**
- * @brief Checks that binary exists, and is executable
- * 
- * @param bin_path Path to binary
- * @return int Returns 1 if everything is ok, something else otherwise
- */
-int	check_binary(char *bin_path)
-{
-	int	access_mask;
-
-	access_mask = ft_access(bin_path);
-	if (!(access_mask & EXISTS))
-		return (ft_error(bin_path, NOT_FOUND, -1));
-	if (access_mask & IS_DIR)
-		return (ft_error(bin_path, IS_A_DIR, -1));
-	if (!(access_mask & EXECUTABLE))
-		return (ft_error(bin_path, PERMISSION_DENIED, -1));
-	return (1);
-}
 
 /**
  * @brief Tries to create a file
