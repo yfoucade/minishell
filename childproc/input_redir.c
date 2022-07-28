@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:12:19 by jallerha          #+#    #+#             */
-/*   Updated: 2022/07/25 15:53:24 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/07/28 13:19:47 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ int	checks(char *binary_path, char *file_path, int *file_fd)
 
 	bin_mask = ft_access(binary_path);
 	file_mask = ft_access(file_path);
-	if (!(bin_mask & EXISTS))
-		return (ft_error(binary_path, NOT_FOUND, 1));
-	if (!(bin_mask & EXECUTABLE))
-		return (ft_error(binary_path, PERMISSION_DENIED, 1));
+	if (!(check_binary(binary_path)))
+		return (1);
 	if (!(file_mask & EXISTS))
 		return (ft_error(file_path, NOT_FOUND, 1));
 	if (!(file_mask & READABLE))
