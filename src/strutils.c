@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/27 16:52:58 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/30 02:41:47 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ t_str_list	*lst_add(t_str_list **lst, char *str, char *end)
 	res = malloc(sizeof(*res));
 	res->str = ft_strdup(str, end - str);
 	res->index = idx;
-	res->next = malloc(sizeof(t_str_list));
 	res->next = NULL;
 	if (!*lst)
 		return (res);
