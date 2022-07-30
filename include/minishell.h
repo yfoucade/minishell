@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/27 16:49:57 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/30 04:28:21 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ void	install_handlers(void);
 
 // print_utils.c
 void	print_str_list(t_str_list *str_list);
+void	print_str_tab(char **str_tab);
 
 #endif
