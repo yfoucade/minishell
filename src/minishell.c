@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/27 21:31:38 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/30 03:02:08 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,54 +44,53 @@ char	is_valid_pipeline(t_str_list *commands)
 	return (TRUE);
 }
 
-void	execute_pipeline(t_environ *environ, t_str_list *commands, int in_pipe[2])
+void	execute_pipeline(t_environ *environ, t_str_list *commands)
 {
-	int		out_pipe[2];
+	int		*in_pipe;
+	int		*out_pipe;
 	pid_t	pid;
+	int		status;
 
-	printf("%d: starting execute_pipeline\n", getpid());
-	if (!commands)
+	in_pipe = NULL;
+	out_pipe = NULL;
+	while (commands)
 	{
-		printf("%d: exit\n", getpid());
-		exit(0);
+		if (commands->next)
+		{
+			out_pipe = malloc(sizeof(*out_pipe) * 2);
+			pipe(out_pipe);
+		}
+		pid = fork();
+		if (!pid)
+		{
+			if (in_pipe)
+				dup2(in_pipe[0], STDIN_FILENO);
+			if (out_pipe)
+				dup2(out_pipe[1], STDOUT_FILENO);
+			// replace with our own preprocessing then execve
+			system(commands->str);
+			exit(0);
+		}
+		waitpid(pid, &status, 0);
+		// use macros to interpret status (man waitpid)
+		environ->exit_status = status;
+		if (in_pipe)
+		{
+			close(in_pipe[0]);
+			free(in_pipe);
+		}
+		if (out_pipe)
+		{
+			close(out_pipe[1]);
+			in_pipe = out_pipe;
+		}
+		out_pipe = NULL;
+		commands = commands->next;
 	}
-	if (in_pipe)
-	{
-		close(in_pipe[1]);
-		dup2(in_pipe[0], STDIN_FILENO);
-		printf("%d: reading from: %d\n", getpid(), in_pipe[0]);
-	}
-	if (commands->next)
-	{
-		printf("%d: creating out_pipe\n", getpid());
-		pipe(out_pipe);
-		printf("%d: redirecting stdout\n", getpid());
-		dup2(out_pipe[1], STDOUT_FILENO);
-		printf("%d: writing to: %d\n", getpid(), out_pipe[1]);
-	}
-	printf("%d: forking\n", getpid());
-	fflush(0);
-	pid = fork();
-	if (pid)
-	{
-		close(out_pipe[0]);
-		printf("%d: executing command ", getpid());
-		DEBUG(commands->str);
-		system(commands->str);
-		printf("%d: done executing\n", getpid());
-		close(out_pipe[1]);
-		printf("%d: exit\n", getpid());
-		exit(0);
-	}
-	close(out_pipe[1]);
-	execute_pipeline(environ, commands->next, out_pipe);
-	printf("%d: exit\n", getpid());
-	exit(0);
 }
 
 unsigned char	execute_command(t_environ *environ)
 {
-	pid_t		pid;
 	t_str_list	*splitted_command;
 
 	printf("execute_command: received command: ");
@@ -104,10 +103,7 @@ unsigned char	execute_command(t_environ *environ)
 		// free_splitted_command(splitted_command);
 		return (ERROR);
 	}
-	pid = fork();
-	if (!pid)
-		execute_pipeline(environ, splitted_command, NULL);
-	wait(NULL);
+	execute_pipeline(environ, splitted_command);
 	return (0);
 }
 
