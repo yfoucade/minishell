@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/30 03:02:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/30 13:48:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,17 @@ char	is_valid_pipeline(t_str_list *commands)
 	return (TRUE);
 }
 
+void	subshell(char *command, int *in_pipe, int *out_pipe)
+{
+	if (in_pipe)
+		dup2(in_pipe[0], STDIN_FILENO);
+	if (out_pipe)
+		dup2(out_pipe[1], STDOUT_FILENO);
+	// replace with our own preprocessing and a call to execve()
+	system(command);
+	exit(0);
+}
+
 void	execute_pipeline(t_environ *environ, t_str_list *commands)
 {
 	int		*in_pipe;
@@ -62,15 +73,7 @@ void	execute_pipeline(t_environ *environ, t_str_list *commands)
 		}
 		pid = fork();
 		if (!pid)
-		{
-			if (in_pipe)
-				dup2(in_pipe[0], STDIN_FILENO);
-			if (out_pipe)
-				dup2(out_pipe[1], STDOUT_FILENO);
-			// replace with our own preprocessing then execve
-			system(commands->str);
-			exit(0);
-		}
+			subshell(commands->str, in_pipe, out_pipe);
 		waitpid(pid, &status, 0);
 		// use macros to interpret status (man waitpid)
 		environ->exit_status = status;
