@@ -6,20 +6,23 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/11 00:07:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:52:25 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern char	**environ;
+
 int	main(void)
 {
-	t_environ	environ;
+	t_environ	environ_;
 
+	print_str_tab(environ);
 	install_handlers();
-	init_environ(&environ);
-	run_shell(&environ);
-	free_environ(&environ);
+	init_environ(&environ_);
+	run_shell(&environ_);
+	free_environ(&environ_);
 	rl_clear_history();
 	return (0);
 }
