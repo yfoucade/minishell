@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/31 05:31:04 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/31 06:28:12 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,14 @@ typedef struct s_environ
 	int				run;
 	unsigned char	exit_status;
 }	t_environ;
+
+typedef struct s_redirection
+{
+	int						redirection_type;
+	char					*token;
+	char					*expanded_token;
+	struct s_redirection	*next;
+}	t_redirection;
 
 // environ.c
 void	init_environ(t_environ *environ);
