@@ -97,3 +97,11 @@ var=hi there
 In fact, quotes are not metacharacters.
 So isn't dollar sign ($).
 
+Thus, the only metacharacters are:
+- newline (processed at the beginning)
+- pipe sign (idem)
+- tabs and spaces
+- < and >
+
+two types of tokens: operators and words.
+redirection operator must be followed by a word.
