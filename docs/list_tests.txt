@@ -79,3 +79,21 @@ eof_string: raw($ counts as raw) or single_quotes or double_quotes (do not inter
 	bash: syntax error near unexpected token `|'
 	;and file.txt does not exist => check before executing any command.
 3: launch each command
+
+
+2022/07/31
+In fact for parsing, quotes (be it single or double) do not count as
+a token by itself. It just means that we shall not interpret all or part
+of the characters inside. Some examples:
+
+$ ec"ho" hello
+hello
+$ ec"ho " hello
+Command 'echo ' not found...
+$ export myvar=var="hi there"
+$ echo $myvar
+var=hi there
+
+In fact, quotes are not metacharacters.
+So isn't dollar sign ($).
+
