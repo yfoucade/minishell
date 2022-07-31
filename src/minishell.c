@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/30 13:48:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/31 04:31:32 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,32 @@ void	execute_pipeline(t_environ *environ, t_str_list *commands)
 	}
 }
 
+char	is_valid_quoting(char *str)
+{
+	while (*str)
+	{
+		if (*str == '\'' || *str == '"')
+		{
+			str = ft_strchr(str + 1, *str);
+			if (!*str)
+				return (FALSE);
+		}
+		++str;
+	}
+	return (TRUE);
+}
+
 unsigned char	execute_command(t_environ *environ)
 {
 	t_str_list	*splitted_command;
 
 	printf("execute_command: received command: ");
 	DEBUG(environ->curr_command);
+	if (!is_valid_quoting(environ->curr_command))
+	{
+		printf("execute_command: quoting error\n");
+		return (ERROR);
+	}
 	splitted_command = ft_split_unquoted_c(environ->curr_command, '|');
 	print_str_list(splitted_command);
 	if (!is_valid_pipeline(splitted_command))

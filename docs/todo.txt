@@ -1,4 +1,3 @@
-1. Check correct quoting of the whole command (before pipe splitting)
 2. Do tokenization (for each commadn in the pipeline)
 	- The redirection operators and their associated token (filename)
 	  are stored in a separated linked list.
