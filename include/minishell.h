@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/30 04:28:21 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/31 05:31:04 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,24 @@
 # define COLOR(color, str) color str COLOR_RESET
 # define DEBUG(str) printf(COLOR(DEBUG_COLOR, DEBUG_PREFIX) "%s" COLOR(DEBUG_COLOR, DEBUG_SUFFIX) "\n", str)
 
-typedef struct s_environ
-{
-	char			*path;
-	char			*argv;
-	char			*curr_command;
-	char			*last_command;
-	int				run;
-	unsigned char	exit_status;
-}	t_environ;
-
 typedef struct s_str_list
 {
 	char				*str;
 	int					index;
 	struct s_str_list	*next;
 } t_str_list;
+
+typedef struct s_environ
+{
+	char			*path;
+	char			*argv;
+	char			*input;
+	t_str_list		*pipelines;
+	char			*curr_command;
+	char			*last_command;
+	int				run;
+	unsigned char	exit_status;
+}	t_environ;
 
 // environ.c
 void	init_environ(t_environ *environ);
