@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/30 02:41:47 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/07/31 05:35:07 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,9 +156,10 @@ t_str_list	*ft_split_unquoted_c(char *str, char c)
 	t_str_list	*res;
 	char		*chunk_end;
 
+	if (!str)
+		return (NULL);
 	if (*str == '|' || str[ft_strlen(str) - 1] == '|')
 		return (NULL);
-	res = malloc(sizeof(t_str_list*));
 	res = NULL;
 	while (*str)
 	{
