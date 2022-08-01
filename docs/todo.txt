@@ -1,9 +1,10 @@
-1. Split input with respect to unquoted newline characters (get linked list).
-	each line of the input is considered to be a pipeline.
-	successively feed each pipeline to environ->curr_command.
 2. Do tokenization (for each command in the pipeline)
+	- After tokenization, check that each redirection operator
+	  is followed by a word.
 	- The redirection operators and their associated token (filename)
 	  are stored in a separated linked list.
 	- All other tokens are in another linked list.
 3. Implement variable expansion.
+	- if a space or tab or return is found in a variable that is part
+	  of a filename -> ambiguous redirect.
 4. Pass both lists (redirections and command) to the subshell.
