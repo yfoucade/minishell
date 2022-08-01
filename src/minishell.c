@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/01 09:05:24 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/01 09:34:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,11 @@ char	is_valid_syntax(t_str_list	*tokens)
 	{
 		if (is_operator(tokens->str))
 		{
-			printf("syntax error\n");
 			if (!tokens->next || !is_word(tokens->next->str))
 				return (FALSE);
 		}
 		tokens = tokens->next;
 	}
-	printf("all's correct\n");
 	return (TRUE);
 }
 
