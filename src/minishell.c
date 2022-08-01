@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/31 05:36:13 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/01 09:05:24 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,66 @@ void	subshell(char *command, int *in_pipe, int *out_pipe)
 	exit(0);
 }
 
+char	is_operator(char *token)
+{
+	if (!token)
+		return (FALSE);
+	if (*token == '<' || *token == '>')
+		return (TRUE);
+	return (FALSE);
+}
+
+char	is_word(char *token)
+{
+	if (!token)
+		return (FALSE);
+	return (!is_operator(token));
+}
+
+// consider receiving a t_str_list** as well, that we set to
+// the element causing the error. If return value is 0 (syntax error),
+// then the t_str_list** is made to point to the problematic element.
+// If return value is 0 and t_str_list** points to NULL, the problematic
+// element is the `newline'.
+char	is_valid_syntax(t_str_list	*tokens)
+{
+	while (tokens)
+	{
+		if (is_operator(tokens->str))
+		{
+			printf("syntax error\n");
+			if (!tokens->next || !is_word(tokens->next->str))
+				return (FALSE);
+		}
+		tokens = tokens->next;
+	}
+	printf("all's correct\n");
+	return (TRUE);
+}
+
 void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 {
 	int		*in_pipe;
 	int		*out_pipe;
 	pid_t	pid;
 	int		status;
+	t_str_list	*tokens;
+	// t_str_list	*name_and_args;
+	// t_redirection	*redirections;
 
 	in_pipe = NULL;
 	out_pipe = NULL;
 	while (commands)
 	{
+		tokens = tokenize(commands->str);
+		print_tokens(tokens);
+		if (!is_valid_syntax(tokens))
+		{
+			printf("minishell: syntax error\n");
+			free(in_pipe);
+			free_splitted_command(tokens);
+			return ;
+		}
 		if (commands->next)
 		{
 			out_pipe = malloc(sizeof(*out_pipe) * 2);

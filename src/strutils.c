@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/31 05:35:07 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/01 07:52:40 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,12 @@ char	*trim(char *str)
 	return (res);
 }
 
-char	is_meta_except_dollar(char *c)
+char	is_meta(char c)
 {
-	if (*c == ' ' || *c == '\t')
+	if (c == ' ' || c == '\t')
 		return (TRUE);
-	if (*c == '<' || *c == '|' || *c == '>')
+	if (c == '<' || c == '|' || c == '>')
 		return (TRUE);
-	if (*c == '\'' || *c == '"') // need to know if it is closed
-		if (*ft_strchr(c + 1, *c) == *c)
-			return (TRUE);
 	return (FALSE);
 }
 
@@ -128,22 +125,17 @@ t_str_list	*lst_add(t_str_list **lst, char *str, char *end)
 {
 	t_str_list	*res;
 	t_str_list	*tmp;
-	int			idx;
 
-	idx = 0;
 	res = malloc(sizeof(*res));
 	res->str = ft_strdup(str, end - str);
-	res->index = idx;
 	res->next = NULL;
 	if (!*lst)
 		return (res);
 	tmp = *lst;
 	while (tmp->next)
 	{
-		++res->index;
 		tmp = tmp->next;
 	}
-	++res->index;
 	tmp->next = res;
 	return (*lst);
 }

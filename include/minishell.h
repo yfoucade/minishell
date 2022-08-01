@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/31 06:28:12 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/01 07:52:30 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@
 typedef struct s_str_list
 {
 	char				*str;
-	int					index;
 	struct s_str_list	*next;
 } t_str_list;
 
@@ -94,7 +93,7 @@ char	is_blank_str(char *str);
 char	*ft_strdup(char *str, int n);
 char	*trim(char *str);
 char	*ft_strchr(char *haystack, char needle);
-char	is_meta_except_dollar(char *c);
+char	is_meta(char c);
 t_str_list	*ft_split_unquoted_c(char *str, char c);
 
 // tokenizer.c
