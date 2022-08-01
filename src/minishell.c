@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/01 09:34:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 01:54:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ void	subshell(char *command, int *in_pipe, int *out_pipe)
 	exit(0);
 }
 
+void	subshell_2(char **command, int *in_pipe, int *out_pipe)
+{
+	if (in_pipe)
+		dup2(in_pipe[0], STDIN_FILENO);
+	if (out_pipe)
+		dup2(out_pipe[1], STDOUT_FILENO);
+	// replace with our own preprocessing and a call to execve()
+	execve(*command, command, NULL);
+	exit(0);
+}
+
 char	is_operator(char *token)
 {
 	if (!token)
@@ -90,6 +101,24 @@ char	is_valid_syntax(t_str_list	*tokens)
 	return (TRUE);
 }
 
+t_str_list	*get_name_and_args(t_str_list *tokens)
+{
+	t_str_list	*res;
+
+	res = NULL;
+	while (tokens)
+	{
+		if (is_word(tokens->str))
+			res = lst_add(&res, tokens->str);
+		else
+			tokens = tokens->next;
+		tokens = tokens->next;
+	}
+	return (res);
+}
+
+
+
 void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 {
 	int		*in_pipe;
@@ -97,8 +126,8 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 	pid_t	pid;
 	int		status;
 	t_str_list	*tokens;
-	// t_str_list	*name_and_args;
-	// t_redirection	*redirections;
+	t_str_list	*name_and_args;
+	t_redirection	*redirections;
 
 	in_pipe = NULL;
 	out_pipe = NULL;
@@ -113,6 +142,9 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 			free_splitted_command(tokens);
 			return ;
 		}
+		name_and_args = get_name_and_args(tokens);
+		// todo: function to get the list of redirections
+		// redirections = get_redirections(tokens);
 		if (commands->next)
 		{
 			out_pipe = malloc(sizeof(*out_pipe) * 2);
