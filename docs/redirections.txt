@@ -1,0 +1,28 @@
+---------------------------------------------
+08/01
+some tests in bash
+---------------------------------------------
+
+yohan@trantor:~$ echo "in tmp" > tmp
+yohan@trantor:~$ cat tmp
+in tmp
+yohan@trantor:~$ cat <<eof1 <tmp <<eof2
+> in eof1
+> hello
+> eof1
+> in eof2
+> hi there
+> eof2
+in eof2
+hi there
+yohan@trantor:~$ cat <<eof1 <<eof2
+in eof1
+hello
+eof1
+in eof2
+hi there
+eof2
+in eof2
+hi there
+
+----------------------------------------------
