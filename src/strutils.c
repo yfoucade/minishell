@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/01 07:52:40 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 00:29:58 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	count(char *str, char c)
 	return (res);
 }
 
-t_str_list	*lst_add(t_str_list **lst, char *str, char *end)
+t_str_list	*lst_add_n(t_str_list **lst, char *str, char *end)
 {
 	t_str_list	*res;
 	t_str_list	*tmp;
@@ -138,6 +138,11 @@ t_str_list	*lst_add(t_str_list **lst, char *str, char *end)
 	}
 	tmp->next = res;
 	return (*lst);
+}
+
+t_str_list	*lst_add(t_str_list **lst, char *str)
+{
+	return (lst_add_n(lst, str, str + ft_strlen(str) + 1));
 }
 
 /*
@@ -164,7 +169,7 @@ t_str_list	*ft_split_unquoted_c(char *str, char c)
 				break;
 			chunk_end++;
 		} 
-		res = lst_add(&res, str, chunk_end);
+		res = lst_add_n(&res, str, chunk_end);
 		str = chunk_end + (*chunk_end == c);
 	}
 	return (res);
