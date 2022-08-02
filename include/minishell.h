@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 01:36:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 11:54:36 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_environ
 typedef struct s_redirection
 {
 	int						redirection_type;
-	char					*token;
-	char					*expanded_token;
+	char					*filename;
+	char					*expanded_filename;
 	struct s_redirection	*next;
 }	t_redirection;
 
