@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 11:54:36 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 15:06:10 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char	*ft_strchr(char *haystack, char needle);
 char	is_meta(char c);
 t_str_list	*lst_add(t_str_list **lst, char *str);
 t_str_list	*ft_split_unquoted_c(char *str, char c);
+char	**lst_to_array(t_str_list *lst);
 
 // tokenizer.c
 t_str_list	*tokenize(char	*command);
