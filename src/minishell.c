@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 01:54:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 02:09:22 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void	subshell(char *command, int *in_pipe, int *out_pipe)
 
 void	subshell_2(char **command, int *in_pipe, int *out_pipe)
 {
+	// make redirections
+	// resolve file
+	// call execve
 	if (in_pipe)
 		dup2(in_pipe[0], STDIN_FILENO);
 	if (out_pipe)
@@ -145,6 +148,9 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 		name_and_args = get_name_and_args(tokens);
 		// todo: function to get the list of redirections
 		// redirections = get_redirections(tokens);
+		// todo: function to expand tokens (first in redirections, look for ambiguity)
+		// todo: command_and_args: convert to char**
+		// todo: start subshell
 		if (commands->next)
 		{
 			out_pipe = malloc(sizeof(*out_pipe) * 2);
