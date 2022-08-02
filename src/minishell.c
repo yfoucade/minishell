@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 02:09:22 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 12:21:54 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,25 @@ t_str_list	*get_name_and_args(t_str_list *tokens)
 	return (res);
 }
 
-
+char	parse(t_str_list *tokens, t_str_list **args, t_str_list **redirections)
+{
+	*args = NULL;
+	*redirections = NULL;
+	while (tokens)
+	{
+		//todo: check failure after each update
+		if (is_word(tokens->str))
+			*args = lst_add(args, tokens->str);
+		else
+		{
+			*redirections = lst_add(redirections, tokens->str);
+			tokens = tokens->next;
+			*redirections = lst_add(redirections, tokens->str);
+		}
+		tokens = tokens->next;
+	}
+	return (SUCCESS);
+}
 
 void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 {
@@ -129,8 +147,8 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 	pid_t	pid;
 	int		status;
 	t_str_list	*tokens;
-	t_str_list	*name_and_args;
-	t_redirection	*redirections;
+	t_str_list	*args;
+	t_str_list	*redirections;
 
 	in_pipe = NULL;
 	out_pipe = NULL;
@@ -145,9 +163,12 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 			free_splitted_command(tokens);
 			return ;
 		}
-		name_and_args = get_name_and_args(tokens);
-		// todo: function to get the list of redirections
-		// redirections = get_redirections(tokens);
+		// todo: pretect failure of parse()
+		parse(tokens, &args, &redirections);
+		printf("Args:\n");
+		print_str_list(args);
+		printf("Redirections:\n");
+		print_str_list(redirections);
 		// todo: function to expand tokens (first in redirections, look for ambiguity)
 		// todo: command_and_args: convert to char**
 		// todo: start subshell
