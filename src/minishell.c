@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 12:21:54 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/02 16:25:21 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	is_valid_pipeline(t_str_list *commands)
 			return (FALSE);
 		commands = commands->next;
 	}
-	puts("is_valid_pipeline: returning true\n");
 	return (TRUE);
 }
 
@@ -64,7 +63,6 @@ void	subshell_2(char **command, int *in_pipe, int *out_pipe)
 		dup2(in_pipe[0], STDIN_FILENO);
 	if (out_pipe)
 		dup2(out_pipe[1], STDOUT_FILENO);
-	// replace with our own preprocessing and a call to execve()
 	execve(*command, command, NULL);
 	exit(0);
 }
@@ -104,22 +102,6 @@ char	is_valid_syntax(t_str_list	*tokens)
 	return (TRUE);
 }
 
-t_str_list	*get_name_and_args(t_str_list *tokens)
-{
-	t_str_list	*res;
-
-	res = NULL;
-	while (tokens)
-	{
-		if (is_word(tokens->str))
-			res = lst_add(&res, tokens->str);
-		else
-			tokens = tokens->next;
-		tokens = tokens->next;
-	}
-	return (res);
-}
-
 char	parse(t_str_list *tokens, t_str_list **args, t_str_list **redirections)
 {
 	*args = NULL;
@@ -147,7 +129,8 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 	pid_t	pid;
 	int		status;
 	t_str_list	*tokens;
-	t_str_list	*args;
+	t_str_list	*lst_args;
+	char		**args;
 	t_str_list	*redirections;
 
 	in_pipe = NULL;
@@ -155,7 +138,6 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 	while (commands)
 	{
 		tokens = tokenize(commands->str);
-		print_tokens(tokens);
 		if (!is_valid_syntax(tokens))
 		{
 			printf("minishell: syntax error\n");
@@ -164,13 +146,14 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 			return ;
 		}
 		// todo: pretect failure of parse()
-		parse(tokens, &args, &redirections);
-		printf("Args:\n");
-		print_str_list(args);
-		printf("Redirections:\n");
-		print_str_list(redirections);
+		parse(tokens, &lst_args, &redirections);
+		// printf("Args:\n");
+		// print_str_list(lst_args);
+		// printf("Redirections:\n");
+		// print_str_list(redirections);
 		// todo: function to expand tokens (first in redirections, look for ambiguity)
-		// todo: command_and_args: convert to char**
+		// lst_args: convert to char**
+		args = lst_to_array(lst_args);
 		// todo: start subshell
 		if (commands->next)
 		{
@@ -178,8 +161,10 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 			pipe(out_pipe);
 		}
 		pid = fork();
+		// if (!pid)
+		// 	subshell(commands->str, in_pipe, out_pipe);
 		if (!pid)
-			subshell(commands->str, in_pipe, out_pipe);
+			subshell_2(args, in_pipe, out_pipe);
 		waitpid(pid, &status, 0);
 		// use macros to interpret status (man waitpid)
 		environ_->exit_status = status;
@@ -217,15 +202,12 @@ unsigned char	execute_command(t_environ *environ_)
 {
 	t_str_list	*splitted_command;
 
-	printf("execute_command: received command: ");
-	DEBUG(environ_->curr_command);
 	if (!is_valid_quoting(environ_->curr_command))
 	{
 		printf("execute_command: quoting error\n");
 		return (ERROR);
 	}
 	splitted_command = ft_split_unquoted_c(environ_->curr_command, '|');
-	print_str_list(splitted_command);
 	if (!is_valid_pipeline(splitted_command))
 	{
 		puts("execute_command: pipeline error\n");
