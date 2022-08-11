@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 16:44:50 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:18:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_str_list
 
 typedef struct s_status
 {
-	char			*argv;
 	char			*input;
+	char			is_set_input;
 	t_str_list		*pipelines;
 	char			*curr_command;
 	char			*last_command;
