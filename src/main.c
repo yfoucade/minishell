@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/07/31 05:39:59 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:46:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ extern char	**environ;
 
 int	main(void)
 {
-	t_environ	environ_;
+	t_status	status;
 
 	// print_str_tab(environ);
 	install_handlers();
-	init_environ(&environ_);
-	run_shell(&environ_);
-	free_environ(&environ_);
+	init_status(&status);
+	run_shell(&status);
+	free_environ(&status);
 	rl_clear_history();
 	return (0);
 }

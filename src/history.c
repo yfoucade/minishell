@@ -6,13 +6,13 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:25:43 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/21 10:26:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:45:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	decide_add_history(t_environ *environ)
+void	decide_add_history(t_status *environ)
 {
 	if (is_blank_str(environ->curr_command))
 		return ;

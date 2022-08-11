@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 14:33:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:44:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_str_list
 	struct s_str_list	*next;
 } t_str_list;
 
-typedef struct s_environ
+typedef struct s_status
 {
 	char			*argv;
 	char			*input;
@@ -62,7 +62,7 @@ typedef struct s_environ
 	char			*last_command;
 	int				run;
 	unsigned char	exit_status;
-}	t_environ;
+}	t_status;
 
 typedef struct s_redirection
 {
@@ -73,14 +73,14 @@ typedef struct s_redirection
 }	t_redirection;
 
 // environ.c
-void	init_environ(t_environ *environ);
-void	free_environ(t_environ *environ);
+void	init_status(t_status *environ);
+void	free_environ(t_status *environ);
 
 // history.c
-void	decide_add_history(t_environ *environ);
+void	decide_add_history(t_status *environ);
 
 // minishell.c
-void	run_shell(t_environ *environ);
+void	run_shell(t_status *environ);
 
 // ft_strutils.c
 int		ft_strlen(char	*str);

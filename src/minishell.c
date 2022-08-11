@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 14:37:46 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:46:31 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,12 @@ char	parse(t_str_list *tokens, t_str_list **args, t_str_list **redirections)
 	return (SUCCESS);
 }
 
-void	execute_pipeline(t_environ *environ_, t_str_list *commands)
+void	execute_pipeline(t_status *status, t_str_list *commands)
 {
 	int		*in_pipe;
 	int		*out_pipe;
 	pid_t	pid;
-	int		status;
+	int		exit_status;
 	t_str_list	*tokens;
 	t_str_list	*lst_args;
 	char		**args;
@@ -146,9 +146,9 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 		pid = fork();
 		if (!pid)
 			subshell(args, in_pipe, out_pipe);
-		waitpid(pid, &status, 0);
+		waitpid(pid, &exit_status, 0);
 		// use macros to interpret status (man waitpid)
-		environ_->exit_status = status;
+		status->exit_status = exit_status;
 		if (in_pipe)
 		{
 			close(in_pipe[0]);
@@ -179,53 +179,53 @@ char	is_valid_quoting(char *str)
 	return (TRUE);
 }
 
-unsigned char	execute_command(t_environ *environ_)
+unsigned char	execute_command(t_status *status)
 {
 	t_str_list	*splitted_command;
 
-	if (!is_valid_quoting(environ_->curr_command))
+	if (!is_valid_quoting(status->curr_command))
 	{
 		printf("execute_command: quoting error\n");
 		return (ERROR);
 	}
-	splitted_command = ft_split_unquoted_c(environ_->curr_command, '|');
+	splitted_command = ft_split_unquoted_c(status->curr_command, '|');
 	if (!is_valid_pipeline(splitted_command))
 	{
 		puts("execute_command: pipeline error\n");
 		// free_splitted_command(splitted_command);
 		return (ERROR);
 	}
-	execute_pipeline(environ_, splitted_command);
+	execute_pipeline(status, splitted_command);
 	return (0);
 }
 
-void	run_shell(t_environ *environ_)
+void	run_shell(t_status *status)
 {
 	t_str_list	*tmp;
 
 	while (TRUE)
 	{
-		environ_->input = readline(PS1);
-		environ_->pipelines = ft_split_unquoted_c(environ_->input, '\n');
-		tmp = environ_->pipelines;
+		status->input = readline(PS1);
+		status->pipelines = ft_split_unquoted_c(status->input, '\n');
+		tmp = status->pipelines;
 		if (!tmp)
 			exit(0);
 		while (tmp)
 		{
-			environ_->curr_command = tmp->str;
-			if (environ_->curr_command && *environ_->curr_command)
+			status->curr_command = tmp->str;
+			if (status->curr_command && *status->curr_command)
 			{
-				decide_add_history(environ_);
-				environ_->exit_status = execute_command(environ_);
-				free(environ_->last_command);
-				environ_->last_command = ft_strdup(environ_->curr_command,
-					ft_strlen(environ_->curr_command));
-				environ_->curr_command = NULL;
+				decide_add_history(status);
+				status->exit_status = execute_command(status);
+				free(status->last_command);
+				status->last_command = ft_strdup(status->curr_command,
+					ft_strlen(status->curr_command));
+				status->curr_command = NULL;
 			}
 			else
-				free(environ_->curr_command);
+				free(status->curr_command);
 			tmp = tmp->next;
 		}
-		free_splitted_command(environ_->pipelines);
+		free_splitted_command(status->pipelines);
 	}
 }

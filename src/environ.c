@@ -6,25 +6,25 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 14:32:46 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:44:28 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // todo: malloc for each field.
-void	init_environ(t_environ *environ_)
+void	init_status(t_status *status_)
 {
-	environ_->argv = NULL;
-	environ_->input = NULL;
-	environ_->pipelines = NULL;
-	environ_->curr_command = NULL;
-	environ_->last_command = NULL;
-	environ_->exit_status = 0;
+	status_->argv = NULL;
+	status_->input = NULL;
+	status_->pipelines = NULL;
+	status_->curr_command = NULL;
+	status_->last_command = NULL;
+	status_->exit_status = 0;
 }
 
-void	free_environ(t_environ *environ_)
+void	free_environ(t_status *status_)
 {
-	free(environ_->curr_command);
-	free(environ_->last_command);
+	free(status_->curr_command);
+	free(status_->last_command);
 }
