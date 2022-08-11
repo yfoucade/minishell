@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 17:18:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 19:32:44 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct s_str_list
 typedef struct s_status
 {
 	char			*input;
-	char			is_set_input;
 	t_str_list		*pipelines;
 	char			*curr_command;
 	char			*last_command;
@@ -89,7 +88,8 @@ char	ft_strchr_chr(char *haystack, char needle);
 int		ft_strcmp(char *s1, char *s2);
 char	is_blank_chr(char c);
 char	is_blank_str(char *str);
-char	*ft_strdup(char *str, int n);
+char	*ft_strndup(char *str, int n);
+char	*ft_strdup(char *str);
 char	*trim(char *str);
 char	*ft_strchr(char *haystack, char needle);
 char	is_meta(char c);
@@ -106,6 +106,9 @@ char	*expand(char *command);
 
 // handlers.c
 void	install_handlers(void);
+
+// str_list.c
+void	free_str_list(t_str_list *str_list);
 
 // print_utils.c
 void	print_str_list(t_str_list *str_list);

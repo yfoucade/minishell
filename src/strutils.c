@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 16:02:05 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 19:33:37 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	is_blank_str(char *str)
 	return (TRUE);
 }
 
-char	*ft_strdup(char *str, int n)
+char	*ft_strndup(char *str, int n)
 {
 	char	*res;
 	int		i;
@@ -80,6 +80,11 @@ char	*ft_strdup(char *str, int n)
 		res[i] = str[i];
 	res[i] = '\0';
 	return (res);
+}
+
+char	*ft_strdup(char *str)
+{
+	return (ft_strndup(str, ft_strlen(str)));
 }
 
 char	*trim(char *str)
@@ -98,7 +103,7 @@ char	*trim(char *str)
 		if (!is_blank_chr(*res))
 			end = res;
 	}
-	res = ft_strdup(start, end + 1 - start);
+	res = ft_strndup(start, end + 1 - start);
 	return (res);
 }
 
@@ -127,7 +132,7 @@ t_str_list	*lst_add_n(t_str_list **lst, char *str, char *end)
 	t_str_list	*tmp;
 
 	res = malloc(sizeof(*res));
-	res->str = ft_strdup(str, end - str);
+	res->str = ft_strndup(str, end - str);
 	res->next = NULL;
 	if (!*lst)
 		return (res);
@@ -158,7 +163,7 @@ t_str_list	*ft_split_unquoted_c(char *str, char c)
 	if (*str == '|' || str[ft_strlen(str) - 1] == '|')
 		return (NULL);
 	res = NULL;
-	while (*str)
+	while (TRUE)
 	{
 		chunk_end = str;
 		while (*chunk_end && *chunk_end != c)
@@ -171,6 +176,8 @@ t_str_list	*ft_split_unquoted_c(char *str, char c)
 		} 
 		res = lst_add_n(&res, str, chunk_end);
 		str = chunk_end + (*chunk_end == c);
+		if (!*str)
+			break;
 	}
 	return (res);
 }
@@ -194,7 +201,7 @@ char	**lst_to_array(t_str_list *lst)
 	tmp_lst = lst;
 	while (tmp_lst)
 	{
-		*tmp_arr++ = ft_strdup(tmp_lst->str, ft_strlen(tmp_lst->str));
+		*tmp_arr++ = ft_strdup(tmp_lst->str);
 		tmp_lst = tmp_lst->next;
 	}
 	*tmp_arr = NULL;
