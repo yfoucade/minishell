@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 15:06:10 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:33:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_str_list
 
 typedef struct s_environ
 {
-	char			*path;
 	char			*argv;
 	char			*input;
 	t_str_list		*pipelines;
@@ -75,7 +74,6 @@ typedef struct s_redirection
 
 // environ.c
 void	init_environ(t_environ *environ);
-void	update_environ(t_environ *environ);
 void	free_environ(t_environ *environ);
 
 // history.c

@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/02 16:25:21 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:32:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ void	run_shell(t_environ *environ_)
 
 	while (TRUE)
 	{
-		update_environ(environ_);
 		environ_->input = readline(PS1);
 		// if NULL print error msg
 		environ_->pipelines = ft_split_unquoted_c(environ_->input, '\n');
