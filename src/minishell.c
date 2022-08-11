@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 14:32:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:37:46 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,10 @@ char	is_valid_pipeline(t_str_list *commands)
 	return (TRUE);
 }
 
-void	subshell(char *command, int *in_pipe, int *out_pipe)
-{
-	if (in_pipe)
-		dup2(in_pipe[0], STDIN_FILENO);
-	if (out_pipe)
-		dup2(out_pipe[1], STDOUT_FILENO);
-	// replace with our own preprocessing and a call to execve()
-	system(command);
-	exit(0);
-}
-
-void	subshell_2(char **command, int *in_pipe, int *out_pipe)
+void	subshell(char **command, int *in_pipe, int *out_pipe)
 {
 	// make redirections
 	// resolve file
-	// call execve
 	if (in_pipe)
 		dup2(in_pipe[0], STDIN_FILENO);
 	if (out_pipe)
@@ -147,24 +135,17 @@ void	execute_pipeline(t_environ *environ_, t_str_list *commands)
 		}
 		// todo: pretect failure of parse()
 		parse(tokens, &lst_args, &redirections);
-		// printf("Args:\n");
-		// print_str_list(lst_args);
-		// printf("Redirections:\n");
-		// print_str_list(redirections);
 		// todo: function to expand tokens (first in redirections, look for ambiguity)
 		// lst_args: convert to char**
 		args = lst_to_array(lst_args);
-		// todo: start subshell
 		if (commands->next)
 		{
 			out_pipe = malloc(sizeof(*out_pipe) * 2);
 			pipe(out_pipe);
 		}
 		pid = fork();
-		// if (!pid)
-		// 	subshell(commands->str, in_pipe, out_pipe);
 		if (!pid)
-			subshell_2(args, in_pipe, out_pipe);
+			subshell(args, in_pipe, out_pipe);
 		waitpid(pid, &status, 0);
 		// use macros to interpret status (man waitpid)
 		environ_->exit_status = status;
@@ -225,11 +206,9 @@ void	run_shell(t_environ *environ_)
 	while (TRUE)
 	{
 		environ_->input = readline(PS1);
-		// if NULL print error msg
 		environ_->pipelines = ft_split_unquoted_c(environ_->input, '\n');
 		tmp = environ_->pipelines;
 		if (!tmp)
-			// exit_minishell(environ_);
 			exit(0);
 		while (tmp)
 		{
