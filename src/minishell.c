@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 16:46:31 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/11 23:35:48 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,27 +199,49 @@ unsigned char	execute_command(t_status *status)
 	return (0);
 }
 
+void	free_status(t_status *status)
+{
+	free(status->input);
+	free_str_list(status->pipelines);
+	free(status->curr_command);
+	free(status->last_command);
+	free(status);
+}
+
+char	read_input(t_status *status)
+{
+	status->input = readline(PS1);
+	if (!status->input)
+		exit(0);
+	status->pipelines = ft_split_unquoted_c(status->input, '\n');
+	if (!status->input || !status->pipelines)
+	{
+		free_status(status);
+		perror("minishell: ");
+		exit(0);
+	}
+	return (SUCCESS);
+}
+
 void	run_shell(t_status *status)
 {
 	t_str_list	*tmp;
 
 	while (TRUE)
 	{
-		status->input = readline(PS1);
-		status->pipelines = ft_split_unquoted_c(status->input, '\n');
+		read_input(status);
 		tmp = status->pipelines;
 		if (!tmp)
 			exit(0);
 		while (tmp)
 		{
-			status->curr_command = tmp->str;
+			status->curr_command = ft_strdup(tmp->str);
 			if (status->curr_command && *status->curr_command)
 			{
 				decide_add_history(status);
 				status->exit_status = execute_command(status);
 				free(status->last_command);
-				status->last_command = ft_strdup(status->curr_command,
-					ft_strlen(status->curr_command));
+				status->last_command = ft_strdup(status->curr_command);
 				status->curr_command = NULL;
 			}
 			else
