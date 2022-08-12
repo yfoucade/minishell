@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 23:35:48 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:43:33 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,30 +197,6 @@ unsigned char	execute_command(t_status *status)
 	}
 	execute_pipeline(status, splitted_command);
 	return (0);
-}
-
-void	free_status(t_status *status)
-{
-	free(status->input);
-	free_str_list(status->pipelines);
-	free(status->curr_command);
-	free(status->last_command);
-	free(status);
-}
-
-char	read_input(t_status *status)
-{
-	status->input = readline(PS1);
-	if (!status->input)
-		exit(0);
-	status->pipelines = ft_split_unquoted_c(status->input, '\n');
-	if (!status->input || !status->pipelines)
-	{
-		free_status(status);
-		perror("minishell: ");
-		exit(0);
-	}
-	return (SUCCESS);
 }
 
 void	run_shell(t_status *status)

@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 19:32:44 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:44:30 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ typedef struct s_redirection
 	struct s_redirection	*next;
 }	t_redirection;
 
-// environ.c
+// status.c
 void	init_status(t_status *environ);
-void	free_environ(t_status *environ);
+void	free_status(t_status *status);
 
 // history.c
 void	decide_add_history(t_status *environ);
@@ -106,6 +106,9 @@ char	*expand(char *command);
 
 // handlers.c
 void	install_handlers(void);
+
+// read_input.c
+char	read_input(t_status *status);
 
 // str_list.c
 void	free_str_list(t_str_list *str_list);
