@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 16:46:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:47:29 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 	install_handlers();
 	init_status(&status);
 	run_shell(&status);
-	free_environ(&status);
+	free_status(&status);
 	rl_clear_history();
 	return (0);
 }
