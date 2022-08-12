@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 12:45:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:12:11 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,23 @@ void	free_status(t_status *status)
 	free(status->curr_command);
 	free(status->last_command);
 	free(status);
+}
+
+void	save_last_command(t_status *status)
+{
+	free(status->last_command);
+	status->last_command = status->curr_command;
+	status->curr_command = NULL;
+}
+
+void	free_curr_command(t_status *status)
+{
+	free(status->curr_command);
+	status->curr_command = NULL;
+}
+
+void	free_pipelines(t_status *status)
+{
+	free_str_list(status->pipelines);
+	status->pipelines = NULL;
 }

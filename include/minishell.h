@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 12:44:30 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:44:18 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@
 # define DEBUG(str) printf(COLOR(DEBUG_COLOR, DEBUG_PREFIX) "%s" COLOR(DEBUG_COLOR, DEBUG_SUFFIX) "\n", str)
 # define ERR_DEBUG(str) write(2, str, sizeof(str));
 
+# define QUOTE_ERROR 1
+# define PIPELINE_ERROR 2
+
 typedef struct s_str_list
 {
 	char				*str;
@@ -74,6 +77,9 @@ typedef struct s_redirection
 // status.c
 void	init_status(t_status *environ);
 void	free_status(t_status *status);
+void	save_last_command(t_status *status);
+void	free_curr_command(t_status *status);
+void	free_pipelines(t_status *status);
 
 // history.c
 void	decide_add_history(t_status *environ);

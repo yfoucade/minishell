@@ -6,24 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 12:43:33 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:44:32 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_splitted_command(t_str_list *commands)
-{
-	t_str_list *tmp;
-
-	while (commands)
-	{
-		tmp = commands->next;
-		free(commands->str);
-		free(commands);
-		commands = tmp;
-	}
-}
 
 char	is_valid_pipeline(t_str_list *commands)
 {
@@ -130,7 +117,7 @@ void	execute_pipeline(t_status *status, t_str_list *commands)
 		{
 			printf("minishell: syntax error\n");
 			free(in_pipe);
-			free_splitted_command(tokens);
+			free_str_list(tokens);
 			return ;
 		}
 		// todo: pretect failure of parse()
@@ -186,14 +173,14 @@ unsigned char	execute_command(t_status *status)
 	if (!is_valid_quoting(status->curr_command))
 	{
 		printf("execute_command: quoting error\n");
-		return (ERROR);
+		return (QUOTE_ERROR);
 	}
 	splitted_command = ft_split_unquoted_c(status->curr_command, '|');
 	if (!is_valid_pipeline(splitted_command))
 	{
 		puts("execute_command: pipeline error\n");
 		// free_splitted_command(splitted_command);
-		return (ERROR);
+		return (PIPELINE_ERROR);
 	}
 	execute_pipeline(status, splitted_command);
 	return (0);
@@ -216,14 +203,12 @@ void	run_shell(t_status *status)
 			{
 				decide_add_history(status);
 				status->exit_status = execute_command(status);
-				free(status->last_command);
-				status->last_command = ft_strdup(status->curr_command);
-				status->curr_command = NULL;
+				save_last_command(status);
 			}
 			else
-				free(status->curr_command);
+				free_curr_command(status);
 			tmp = tmp->next;
 		}
-		free_splitted_command(status->pipelines);
+		free_pipelines(status);
 	}
 }
