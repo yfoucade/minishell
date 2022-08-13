@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 15:44:18 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 18:06:15 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # define ERROR 1
 # define PS1 "$ "
 # define PS2 "> "
+
+# define PIPE_OUT 0
+# define PIPE_IN 1
 
 # define BLK "\e[0;30m"
 # define RED "\e[0;31m"
@@ -60,9 +63,12 @@ typedef struct s_status
 {
 	char			*input;
 	t_str_list		*pipelines;
+	int				*in_pipe;
+	int				*out_pipe;
 	char			*curr_command;
 	char			*last_command;
 	int				run;
+	pid_t			child_id;
 	unsigned char	exit_status;
 }	t_status;
 
@@ -80,6 +86,9 @@ void	free_status(t_status *status);
 void	save_last_command(t_status *status);
 void	free_curr_command(t_status *status);
 void	free_pipelines(t_status *status);
+void	free_pipe(int **tab);
+void	create_pipe(int **tab);
+void	close_pipe_end(int *tab, int end);
 
 // history.c
 void	decide_add_history(t_status *environ);

@@ -6,19 +6,21 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 13:12:11 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 18:05:42 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_status(t_status *status_)
+void	init_status(t_status *status)
 {
-	status_->input = NULL;
-	status_->pipelines = NULL;
-	status_->curr_command = NULL;
-	status_->last_command = NULL;
-	status_->exit_status = 0;
+	status->input = NULL;
+	status->pipelines = NULL;
+	status->in_pipe = NULL;
+	status->out_pipe = NULL;
+	status->curr_command = NULL;
+	status->last_command = NULL;
+	status->exit_status = 0;
 }
 
 void	free_status(t_status *status)
@@ -47,4 +49,21 @@ void	free_pipelines(t_status *status)
 {
 	free_str_list(status->pipelines);
 	status->pipelines = NULL;
+}
+
+void	free_pipe(int **tab)
+{
+	free(*tab);
+	*tab = NULL;
+}
+
+void	create_pipe(int **tab)
+{
+	*tab = malloc(sizeof(**tab) * 2);
+	pipe(*tab);
+}
+
+void	close_pipe_end(int *tab, int end)
+{
+	close(tab[end]);
 }

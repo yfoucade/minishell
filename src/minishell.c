@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 15:44:32 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/12 18:04:25 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ char	is_valid_pipeline(t_str_list *commands)
 	return (TRUE);
 }
 
-void	subshell(char **command, int *in_pipe, int *out_pipe)
+void	subshell(char **command, t_status *status)
 {
 	// make redirections
 	// resolve file
-	if (in_pipe)
-		dup2(in_pipe[0], STDIN_FILENO);
-	if (out_pipe)
-		dup2(out_pipe[1], STDOUT_FILENO);
+	if (status->in_pipe)
+		dup2(status->in_pipe[0], STDIN_FILENO);
+	if (status->out_pipe)
+		dup2(status->out_pipe[1], STDOUT_FILENO);
 	execve(*command, command, NULL);
 	exit(0);
 }
@@ -99,24 +99,19 @@ char	parse(t_str_list *tokens, t_str_list **args, t_str_list **redirections)
 
 void	execute_pipeline(t_status *status, t_str_list *commands)
 {
-	int		*in_pipe;
-	int		*out_pipe;
-	pid_t	pid;
 	int		exit_status;
 	t_str_list	*tokens;
 	t_str_list	*lst_args;
 	char		**args;
 	t_str_list	*redirections;
 
-	in_pipe = NULL;
-	out_pipe = NULL;
 	while (commands)
 	{
 		tokens = tokenize(commands->str);
 		if (!is_valid_syntax(tokens))
 		{
 			printf("minishell: syntax error\n");
-			free(in_pipe);
+			free_pipe(&status->in_pipe);
 			free_str_list(tokens);
 			return ;
 		}
@@ -126,27 +121,24 @@ void	execute_pipeline(t_status *status, t_str_list *commands)
 		// lst_args: convert to char**
 		args = lst_to_array(lst_args);
 		if (commands->next)
-		{
-			out_pipe = malloc(sizeof(*out_pipe) * 2);
-			pipe(out_pipe);
-		}
-		pid = fork();
-		if (!pid)
-			subshell(args, in_pipe, out_pipe);
-		waitpid(pid, &exit_status, 0);
+			create_pipe(&status->out_pipe);
+		status->child_id = fork();
+		if (!status->child_id)
+			subshell(args, status);
+		waitpid(status->child_id, &exit_status, 0);
 		// use macros to interpret status (man waitpid)
 		status->exit_status = exit_status;
-		if (in_pipe)
+		if (status->in_pipe)
 		{
-			close(in_pipe[0]);
-			free(in_pipe);
+			close_pipe_end(status->in_pipe, PIPE_OUT);
+			free_pipe(&status->in_pipe);
 		}
-		if (out_pipe)
+		if (status->out_pipe)
 		{
-			close(out_pipe[1]);
-			in_pipe = out_pipe;
+			close_pipe_end(status->out_pipe, PIPE_IN);
+			status->in_pipe = status->out_pipe;
 		}
-		out_pipe = NULL;
+		status->out_pipe = NULL;
 		commands = commands->next;
 	}
 }
