@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/16 11:08:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 12:30:25 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,7 @@ typedef struct s_str_list
 	struct s_str_list	*next;
 } t_str_list;
 
-typedef struct s_status
-{
-	char			*input;
-	t_str_list		*pipelines;
-	int				*in_pipe;
-	int				*out_pipe;
-	char			*curr_command;
-	char			*last_command;
-	int				run;
-	pid_t			child_id;
-	unsigned char	exit_status;
-}	t_status;
-
+// todo: change for struct s_program and t_program
 typedef struct s_command
 {
 	union
@@ -94,6 +82,20 @@ typedef struct s_command
 	} u_command_ref;
 	char	command_type;
 } t_command;
+
+typedef struct s_status
+{
+	char				*input;
+	t_str_list			*pipelines;
+	int					*in_pipe;
+	int					*out_pipe;
+	char				*curr_command; // change to curr_pipeline
+	char				*last_command; // last_pipeline
+	struct s_command	*command;
+	int					run;
+	pid_t				child_id;
+	unsigned char		exit_status;
+}	t_status;
 
 typedef struct s_redirection
 {
@@ -134,6 +136,9 @@ char	is_meta(char c);
 t_str_list	*lst_add(t_str_list **lst, char *str);
 t_str_list	*ft_split_unquoted_c(char *str, char c);
 char	**lst_to_array(t_str_list *lst);
+char	*ft_strcat(char *s1, char *s2);
+char	*ft_strcat_free(char *s1, char *s2, char free_s1, char free_s2);
+t_str_list	*ft_split(char *str, char c);
 
 // tokenizer.c
 t_str_list	*tokenize(char	*command);
@@ -148,8 +153,18 @@ void	install_handlers(void);
 // read_input.c
 char	read_input(t_status *status);
 
+// resolve_path.c
+t_command	*resolve_path(char	*command);
+
 // str_list.c
 void	free_str_list(t_str_list *str_list);
+
+// t_command_utils.c
+void	t_command_set_type(t_command **command, char type);
+t_command	*new_t_command(void);
+char	t_command_set_fun_ptr(t_command **command, builtin_ptr fun_ptr);
+char	t_command_set_path(t_command **command, char *path, char free_path);
+void	t_command_free(t_command **command);
 
 // print_utils.c
 void	print_str_list(t_str_list *str_list);

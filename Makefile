@@ -11,9 +11,11 @@ SRC = \
 	minishell.c \
 	print_utils.c \
 	read_input.c \
+	resolve_path.c \
 	status.c \
 	str_list.c \
 	strutils.c \
+	t_command_utils.c \
 	tokenizer.c \
 
 OBJ = $(addprefix $(SRC_DIR)/, $(SRC:.c=.o))
@@ -39,3 +41,7 @@ fclean: clean
 	${RM} ${NAME}
 
 re: fclean all
+
+rm_path:
+	OLD_PATH=${PATH}
+	unset PATH

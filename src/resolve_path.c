@@ -6,18 +6,19 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/10 17:04:20 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:41:58 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "resolve_path.h"
+#include "minishell.h"
 
 builtin_ptr	search_builtins(char *command)
 {
-	if (!ft_strcmp(command, "builtin_1"))
-		return (&builtin_1);
-	if (!ft_strcmp(command, "builtin_2"))
-		return (&builtin_2);
+	// if (!ft_strcmp(command, "builtin_1"))
+	// 	return (&builtin_1);
+	// if (!ft_strcmp(command, "builtin_2"))
+	// 	return (&builtin_2);
+	(void)command;
 	return (NULL);
 }
 
@@ -81,7 +82,7 @@ char	*search_paths(char *command)
 			break;
 		tmp_path = tmp_path->next;
 	}
-	free_lst(lst_paths);
+	free_str_list(lst_paths);
 	return (absolute_path);
 }
 

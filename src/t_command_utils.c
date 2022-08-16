@@ -6,11 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 14:44:53 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/10 16:24:40 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:43:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "resolve_path.h"
+#include "minishell.h"
 
 void	t_command_set_type(t_command **command, char type)
 {

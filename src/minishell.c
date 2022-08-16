@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 18:04:25 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:37:47 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	subshell(char **command, t_status *status)
 		dup2(status->in_pipe[0], STDIN_FILENO);
 	if (status->out_pipe)
 		dup2(status->out_pipe[1], STDOUT_FILENO);
-	execve(*command, command, NULL);
+	execve(status->command->u_command_ref.command_path, command, NULL);
 	exit(0);
 }
 
@@ -120,6 +120,7 @@ void	execute_pipeline(t_status *status, t_str_list *commands)
 		// todo: function to expand tokens (first in redirections, look for ambiguity)
 		// lst_args: convert to char**
 		args = lst_to_array(lst_args);
+		status->command = resolve_path(args[0]);
 		if (commands->next)
 			create_pipe(&status->out_pipe);
 		status->child_id = fork();

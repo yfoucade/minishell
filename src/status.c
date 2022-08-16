@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 18:05:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:35:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_status(t_status *status)
 	status->out_pipe = NULL;
 	status->curr_command = NULL;
 	status->last_command = NULL;
+	status->command = NULL;
 	status->exit_status = 0;
 }
 
