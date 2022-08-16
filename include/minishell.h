@@ -6,12 +6,17 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/12 18:06:15 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:08:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef ENVIRON
+#  define ENVIRON
+extern char	**environ;
+# endif
 
 # include <errno.h>
 # include <fcntl.h>
@@ -23,10 +28,12 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <dirent.h>
 
 # define TRUE 1
 # define FALSE 0
 # define SUCCESS 0
+# define FAILURE 1
 # define ERROR 1
 # define PS1 "$ "
 # define PS2 "> "
@@ -53,6 +60,12 @@
 # define QUOTE_ERROR 1
 # define PIPELINE_ERROR 2
 
+# define CMD_BUILTIN 1
+# define CMD_ABS_PATH 2
+# define CMD_NOT_FOUND 3
+
+typedef unsigned char (*builtin_ptr)(char **, char **);
+
 typedef struct s_str_list
 {
 	char				*str;
@@ -71,6 +84,16 @@ typedef struct s_status
 	pid_t			child_id;
 	unsigned char	exit_status;
 }	t_status;
+
+typedef struct s_command
+{
+	union
+	{
+		builtin_ptr	fun_ptr;
+		char		*command_path;
+	} u_command_ref;
+	char	command_type;
+} t_command;
 
 typedef struct s_redirection
 {

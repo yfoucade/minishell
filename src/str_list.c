@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 17:28:07 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 17:36:40 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:22:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	free_str_list(t_str_list *str_list)
 {
 	t_str_list	*tmp;
 
-	tmp = str_list;
 	while (str_list)
 	{
 		tmp = str_list->next;
