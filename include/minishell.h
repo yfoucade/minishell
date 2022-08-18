@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/16 12:30:25 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/17 10:20:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ extern char	**environ;
 # define CMD_BUILTIN 1
 # define CMD_ABS_PATH 2
 # define CMD_NOT_FOUND 3
+
+# define IGNORE_AMBIGUOUS 0
+# define ERROR_ON_AMBIGUOUS 1
 
 typedef unsigned char (*builtin_ptr)(char **, char **);
 
@@ -146,6 +149,7 @@ void	print_tokens(t_str_list *tokens);
 
 // expansion.c
 char	*expand(char *command);
+char	expand_array_elements(char **array);
 
 // handlers.c
 void	install_handlers(void);

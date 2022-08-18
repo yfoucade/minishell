@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/16 11:37:47 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/17 10:24:14 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void	execute_pipeline(t_status *status, t_str_list *commands)
 	t_str_list	*tokens;
 	t_str_list	*lst_args;
 	char		**args;
-	t_str_list	*redirections;
+	t_str_list	*lst_redirections;
+	char		**redirections;
 
 	while (commands)
 	{
@@ -116,10 +117,23 @@ void	execute_pipeline(t_status *status, t_str_list *commands)
 			return ;
 		}
 		// todo: pretect failure of parse()
-		parse(tokens, &lst_args, &redirections);
+		parse(tokens, &lst_args, &lst_redirections);
 		// todo: function to expand tokens (first in redirections, look for ambiguity)
 		// lst_args: convert to char**
 		args = lst_to_array(lst_args);
+		redirections = lst_to_array(lst_redirections);
+		printf("execute_pipeline: expanding args\n");
+		if (expand_array_elements(args))
+		{
+			printf("minishell: bad substitution\n");
+			return ;
+		}
+		printf("execute_pipeline: expanding redirections\n");
+		if (expand_array_elements(redirections))
+		{
+			printf("minishell: ambiguous redirect\n");
+			return ;
+		}
 		status->command = resolve_path(args[0]);
 		if (commands->next)
 			create_pipe(&status->out_pipe);

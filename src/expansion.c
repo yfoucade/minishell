@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/06/23 18:32:46 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/17 10:26:35 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,16 @@ char	*find_chunk_end(char *command)
 		return (find_variable_end(command + 1));
 }
 
-void	add_next_chunk(t_token **chunks, char **command)
+void	add_next_chunk(t_str_list **chunks, char **command)
 {
 	char	*end;
-	t_token	*tmp;
-	t_token	*new_chunk;
+	t_str_list	*tmp;
+	t_str_list	*new_chunk;
 
 	end = find_chunk_end(*command);
 	new_chunk = malloc(sizeof(new_chunk));
 	new_chunk->next = NULL;
-	new_chunk->token = ft_strdup(*command, end - *command);
+	new_chunk->str = ft_strndup(*command, end - *command);
 	*command = end;
 	if (!*chunks)
 		*chunks = new_chunk;
@@ -87,11 +87,11 @@ void	add_next_chunk(t_token **chunks, char **command)
 	}
 }
 
-t_token	*construct_raw_linked_list(char *command)
+t_str_list	*construct_raw_linked_list(char *command)
 {
-	t_token	*res;
+	t_str_list	*res;
 
-	res = malloc(sizeof(t_token));
+	res = malloc(sizeof(t_str_list));
 	res = NULL;
 	while (*command)
 	{
@@ -103,7 +103,7 @@ t_token	*construct_raw_linked_list(char *command)
 char	*get_value(char *name)
 {
 	if ('0' <= *name && *name <= '9')
-		return (ft_strdup("minishell", 10 * (*name == '0')));
+		return (ft_strndup("minishell", 10 * (*name == '0')));
 	return (getenv(name));
 }
 
@@ -117,34 +117,34 @@ char	*parse_name(char *str)
 	if (len > 1 && ft_strchr_chr("'\"", *str))
 	{
 		if (str[len - 1] == *str)
-			return (ft_strdup(str + 1, len - 2));
+			return (ft_strndup(str + 1, len - 2));
 		else
-			name = ft_strdup(str, len);
+			name = ft_strndup(str, len);
 	}
 	else if (*str == '{' && str[len - 1] == '}')
-			name = ft_strdup(str + 1, len - 2);
+			name = ft_strndup(str + 1, len - 2);
 	else
-		name = ft_strdup(str, len);
+		name = ft_strndup(str, len);
 	value = get_value(name);
 	free(name);
 	return (value);
 }
 
-char	substitute_one(t_token *chunk)
+char	substitute_one(t_str_list *chunk)
 {
 	char	*value;
 
-	if (*chunk->token != '$' || !chunk->token[1])
+	if (*chunk->str != '$' || !chunk->str[1])
 		return (0);
-	value = parse_name(chunk->token + 1);
-	free(chunk->token);
-	chunk->token = value;
+	value = parse_name(chunk->str + 1);
+	free(chunk->str);
+	chunk->str = value;
 	return (0);
 }
 
-t_token	*substitute_all(t_token *chunks)
+t_str_list	*substitute_all(t_str_list *chunks)
 {
-	t_token	*tmp;
+	t_str_list	*tmp;
 
 	tmp = chunks;
 	while (tmp)
@@ -159,7 +159,7 @@ t_token	*substitute_all(t_token *chunks)
 	return (chunks);
 }
 
-int	get_total_size(t_token *chunks)
+int	get_total_size(t_str_list *chunks)
 {
 	int		res;
 	char	*tmp;
@@ -167,12 +167,12 @@ int	get_total_size(t_token *chunks)
 	res = 0;
 	while (chunks)
 	{
-		if (!chunks->token)
+		if (!chunks->str)
 		{
 			chunks = chunks->next;
 			continue ;
 		}
-		tmp = chunks->token;
+		tmp = chunks->str;
 		while (*tmp++)
 			res++;
 		chunks = chunks->next;
@@ -180,18 +180,18 @@ int	get_total_size(t_token *chunks)
 	return (res);
 }
 
-void	fill(char *res, t_token *chunks)
+void	fill(char *res, t_str_list *chunks)
 {
 	char	*tmp;
 
 	while (chunks)
 	{
-		if (!chunks->token)
+		if (!chunks->str)
 		{
 			chunks = chunks->next;
 			continue ;
 		}
-		tmp = chunks->token;
+		tmp = chunks->str;
 		while (*tmp)
 			*res++ = *tmp++;
 		chunks = chunks->next;
@@ -199,7 +199,7 @@ void	fill(char *res, t_token *chunks)
 	*res = '\0';
 }
 
-char	*concatenate(t_token *chunks)
+char	*concatenate(t_str_list *chunks)
 {
 	char	*res;
 	int		size;
@@ -212,15 +212,39 @@ char	*concatenate(t_token *chunks)
 
 char	*expand(char *command)
 {
-	t_token	*chunks;
+	t_str_list	*chunks;
 	char	*res;
 
 	chunks = construct_raw_linked_list(command);
-	print_tokens(chunks);
+	print_str_list(chunks);
+	printf("expand: calling substitue_all\n");
 	chunks = substitute_all(chunks);
-	// print_tokens(chunks);
+	// print_str_lists(chunks);
+	printf("expand: calling concatenate\n");
 	res = concatenate(chunks);
 	// printf("%s\n", res);
 	//free_tokens(chunks);
 	return (res);
+}
+
+char	replace_by_expansion(char *str, char **dest)
+{
+	char	*expansion;
+
+	expansion = expand(str);
+	printf("replace_by_expansion: freeing dest\n");
+	free(*dest);
+	*dest = expansion;
+	return (SUCCESS);
+}
+
+char	expand_array_elements(char **array)
+{
+	while (*array)
+	{
+		if (replace_by_expansion(*array, array))
+			return (FAILURE);
+		++array;
+	}
+	return (SUCCESS);
 }
