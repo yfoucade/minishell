@@ -1,6 +1,15 @@
-- Implement resolution of program name to absolute path.
-- Implement variable expansion.
-	- if a space or tab or return is found in a variable that is part
-	  of a filename -> ambiguous redirect.
-- Pass both lists (redirections and command) to the subshell.
+- improve t_status structure.
+	- add arrays args and redirections.
+	- add fields for return values of some functions:
+		- char	return_value
+		- char	*error_message
+		the calling function can check whether or not there has been an error,
+		and display the error message accordingly.
+- fix variable expansion
+	- if braces, ${EXEMPLE}, check that what is between braces is a name.
+	- if ?, $?, replace by exit_status of previous command (thus needs status).
+	- if name, $chars, stop at first char that is not a 'name'.
+	  name = [_a-zA-Z][_a-zA-Z0-9]*
+	- if, $c, where c is not the start of a name, then do not interpret $.
+	- look for bad or ambiguous redirections.
 - Implement redirections.
