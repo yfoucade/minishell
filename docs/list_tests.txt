@@ -105,3 +105,8 @@ Thus, the only metacharacters are:
 
 two types of tokens: operators and words.
 redirection operator must be followed by a word.
+
+If multiple lines are given at once as input, execute one after the other.
+Even if some fail:
+$ grep
+$ echo hello
