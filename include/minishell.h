@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/17 10:20:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/20 14:19:29 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,17 @@ extern char	**environ;
 # define DEBUG(str) printf(COLOR(DEBUG_COLOR, DEBUG_PREFIX) "%s" COLOR(DEBUG_COLOR, DEBUG_SUFFIX) "\n", str)
 # define ERR_DEBUG(str) write(2, str, sizeof(str));
 
-# define QUOTE_ERROR 1
-# define PIPELINE_ERROR 2
-
 # define CMD_BUILTIN 1
 # define CMD_ABS_PATH 2
 # define CMD_NOT_FOUND 3
 
 # define IGNORE_AMBIGUOUS 0
 # define ERROR_ON_AMBIGUOUS 1
+
+# define ERR_MALLOC 1
+# define ERR_QUOTE 2
+# define ERR_PIPELINE 3
+# define ERR_FILENAME_MISSING 4
 
 typedef unsigned char (*builtin_ptr)(char **, char **);
 
@@ -88,16 +90,26 @@ typedef struct s_command
 
 typedef struct s_status
 {
-	char				*input;
-	t_str_list			*pipelines;
-	int					*in_pipe;
-	int					*out_pipe;
-	char				*curr_command; // change to curr_pipeline
-	char				*last_command; // last_pipeline
-	struct s_command	*command;
-	int					run;
-	pid_t				child_id;
-	unsigned char		exit_status;
+	char			*input;
+	t_str_list		*pipelines;
+	t_str_list		*commands;
+	t_str_list		*curr_command;
+	t_str_list		*tokens;
+	t_str_list		*lst_args;
+	t_str_list		*lst_redirections;
+	char			**args;
+	char			**redirections;
+	int				*in_pipe;
+	int				*out_pipe;
+	char			*curr_pipeline; // change to curr_pipeline
+	char			*prev_pipeline; // last_pipeline
+	t_command		*command;
+	unsigned char	return_value;
+	char			*error_msg;
+	int				run;
+	pid_t			child_id;
+	unsigned char	child_exit_status;
+	int				exit_status;
 }	t_status;
 
 typedef struct s_redirection
@@ -108,21 +120,34 @@ typedef struct s_redirection
 	struct s_redirection	*next;
 }	t_redirection;
 
-// status.c
-void	init_status(t_status *environ);
-void	free_status(t_status *status);
-void	save_last_command(t_status *status);
-void	free_curr_command(t_status *status);
-void	free_pipelines(t_status *status);
-void	free_pipe(int **tab);
-void	create_pipe(int **tab);
-void	close_pipe_end(int *tab, int end);
+// array.c
+void	free_array(char **array);
+
+// error.c
+void	malloc_error(t_status *status);
+
+// expansion.c
+char	*expand(char *command);
+char	expand_array_elements(char **array);
 
 // history.c
 void	decide_add_history(t_status *environ);
 
 // minishell.c
 void	run_shell(t_status *environ);
+
+// status.c
+void	init_status(t_status *environ);
+void	free_status(t_status *status);
+void	save_prev_pipeline(t_status *status);
+void	free_curr_pipeline(t_status *status);
+void	free_pipelines(t_status *status);
+void	free_pipe(int **tab);
+void	create_pipe(int **tab);
+void	close_pipe_end(int *tab, int end);
+char	set_error_msg(t_status *status, char *str);
+void	flush_error_msg(t_status *status);
+void	free_parsed_command(t_status *status);
 
 // ft_strutils.c
 int		ft_strlen(char	*str);
@@ -146,10 +171,6 @@ t_str_list	*ft_split(char *str, char c);
 // tokenizer.c
 t_str_list	*tokenize(char	*command);
 void	print_tokens(t_str_list *tokens);
-
-// expansion.c
-char	*expand(char *command);
-char	expand_array_elements(char **array);
 
 // handlers.c
 void	install_handlers(void);
