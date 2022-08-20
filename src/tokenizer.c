@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:47:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/11 19:33:46 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:44:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	add_next_token(t_str_list **tokens, char **command)
 	if (!**command)
 		return;
 	end = find_token_end(*command);
-	new_token = malloc(sizeof(new_token));
+	new_token = malloc(sizeof(*new_token));
 	new_token->next = NULL;
 	// end is the first character that doesn't belong to the token
 	new_token->str = ft_strndup(*command, end - *command);
