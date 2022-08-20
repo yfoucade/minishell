@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/17 10:26:35 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/20 17:51:38 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_next_chunk(t_str_list **chunks, char **command)
 	t_str_list	*new_chunk;
 
 	end = find_chunk_end(*command);
-	new_chunk = malloc(sizeof(new_chunk));
+	new_chunk = malloc(sizeof(*new_chunk));
 	new_chunk->next = NULL;
 	new_chunk->str = ft_strndup(*command, end - *command);
 	*command = end;
@@ -91,7 +91,6 @@ t_str_list	*construct_raw_linked_list(char *command)
 {
 	t_str_list	*res;
 
-	res = malloc(sizeof(t_str_list));
 	res = NULL;
 	while (*command)
 	{
@@ -104,7 +103,7 @@ char	*get_value(char *name)
 {
 	if ('0' <= *name && *name <= '9')
 		return (ft_strndup("minishell", 10 * (*name == '0')));
-	return (getenv(name));
+	return (ft_strdup(getenv(name)));
 }
 
 char	*parse_name(char *str)
@@ -223,7 +222,7 @@ char	*expand(char *command)
 	printf("expand: calling concatenate\n");
 	res = concatenate(chunks);
 	// printf("%s\n", res);
-	//free_tokens(chunks);
+	free_str_list(chunks);
 	return (res);
 }
 
