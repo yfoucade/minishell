@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/20 17:51:38 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:33:43 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_str_list	*substitute_all(t_str_list *chunks)
 	{
 		if (substitute_one(tmp))
 		{
-			// free_tokens(chunks);
+			free_str_list(chunks);
 			return (NULL);
 		}
 		tmp = tmp->next;
@@ -216,10 +216,8 @@ char	*expand(char *command)
 
 	chunks = construct_raw_linked_list(command);
 	print_str_list(chunks);
-	printf("expand: calling substitue_all\n");
 	chunks = substitute_all(chunks);
 	// print_str_lists(chunks);
-	printf("expand: calling concatenate\n");
 	res = concatenate(chunks);
 	// printf("%s\n", res);
 	free_str_list(chunks);
@@ -229,9 +227,18 @@ char	*expand(char *command)
 char	replace_by_expansion(char *str, char **dest)
 {
 	char	*expansion;
+	char	*tmp;
+	char	user_input_quotes;
 
-	expansion = expand(str);
-	printf("replace_by_expansion: freeing dest\n");
+	user_input_quotes = (*str == '\'' || *str == '"');
+	tmp = expand(str);
+	if (user_input_quotes)
+	{
+		expansion = ft_strndup(tmp + 1, ft_strlen(tmp) - 2);
+		free(tmp);
+	}
+	else
+		expansion = tmp;
 	free(*dest);
 	*dest = expansion;
 	return (SUCCESS);
@@ -241,6 +248,7 @@ char	expand_array_elements(char **array)
 {
 	while (*array)
 	{
+		printf("expand_array_elements: replacing %s\n", *array);
 		if (replace_by_expansion(*array, array))
 			return (FAILURE);
 		++array;
