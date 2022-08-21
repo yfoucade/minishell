@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 01:10:24 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:47:58 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,11 +215,8 @@ char	*expand(char *command)
 	char	*res;
 
 	chunks = construct_raw_linked_list(command);
-	print_str_list(chunks);
 	chunks = substitute_all(chunks);
-	// print_str_lists(chunks);
 	res = concatenate(chunks);
-	// printf("%s\n", res);
 	free_str_list(chunks);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/20 14:19:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:38:32 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ unsigned char	parse_curr_command(t_status *status)
 		status->tokens = NULL;
 	}
 	parse_status(status);
-	printf("parse_curr_command: expanding\n");
 	if (expand_array_elements(status->args))
 	{
 		printf("minishell: bad substitution\n");
@@ -225,7 +224,6 @@ void	run_shell(t_status *status)
 		tmp = status->pipelines;
 		while (tmp)
 		{
-			printf("\n\n\n");
 			status->curr_pipeline = ft_strdup(tmp->str);
 			if (!status->curr_pipeline)
 				malloc_error(status);
