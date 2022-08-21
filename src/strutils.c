@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/19 11:45:49 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:21:48 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int		ft_strlen(char	*str)
 {
 	int	res;
 
+	if (!str)
+		return (0);
 	res = 0;
 	while (*str++)
 		res++;
