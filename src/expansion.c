@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/21 22:33:43 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:10:24 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,21 +224,55 @@ char	*expand(char *command)
 	return (res);
 }
 
+t_str_list	*split_three_type(char *str)
+{
+	t_str_list	*res;
+	char		*end;
+
+	res = NULL;
+	while (*str)
+	{
+		if (*str == '\'' || *str == '"')
+			end = ft_strchr(str + 1, *str) + 1;
+		else
+		{
+			end = str + 1;
+			while (*end && *end != '\'' && *end != '"')
+				++end;
+		}
+		res = lst_add(&res, ft_strndup(str, end - str));
+		str = end;
+	}
+	return (res);
+}
+
 char	replace_by_expansion(char *str, char **dest)
 {
+	t_str_list	*three_type_split;
+	t_str_list	*tmp_list;
 	char	*expansion;
-	char	*tmp;
+	char	*tmp_str;
 	char	user_input_quotes;
 
-	user_input_quotes = (*str == '\'' || *str == '"');
-	tmp = expand(str);
-	if (user_input_quotes)
+	three_type_split = split_three_type(str);
+	tmp_list = three_type_split;
+	while (tmp_list)
 	{
-		expansion = ft_strndup(tmp + 1, ft_strlen(tmp) - 2);
-		free(tmp);
+		user_input_quotes = *tmp_list->str == '\'' || *tmp_list->str == '"';
+		tmp_str = expand(tmp_list->str);
+		if (user_input_quotes)
+		{
+			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
+			free(tmp_str);
+		}
+		else
+			expansion = tmp_str;
+		free(tmp_list->str);
+		tmp_list->str = expansion;
+		tmp_list = tmp_list->next;
 	}
-	else
-		expansion = tmp;
+	expansion = concatenate(three_type_split);
+	free_str_list(three_type_split);
 	free(*dest);
 	*dest = expansion;
 	return (SUCCESS);
@@ -248,7 +282,6 @@ char	expand_array_elements(char **array)
 {
 	while (*array)
 	{
-		printf("expand_array_elements: replacing %s\n", *array);
 		if (replace_by_expansion(*array, array))
 			return (FAILURE);
 		++array;
