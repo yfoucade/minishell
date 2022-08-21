@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/20 14:10:07 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/21 11:48:43 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,6 @@ void	free_parsed_command(t_status *status)
 	if (status->command->command_type == CMD_ABS_PATH)
 		free(status->command->u_command_ref.command_path);
 	status->command->command_type = 0;
+	free(status->command);
+	status->command = NULL;
 }
