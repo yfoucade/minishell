@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 02:39:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 13:16:04 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,6 @@ char	replace_by_expansion(char *str, char **dest)
 		tmp_list = tmp_list->next;
 	}
 	expansion = concatenate(three_type_split);
-	print_str_list(three_type_split);
 	free_str_list(three_type_split);
 	free(*dest);
 	*dest = expansion;
