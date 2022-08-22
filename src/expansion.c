@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 01:47:58 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:39:08 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ t_str_list	*split_three_type(char *str)
 {
 	t_str_list	*res;
 	char		*end;
+	char		*tmp;
 
 	res = NULL;
 	while (*str)
@@ -237,7 +238,9 @@ t_str_list	*split_three_type(char *str)
 			while (*end && *end != '\'' && *end != '"')
 				++end;
 		}
-		res = lst_add(&res, ft_strndup(str, end - str));
+		tmp = ft_strndup(str, end - str);
+		res = lst_add(&res, tmp);
+		free(tmp);
 		str = end;
 	}
 	return (res);
@@ -269,6 +272,7 @@ char	replace_by_expansion(char *str, char **dest)
 		tmp_list = tmp_list->next;
 	}
 	expansion = concatenate(three_type_split);
+	print_str_list(three_type_split);
 	free_str_list(three_type_split);
 	free(*dest);
 	*dest = expansion;
