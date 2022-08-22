@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/20 14:19:29 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 15:07:51 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ extern char	**environ;
 # define ERR_PIPELINE 3
 # define ERR_FILENAME_MISSING 4
 
-typedef unsigned char (*builtin_ptr)(char **, char **);
+struct s_status;
+struct s_command;
+
+typedef unsigned char (*builtin_ptr)(struct s_status *);
 
 typedef struct s_str_list
 {
@@ -122,6 +125,10 @@ typedef struct s_redirection
 
 // array.c
 void	free_array(char **array);
+
+// builtins.c
+unsigned char	pwd(t_status *status);
+unsigned char	cd(t_status *status);
 
 // error.c
 void	malloc_error(t_status *status);

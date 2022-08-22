@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 SRC_DIR = src
 SRC = \
 	array.c \
+	builtins.c \
 	error.c \
 	expansion.c \
 	handlers.c \
