@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 01:38:32 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/22 13:51:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,12 @@ unsigned char	parse_curr_command(t_status *status)
 	return (SUCCESS);
 }
 
+void	execute_builtin(t_status *status)
+{
+	// first process redirections.
+	status->command->u_command_ref.fun_ptr(status);
+}
+
 void	execute_commands(t_status *status)
 {
 	status->curr_command = status->commands;
@@ -155,10 +161,15 @@ void	execute_commands(t_status *status)
 			return ;
 		if (status->curr_command->next)
 			create_pipe(&status->out_pipe);
-		status->child_id = fork();
-		if (!status->child_id)
-			subshell(status);
-		waitpid(status->child_id, &status->exit_status, 0);
+		if (status->command->command_type == CMD_BUILTIN)
+			execute_builtin(status);
+		else
+		{
+			status->child_id = fork();
+			if (!status->child_id)
+				subshell(status);
+			waitpid(status->child_id, &status->exit_status, 0);
+		}
 		// use macros to interpret status (man waitpid)
 		if (status->in_pipe)
 		{
