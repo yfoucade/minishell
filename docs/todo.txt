@@ -3,7 +3,7 @@
 	- if ?, $?, replace by exit_status of previous command (thus needs status).
 	- if name, $chars, stop at first char that is not a 'name'.
 	  name = [_a-zA-Z][_a-zA-Z0-9]*
-	- if, $c, where c is not the start of a name, then do not interpret $.
+	- if, $c, where c is not the start of a name, nor ? or {, then do not interpret $.
 	- look for bad or ambiguous redirections.
 - Implement builtins.
 - Implement redirections.
