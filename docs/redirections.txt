@@ -1,3 +1,18 @@
+process redirections in order of aparition.
+if it is an output redirection, open the file (with O_APPEND if necessary).
+and save in a field in status (close previous if any).
+
+if input redirection:
+- if <, then open file (read) and save redirection in input field
+(close previous if any).
+- if <<, then open a pipe, make a child process write to it until delimiter is reached.
+ put the output end of the pipe in input field (close previous if any).
+
+builtins do not read from stdin.
+just write to the correct output (file, or pipe if no file opened).
+
+for child processes, redirect input and output (file, or pipe if no file).
+
 ---------------------------------------------
 08/01
 some tests in bash
@@ -26,3 +41,4 @@ in eof2
 hi there
 
 ----------------------------------------------
+
