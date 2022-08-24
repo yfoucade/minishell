@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:09:21 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 01:21:48 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 01:06:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,4 +256,22 @@ t_str_list	*ft_split(char *str, char c)
 		str = end + (*end == c);
 	}
 	return (res);
+}
+
+char	ft_startswith(char *little, char *big)
+{
+	while (*little)
+		if (*little++ != *big++)
+			return (FALSE);
+	return (TRUE);
+}
+
+char	ft_is_alpha(char c)
+{
+	return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'));
+}
+
+char	ft_is_alnum(char c)
+{
+	return (ft_is_alpha(c) || ('0' <= c && c <= '9'));
 }
