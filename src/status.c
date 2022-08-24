@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/21 11:48:43 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 03:16:36 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ void	init_status(t_status *status)
 {
 	status->input = NULL;
 	status->pipelines = NULL;
+	status->commands = NULL;
+	status->curr_command = NULL;
+	status->tokens = NULL;
 	status->lst_args = NULL;
 	status->lst_redirections = NULL;
 	status->args = NULL;
 	status->redirections = NULL;
+	status->environ = NULL;
 	status->in_pipe = NULL;
 	status->out_pipe = NULL;
 	status->curr_pipeline = NULL;
@@ -32,12 +36,23 @@ void	init_status(t_status *status)
 
 void	free_status(t_status *status)
 {
-	(void)status;
 	free(status->input);
 	free_str_list(status->pipelines);
+	free_str_list(status->commands);
+	// points to an element of status->commands, no need to free.
+	// free_str_list(status->curr_command);
+	free_str_list(status->tokens);
+	free_str_list(status->lst_args);
+	free_str_list(status->lst_redirections);
+	free_array(status->args);
+	free_array(status->redirections);
+	free_array(status->environ);
+	free(status->in_pipe);
+	free(status->out_pipe);
 	free(status->curr_pipeline);
 	free(status->prev_pipeline);
 	free(status->command);
+	free(status->error_msg);
 }
 
 void	save_prev_pipeline(t_status *status)
