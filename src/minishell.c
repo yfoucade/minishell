@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 13:51:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/23 23:42:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	subshell(t_status *status)
 		dup2(status->in_pipe[0], STDIN_FILENO);
 	if (status->out_pipe)
 		dup2(status->out_pipe[1], STDOUT_FILENO);
-	execve(status->command->u_command_ref.command_path, status->args, environ);
+	execve(status->command->u_command_ref.command_path, status->args, status->environ);
 	exit(0);
 }
 
@@ -132,12 +132,12 @@ unsigned char	parse_curr_command(t_status *status)
 		status->tokens = NULL;
 	}
 	parse_status(status);
-	if (expand_array_elements(status->args))
+	if (expand_array_elements(status, status->args))
 	{
 		printf("minishell: bad substitution\n");
 		return (0);
 	}
-	if (expand_array_elements(status->redirections))
+	if (expand_array_elements(status, status->redirections))
 	{
 		printf("minishell: ambiguous redirect\n");
 		return (0);

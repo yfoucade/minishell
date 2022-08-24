@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 13:16:04 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/23 22:45:44 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ t_str_list	*construct_raw_linked_list(char *command)
 	return (res);
 }
 
-char	*get_value(char *name)
+char	*get_value(t_status *status, char *name)
 {
 	if ('0' <= *name && *name <= '9')
 		return (ft_strndup("minishell", 10 * (*name == '0')));
-	return (ft_strdup(getenv(name)));
+	return (ft_strdup(ft_getenv(status, name)));
 }
 
-char	*parse_name(char *str)
+char	*parse_name(t_status *status, char *str)
 {
 	int		len;
 	char	*name;
@@ -124,31 +124,31 @@ char	*parse_name(char *str)
 			name = ft_strndup(str + 1, len - 2);
 	else
 		name = ft_strndup(str, len);
-	value = get_value(name);
+	value = get_value(status, name);
 	free(name);
 	return (value);
 }
 
-char	substitute_one(t_str_list *chunk)
+char	substitute_one(t_status *status, t_str_list *chunk)
 {
 	char	*value;
 
 	if (*chunk->str != '$' || !chunk->str[1])
 		return (0);
-	value = parse_name(chunk->str + 1);
+	value = parse_name(status, chunk->str + 1);
 	free(chunk->str);
 	chunk->str = value;
 	return (0);
 }
 
-t_str_list	*substitute_all(t_str_list *chunks)
+t_str_list	*substitute_all(t_status *status, t_str_list *chunks)
 {
 	t_str_list	*tmp;
 
 	tmp = chunks;
 	while (tmp)
 	{
-		if (substitute_one(tmp))
+		if (substitute_one(status, tmp))
 		{
 			free_str_list(chunks);
 			return (NULL);
@@ -209,13 +209,13 @@ char	*concatenate(t_str_list *chunks)
 	return (res);
 }
 
-char	*expand(char *command)
+char	*expand(t_status *status, char *command)
 {
 	t_str_list	*chunks;
 	char	*res;
 
 	chunks = construct_raw_linked_list(command);
-	chunks = substitute_all(chunks);
+	chunks = substitute_all(status, chunks);
 	res = concatenate(chunks);
 	free_str_list(chunks);
 	return (res);
@@ -246,7 +246,7 @@ t_str_list	*split_three_type(char *str)
 	return (res);
 }
 
-char	replace_by_expansion(char *str, char **dest)
+char	replace_by_expansion(t_status *status, char *str, char **dest)
 {
 	t_str_list	*three_type_split;
 	t_str_list	*tmp_list;
@@ -259,7 +259,7 @@ char	replace_by_expansion(char *str, char **dest)
 	while (tmp_list)
 	{
 		user_input_quotes = *tmp_list->str == '\'' || *tmp_list->str == '"';
-		tmp_str = expand(tmp_list->str);
+		tmp_str = expand(status, tmp_list->str);
 		if (user_input_quotes)
 		{
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
@@ -278,11 +278,11 @@ char	replace_by_expansion(char *str, char **dest)
 	return (SUCCESS);
 }
 
-char	expand_array_elements(char **array)
+char	expand_array_elements(t_status *status, char **array)
 {
 	while (*array)
 	{
-		if (replace_by_expansion(*array, array))
+		if (replace_by_expansion(status, *array, array))
 			return (FAILURE);
 		++array;
 	}

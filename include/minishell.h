@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 15:07:51 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 02:42:49 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ extern char	**environ;
 struct s_status;
 struct s_command;
 
-typedef unsigned char (*builtin_ptr)(struct s_status *);
+typedef void(*builtin_ptr)(struct s_status *);
 
 typedef struct s_str_list
 {
@@ -102,6 +102,7 @@ typedef struct s_status
 	t_str_list		*lst_redirections;
 	char			**args;
 	char			**redirections;
+	char			**environ;
 	int				*in_pipe;
 	int				*out_pipe;
 	char			*curr_pipeline; // change to curr_pipeline
@@ -123,19 +124,50 @@ typedef struct s_redirection
 	struct s_redirection	*next;
 }	t_redirection;
 
+typedef struct s_env_variable
+{
+	char	*name;
+	char	*value;
+}	t_env_variable;
+
 // array.c
+void	free_array_content(char **array);
 void	free_array(char **array);
 
-// builtins.c
-unsigned char	pwd(t_status *status);
-unsigned char	cd(t_status *status);
+// builtin_cd.c
+void	cd(t_status *status);
+
+// builtin_echo.c
+void	echo(t_status *status);
+
+// builtin_env.c
+void	env(t_status *status);
+
+// builtin_exit.c
+void	ft_exit(t_status *status);
+
+// builtin_export.c
+t_env_variable	*parse_env_variable(char *str); // used by unset, to move
+char	is_valid_identifier(char *str); //same
+void	export(t_status *status);
+
+// builtin_pwd.c
+void	pwd(t_status *status);
+
+// builtin_unset.c
+void	unset(t_status *status);
+
+// environ.c
+int		array_size(char **array);
+char	**copy_environ(char **env);
+char	*ft_getenv(t_status *status, char *variable);
 
 // error.c
 void	malloc_error(t_status *status);
 
 // expansion.c
-char	*expand(char *command);
-char	expand_array_elements(char **array);
+char	*expand(t_status *status, char *command);
+char	expand_array_elements(t_status *status, char **array);
 
 // history.c
 void	decide_add_history(t_status *environ);
@@ -174,6 +206,9 @@ char	**lst_to_array(t_str_list *lst);
 char	*ft_strcat(char *s1, char *s2);
 char	*ft_strcat_free(char *s1, char *s2, char free_s1, char free_s2);
 t_str_list	*ft_split(char *str, char c);
+char	ft_startswith(char *little, char *big);
+char	ft_is_alpha(char c);
+char	ft_is_alnum(char c);
 
 // tokenizer.c
 t_str_list	*tokenize(char	*command);
@@ -201,5 +236,7 @@ void	t_command_free(t_command **command);
 // print_utils.c
 void	print_str_list(t_str_list *str_list);
 void	print_str_tab(char **str_tab);
+void	ft_putfd(char *str, int fd);
+void	ft_putstr(char *str);
 
 #endif
