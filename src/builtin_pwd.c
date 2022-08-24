@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 13:50:35 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/23 14:12:50 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:29:24 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	pwd(t_status *status)
 	path = getcwd(NULL, 0);
 	if (path)
 	{
-		ft_putstr(path);
+		ft_putfd(path, status->out_fd);
+		ft_putfd("\n", status->out_fd);
 		free(path);
 		return ;
 	}

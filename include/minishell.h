@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 03:07:49 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:17:35 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ typedef struct s_status
 	pid_t			child_id;
 	unsigned char	child_exit_status;
 	int				exit_status;
+	int				in_fd;
+	int				out_fd;
 }	t_status;
 
 typedef struct s_redirection

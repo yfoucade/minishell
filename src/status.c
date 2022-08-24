@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 03:16:36 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:17:32 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	init_status(t_status *status)
 	status->error_msg = NULL;
 	status->return_value = 0;
 	status->exit_status = 0;
+	status->in_fd = STDIN_FILENO;
+	status->out_fd = STDOUT_FILENO;
 }
 
 void	free_status(t_status *status)

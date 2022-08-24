@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/23 23:42:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 17:00:28 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ void	subshell(t_status *status)
 {
 	// make redirections
 	// resolve file
-	if (status->in_pipe)
+	if (status->in_fd != STDIN_FILENO)
+		dup2(status->in_fd, STDIN_FILENO);
+	else if (status->in_pipe)
 		dup2(status->in_pipe[0], STDIN_FILENO);
-	if (status->out_pipe)
+	if (status->out_fd != STDOUT_FILENO)
+		dup2(status->out_fd, STDOUT_FILENO);
+	else if (status->out_pipe)
 		dup2(status->out_pipe[1], STDOUT_FILENO);
 	execve(status->command->u_command_ref.command_path, status->args, status->environ);
 	exit(0);
@@ -146,10 +150,143 @@ unsigned char	parse_curr_command(t_status *status)
 	return (SUCCESS);
 }
 
+void	process_output(t_status *status)
+{
+	if (status->out_fd != STDOUT_FILENO)
+		return ;
+	else if (status->out_pipe)
+		status->out_fd = status->out_pipe[1];
+}
+
 void	execute_builtin(t_status *status)
 {
 	// first process redirections.
+	process_output(status);
 	status->command->u_command_ref.fun_ptr(status);
+	printf("execute_builtin: done\n");
+}
+
+void	redirect_output(t_status *status, char *type, char *pathname)
+{
+	int	flag;
+	int	mode;
+
+	flag = O_WRONLY | O_CREAT | O_APPEND * (type[1] == '>');
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+	if (status->out_fd != STDOUT_FILENO)
+		close(status->out_fd);
+	status->out_fd = open(pathname, flag, mode);
+	if (status->out_fd == -1)
+	{
+		status->out_fd = STDIN_FILENO;
+		status->return_value = FAILURE;
+		status->exit_status = errno;
+		status->error_msg = strerror(errno);
+		return ;
+	}
+}
+
+void	write_until_delim(int	fd, char *delim)
+{
+	char	*line;
+
+	while (TRUE)
+	{
+		line = readline(PS2);
+		if (!ft_strcmp(line, delim))
+			return ;
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
+
+void	create_heredoc(t_status *status, char *delim)
+{
+	pid_t	pid;
+	int		pipe_fd[2];
+
+	pipe(pipe_fd);
+	pid = fork();
+	if (!pid)
+	{
+		close(pipe_fd[0]);
+		write_until_delim(pipe_fd[1], delim);
+		exit(0);
+	}
+	waitpid(pid, NULL, 0);
+	close(pipe_fd[1]);
+	status->in_fd = pipe_fd[0];
+}
+
+void	input_from_file(t_status *status, char *path)
+{
+	status->in_fd = open(path, O_RDONLY);
+	if (status->in_fd == -1)
+	{
+		status->in_fd = STDIN_FILENO;
+		status->return_value = FAILURE;
+		status->exit_status = errno;
+		status->error_msg = strerror(errno);
+		return ;
+	}
+}
+
+void	redirect_input(t_status *status, char *type, char *path_or_delim)
+{
+	if (status->in_fd != STDIN_FILENO)
+		close(status->in_fd);
+	if (status->in_pipe)
+	{
+		close_pipe_end(status->in_pipe, PIPE_OUT);
+		free_pipe(&status->in_pipe);
+	}
+	if (type[1] == '<')
+		create_heredoc(status, path_or_delim);
+	else
+		input_from_file(status, path_or_delim);
+}
+
+void	preprocess_redirections(t_status *status)
+{
+	char	**tmp_redirections;
+
+	if (status->curr_command->next)
+		create_pipe(&status->out_pipe);
+	tmp_redirections = status->redirections;
+	while (*tmp_redirections)
+	{
+		if (**tmp_redirections == '>')
+			redirect_output(status, *tmp_redirections, *(tmp_redirections + 1));
+		else
+			redirect_input(status, *tmp_redirections, *(tmp_redirections + 1));
+		tmp_redirections += 2;
+	}
+}
+
+void	postprocess_redirections(t_status *status)
+{
+	if (status->out_fd != STDOUT_FILENO)
+	{
+		close(status->out_fd);
+		status->out_fd = STDOUT_FILENO;
+	}
+	if (status->in_fd != STDIN_FILENO)
+	{
+		close(status->in_fd);
+		status->in_fd = STDIN_FILENO;
+	}
+	if (status->in_pipe)
+	{
+		close_pipe_end(status->in_pipe, PIPE_OUT);
+		free_pipe(&status->in_pipe);
+	}
+	if (status->out_pipe)
+	{
+		close_pipe_end(status->out_pipe, PIPE_IN);
+		status->in_pipe = status->out_pipe;
+	}
+	status->out_pipe = NULL;
 }
 
 void	execute_commands(t_status *status)
@@ -159,29 +296,23 @@ void	execute_commands(t_status *status)
 	{
 		if (parse_curr_command(status))
 			return ;
-		if (status->curr_command->next)
-			create_pipe(&status->out_pipe);
+		preprocess_redirections(status);
 		if (status->command->command_type == CMD_BUILTIN)
 			execute_builtin(status);
-		else
+		else if (status->command->command_type == CMD_ABS_PATH)
 		{
 			status->child_id = fork();
 			if (!status->child_id)
 				subshell(status);
 			waitpid(status->child_id, &status->exit_status, 0);
 		}
+		else
+		{
+			set_error_msg(status, "command not found\n");
+			free_parsed_command(status);
+			return ;
+		}
 		// use macros to interpret status (man waitpid)
-		if (status->in_pipe)
-		{
-			close_pipe_end(status->in_pipe, PIPE_OUT);
-			free_pipe(&status->in_pipe);
-		}
-		if (status->out_pipe)
-		{
-			close_pipe_end(status->out_pipe, PIPE_IN);
-			status->in_pipe = status->out_pipe;
-		}
-		status->out_pipe = NULL;
 		status->curr_command = status->curr_command->next;
 		free_parsed_command(status);
 	}
