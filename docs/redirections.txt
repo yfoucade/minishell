@@ -1,3 +1,8 @@
+./minishell                 
+$ echo hello | cat > tmp | cat
+
+# errors with pipes. fix it.
+
 process redirections in order of aparition.
 if it is an output redirection, open the file (with O_APPEND if necessary).
 and save in a field in status (close previous if any).
