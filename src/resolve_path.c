@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 15:07:31 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 02:43:33 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,16 @@ builtin_ptr	search_builtins(char *command)
 		return (&pwd);
 	if (!ft_strcmp(command, "cd"))
 		return (&cd);
-	(void)command;
+	if (!ft_strcmp(command, "echo"))
+		return (&echo);
+	if (!ft_strcmp(command, "export"))
+		return (&export);
+	if (!ft_strcmp(command, "unset"))
+		return (&unset);
+	if (!ft_strcmp(command, "env"))
+		return (&env);
+	if (!ft_strcmp(command, "exit"))
+		return (&ft_exit);
 	return (NULL);
 }
 

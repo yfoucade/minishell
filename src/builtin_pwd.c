@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_input.c                                       :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 12:40:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:42:25 by yfoucade         ###   ########.fr       */
+/*   Created: 2022/08/23 13:50:35 by yfoucade          #+#    #+#             */
+/*   Updated: 2022/08/23 14:12:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	read_input(t_status *status)
+void	pwd(t_status *status)
 {
-	status->input = readline(PS1);
-	if (!status->input)
+	char	*path;
+
+	path = getcwd(NULL, 0);
+	if (path)
 	{
-		ft_exit(status);
+		ft_putstr(path);
+		free(path);
+		return ;
 	}
-	status->pipelines = ft_split_unquoted_c(status->input, '\n');
-	if (!status->pipelines)
+	else if (errno)
 	{
-		free_status(status);
-		perror("minishell: ");
-		exit(0);
+		status->exit_status = errno;
+		status->return_value = errno;
+		perror("pwd"); // no redirection of stderr
 	}
-	free(status->input);
-	status->input = NULL;
-	return (SUCCESS);
+	else
+	{
+		status->exit_status = FAILURE;
+		status->return_value = FAILURE;
+		ft_putfd("pwd: Unknown error\n", 2);
+	}
 }

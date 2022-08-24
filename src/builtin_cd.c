@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_input.c                                       :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 12:40:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:42:25 by yfoucade         ###   ########.fr       */
+/*   Created: 2022/08/23 14:08:26 by yfoucade          #+#    #+#             */
+/*   Updated: 2022/08/23 14:14:41 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	read_input(t_status *status)
+void	cd(t_status *status)
 {
-	status->input = readline(PS1);
-	if (!status->input)
+	int	ret;
+
+	ret = chdir(status->args[1]);
+	if (ret == -1)
 	{
-		ft_exit(status);
+		status->return_value = errno;
+		status->exit_status = errno;
+		perror("cd");
 	}
-	status->pipelines = ft_split_unquoted_c(status->input, '\n');
-	if (!status->pipelines)
-	{
-		free_status(status);
-		perror("minishell: ");
-		exit(0);
-	}
-	free(status->input);
-	status->input = NULL;
-	return (SUCCESS);
 }
