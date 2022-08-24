@@ -1,0 +1,11 @@
+yohan@trantor:~$ export _myvar12{3=hello
+bash: export: `_myvar12{3=hello': not a valid identifier
+yohan@trantor:~$ export a=b _myvar12{3=hello
+bash: export: `_myvar12{3=hello': not a valid identifier
+yohan@trantor:~$ echo $a
+b
+yohan@trantor:~$ export a=b _myvar12{3=hello c=d
+bash: export: `_myvar12{3=hello': not a valid identifier
+yohan@trantor:~$ echo $c
+
+yohan@trantor:~$ 
