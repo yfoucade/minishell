@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:42:49 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/24 03:07:49 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ typedef struct s_env_variable
 }	t_env_variable;
 
 // array.c
-void	free_array_content(char **array);
 void	free_array(char **array);
 
 // builtin_cd.c
