@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 17:00:28 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/25 00:52:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ void	execute_builtin(t_status *status)
 	// first process redirections.
 	process_output(status);
 	status->command->u_command_ref.fun_ptr(status);
-	printf("execute_builtin: done\n");
 }
 
 void	redirect_output(t_status *status, char *type, char *pathname)
@@ -267,26 +266,24 @@ void	preprocess_redirections(t_status *status)
 void	postprocess_redirections(t_status *status)
 {
 	if (status->out_fd != STDOUT_FILENO)
-	{
 		close(status->out_fd);
-		status->out_fd = STDOUT_FILENO;
-	}
 	if (status->in_fd != STDIN_FILENO)
-	{
 		close(status->in_fd);
-		status->in_fd = STDIN_FILENO;
-	}
 	if (status->in_pipe)
 	{
-		close_pipe_end(status->in_pipe, PIPE_OUT);
+		if (status->in_pipe[0] != status->in_fd)
+			close_pipe_end(status->in_pipe, PIPE_OUT);
 		free_pipe(&status->in_pipe);
 	}
 	if (status->out_pipe)
 	{
-		close_pipe_end(status->out_pipe, PIPE_IN);
+		if (status->out_pipe[1] != status->out_fd)
+			close_pipe_end(status->out_pipe, PIPE_IN);
 		status->in_pipe = status->out_pipe;
 	}
 	status->out_pipe = NULL;
+	status->out_fd = STDOUT_FILENO;
+	status->in_fd = STDIN_FILENO;
 }
 
 void	execute_commands(t_status *status)
@@ -312,6 +309,7 @@ void	execute_commands(t_status *status)
 			free_parsed_command(status);
 			return ;
 		}
+		postprocess_redirections(status);
 		// use macros to interpret status (man waitpid)
 		status->curr_command = status->curr_command->next;
 		free_parsed_command(status);

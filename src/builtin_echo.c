@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:11:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 15:15:20 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/25 00:28:18 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	echo(t_status *status)
 	char	prefix_whitespace;
 	char	**args;
 
-	printf("echo: starting\n");
 	print_newline = TRUE;
 	prefix_whitespace = FALSE;
 	args = status->args;
@@ -48,6 +47,5 @@ void	echo(t_status *status)
 	}
 	if (print_newline)
 		ft_putfd("\n", status->out_fd);
-	printf("echo: done\n");
 	return ;
 }
