@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/23 22:45:44 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/25 18:03:21 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,17 @@ char	*find_chunk_end(char *command)
 		return (find_variable_end(command + 1));
 }
 
-void	add_next_chunk(t_str_list **chunks, char **command)
+void	add_next_chunk(t_str_list **chunks, char **str)
 {
 	char	*end;
 	t_str_list	*tmp;
 	t_str_list	*new_chunk;
 
-	end = find_chunk_end(*command);
+	end = find_chunk_end(*str);
 	new_chunk = malloc(sizeof(*new_chunk));
 	new_chunk->next = NULL;
-	new_chunk->str = ft_strndup(*command, end - *command);
-	*command = end;
+	new_chunk->str = ft_strndup(*str, end - *str);
+	*str = end;
 	if (!*chunks)
 		*chunks = new_chunk;
 	else
@@ -87,14 +87,14 @@ void	add_next_chunk(t_str_list **chunks, char **command)
 	}
 }
 
-t_str_list	*construct_raw_linked_list(char *command)
+t_str_list	*construct_raw_linked_list(char *str)
 {
 	t_str_list	*res;
 
 	res = NULL;
-	while (*command)
+	while (*str)
 	{
-		add_next_chunk(&res, &command);
+		add_next_chunk(&res, &str);
 	}
 	return (res);
 }
@@ -209,12 +209,15 @@ char	*concatenate(t_str_list *chunks)
 	return (res);
 }
 
-char	*expand(t_status *status, char *command)
+// if str starts with a single quote, then no expansion.
+// -> return a copy.
+// otherwise, do process and do not interpret single quotes.
+char	*expand(t_status *status, char *str)
 {
 	t_str_list	*chunks;
 	char	*res;
 
-	chunks = construct_raw_linked_list(command);
+	chunks = construct_raw_linked_list(str);
 	chunks = substitute_all(status, chunks);
 	res = concatenate(chunks);
 	free_str_list(chunks);

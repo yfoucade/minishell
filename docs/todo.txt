@@ -5,5 +5,6 @@
 	  name = [_a-zA-Z][_a-zA-Z0-9]*
 	- if, $c, where c is not the start of a name, nor ? or {, then do not interpret $.
 	- look for bad or ambiguous redirections.
-- Implement builtins.
-- Implement redirections.
+	- do not interpret single quotes inside double quotes.
+$ echo "Hello '$USER'"
+Hello '$USER'
