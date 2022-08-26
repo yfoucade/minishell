@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 16:17:35 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/26 12:43:11 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ typedef struct s_status
 	char			*error_msg;
 	int				run;
 	pid_t			child_id;
-	unsigned char	child_exit_status;
-	int				exit_status;
+	int				child_exit_status;
+	unsigned char	exit_status;
 	int				in_fd;
 	int				out_fd;
 }	t_status;
@@ -188,6 +188,7 @@ void	close_pipe_end(int *tab, int end);
 char	set_error_msg(t_status *status, char *str);
 void	flush_error_msg(t_status *status);
 void	free_parsed_command(t_status *status);
+void	set_exit_status(t_status *status);
 
 // ft_strutils.c
 int		ft_strlen(char	*str);
@@ -217,6 +218,7 @@ void	print_tokens(t_str_list *tokens);
 
 // handlers.c
 void	install_handlers(void);
+void	uninstall_handlers(void);
 
 // read_input.c
 char	read_input(t_status *status);

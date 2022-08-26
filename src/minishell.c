@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/25 00:52:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/26 17:01:22 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	subshell(t_status *status)
 {
 	// make redirections
 	// resolve file
+	// install_child_handlers();
 	if (status->in_fd != STDIN_FILENO)
 		dup2(status->in_fd, STDIN_FILENO);
 	else if (status->in_pipe)
@@ -161,6 +162,7 @@ void	process_output(t_status *status)
 void	execute_builtin(t_status *status)
 {
 	// first process redirections.
+	status->exit_status = 0;
 	process_output(status);
 	status->command->u_command_ref.fun_ptr(status);
 }
@@ -301,13 +303,15 @@ void	execute_commands(t_status *status)
 			status->child_id = fork();
 			if (!status->child_id)
 				subshell(status);
-			waitpid(status->child_id, &status->exit_status, 0);
+			uninstall_handlers();
+			waitpid(status->child_id, &status->child_exit_status, 0);
+			install_handlers();
+			set_exit_status(status);
 		}
 		else
 		{
-			set_error_msg(status, "command not found\n");
-			free_parsed_command(status);
-			return ;
+			ft_putfd("command not found\n", STDERR_FILENO);
+			status->exit_status = 127;
 		}
 		postprocess_redirections(status);
 		// use macros to interpret status (man waitpid)

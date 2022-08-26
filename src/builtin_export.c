@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 01:32:26 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/26 17:02:59 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,15 @@ void	export(t_status *status)
 	args = status->args;
 	while (*++args)
 	{
+		status->exit_status = 0;
 		env_variable = parse_env_variable(*args);
 		if (!env_variable || !env_variable->name || !env_variable->value)
 			exit(1);
 		if (!is_valid_identifier(env_variable->name))
+		{
+			status->exit_status = 1;
 			printf("export: `%s': not a valid identifier\n", env_variable->name);
+		}
 		else if (ft_getenv(status, env_variable->name))
 			replace_env_variable(status, env_variable);
 		else

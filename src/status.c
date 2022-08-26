@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 16:17:32 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/26 11:56:03 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,12 @@ void	free_parsed_command(t_status *status)
 	status->command->command_type = 0;
 	free(status->command);
 	status->command = NULL;
+}
+
+void	set_exit_status(t_status *status)
+{
+	if (WIFEXITED(status->child_exit_status))
+		status->exit_status = WEXITSTATUS(status->child_exit_status);
+	else
+		status->exit_status = 1;
 }

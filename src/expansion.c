@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 02:07:20 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/26 16:54:21 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ char	*uctoa(unsigned char n)
 	char	*res;
 	int		i;
 
-	printf("uctoa: in: %d\n", n);
 	res = malloc(4);
 	i = 0;
 	if (n >= 100)
@@ -109,7 +108,6 @@ char	*uctoa(unsigned char n)
 	n %= 10;
 	res[i++] = '0' + n;
 	res[i] = '\0';
-	printf("uctoa: out: %s\n", res);
 	return (res);
 }
 
@@ -123,7 +121,7 @@ char	*parse_name(t_status *status, char *str)
 	name = NULL;
 	len = ft_strlen(str);
 	if (*str == '?')
-		return (uctoa(WEXITSTATUS(status->exit_status)));
+		return (uctoa(status->exit_status));
 	else if (*str == '{')
 	{
 		name = ft_strndup(str + 1, len - 2);
