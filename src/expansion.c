@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/25 18:03:21 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/26 02:07:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ char	*find_variable_end(char *s)
 {
 	char	*closing;
 
-	if (is_digit(*s))
+	if (*s == '?')
 		return (s + 1);
-	if (*s == '\'' || *s == '"')
+	if (*s == '_' || ft_is_alpha(*s))
 	{
-		closing = ft_strchr(s + 1, *s);
-		if (*closing == *s)
-			return (closing + 1);
+		while (ft_is_alnum(*s) || *s == '_')
+			s++;
+		return (s);
 	}
 	if (*s == '{')
 	{
@@ -30,39 +30,26 @@ char	*find_variable_end(char *s)
 		if (*closing == '}')
 			return (closing + 1);
 	}
-	while (*s && !ft_strchr_chr(" \t\"'<|>$", *s))
-		s++;
 	return (s);
 }
 
 char	*find_constant_end(char *command)
 {
-	char	*closing_single_quote;
-
 	while (*command)
 	{
 		if (*command == '$')
 			return (command);
-		if (*command != '\'')
-			command++;
-		else
-		{
-			closing_single_quote = ft_strchr(command + 1, *command);
-			if (*closing_single_quote == *command)
-				command = closing_single_quote + 1;
-			else
-				command++;
-		}
+		++command;
 	}
 	return (command);
 }
 
 char	*find_chunk_end(char *command)
 {
-	if (*command != '$')
-		return (find_constant_end(command));
-	else
+	if (*command == '$')
 		return (find_variable_end(command + 1));
+	else
+		return (find_constant_end(command));
 }
 
 void	add_next_chunk(t_str_list **chunks, char **str)
@@ -106,7 +93,57 @@ char	*get_value(t_status *status, char *name)
 	return (ft_strdup(ft_getenv(status, name)));
 }
 
+char	*uctoa(unsigned char n)
+{
+	char	*res;
+	int		i;
+
+	printf("uctoa: in: %d\n", n);
+	res = malloc(4);
+	i = 0;
+	if (n >= 100)
+		res[i++] = '0' + n / 100;
+	n %= 100;
+	if (i || n >= 10)
+		res[i++] = '0' + n / 10;
+	n %= 10;
+	res[i++] = '0' + n;
+	res[i] = '\0';
+	printf("uctoa: out: %s\n", res);
+	return (res);
+}
+
+// str = "?" or "name" or "{name}"
 char	*parse_name(t_status *status, char *str)
+{
+	int		len;
+	char	*name;
+	char	*value;
+
+	name = NULL;
+	len = ft_strlen(str);
+	if (*str == '?')
+		return (uctoa(WEXITSTATUS(status->exit_status)));
+	else if (*str == '{')
+	{
+		name = ft_strndup(str + 1, len - 2);
+		if (!is_valid_identifier(name))
+		{
+			free(name);
+			status->return_value = FAILURE;
+			status->exit_status = FAILURE;
+			set_error_msg(status, "invalid identifier\n");
+			return (NULL);
+		}
+	}
+	else
+		name = ft_strdup(str);
+	value = get_value(status, name);
+	free(name);
+	return (value);
+}
+
+char	*old_parse_name(t_status *status, char *str)
 {
 	int		len;
 	char	*name;
@@ -217,6 +254,8 @@ char	*expand(t_status *status, char *str)
 	t_str_list	*chunks;
 	char	*res;
 
+	if (*str == '\'')
+		return (ft_strdup(str));
 	chunks = construct_raw_linked_list(str);
 	chunks = substitute_all(status, chunks);
 	res = concatenate(chunks);
@@ -264,12 +303,10 @@ char	replace_by_expansion(t_status *status, char *str, char **dest)
 		user_input_quotes = *tmp_list->str == '\'' || *tmp_list->str == '"';
 		tmp_str = expand(status, tmp_list->str);
 		if (user_input_quotes)
-		{
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
-			free(tmp_str);
-		}
 		else
-			expansion = tmp_str;
+			expansion = ft_strdup(tmp_str);
+		free(tmp_str);
 		free(tmp_list->str);
 		tmp_list->str = expansion;
 		tmp_list = tmp_list->next;
