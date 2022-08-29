@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 17:01:22 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/08/29 12:31:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	redirect_output(t_status *status, char *type, char *pathname)
 	int	flag;
 	int	mode;
 
-	flag = O_WRONLY | O_CREAT | O_APPEND * (type[1] == '>');
+	flag = O_WRONLY | O_CREAT | O_APPEND * (type[1] == '>') | O_TRUNC * (type[1] != '>');
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 	if (status->out_fd != STDOUT_FILENO)
 		close(status->out_fd);
