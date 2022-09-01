@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 14:08:26 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 17:06:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/01 09:33:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	cd(t_status *status)
 {
 	int	ret;
 
+	ret = array_size(status->args);
+	if (ret == 1)
+		return ;
 	ret = chdir(status->args[1]);
 	if (ret == -1)
 	{
@@ -23,5 +26,4 @@ void	cd(t_status *status)
 		status->exit_status = errno;
 		perror("cd");
 	}
-	// todo: update oldpwd and pwd (use builtin export ?)
 }
