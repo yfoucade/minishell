@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/01 11:09:57 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/01 13:02:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@ unsigned char	parse_curr_command(t_status *status)
 		status->tokens = NULL;
 	}
 	parse_status(status);
+	// do not set error messages here. Instead, pass a flag to tell whether
+	// to check for ambiguous redirects or not (always look for bad substitution).
+	// return value should tell which error happened. values in 'status' should
+	// be set within the function expand_array_elements().
 	if (expand_array_elements(status, status->args))
 	{
 		printf("minishell: bad substitution\n");
@@ -179,7 +183,7 @@ char	redirect_output(t_status *status, char *type, char *pathname)
 	status->out_fd = open(pathname, flag, mode);
 	if (status->out_fd == -1)
 	{
-		status->out_fd = STDIN_FILENO;
+		status->out_fd = STDOUT_FILENO;
 		status->return_value = FAILURE;
 		status->exit_status = errno;
 		set_error_msg(status, strerror(errno));
@@ -190,15 +194,13 @@ char	redirect_output(t_status *status, char *type, char *pathname)
 
 char	input_from_file(t_status *status, char *path)
 {
-	if (status->in_fd != STDIN_FILENO)
-		close(status->in_fd);
 	status->in_fd = open(path, O_RDONLY);
 	if (status->in_fd == -1)
 	{
 		status->in_fd = STDIN_FILENO;
 		status->return_value = FAILURE;
 		status->exit_status = errno;
-		status->error_msg = strerror(errno);
+		set_error_msg(status, strerror(errno));
 		return (FAILURE);
 	}
 	return (SUCCESS);
