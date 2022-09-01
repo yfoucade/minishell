@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 12:43:11 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/01 10:43:43 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,15 @@ void	malloc_error(t_status *status);
 char	*expand(t_status *status, char *command);
 char	expand_array_elements(t_status *status, char **array);
 
+// handlers.c
+void	install_handlers(void);
+void	waiting_handlers(void);
+void	heredoc_handlers(void);
+void	uninstall_handlers(void);
+
+// heredoc.c
+char	create_heredoc(t_status *status, char *delim);
+
 // history.c
 void	decide_add_history(t_status *environ);
 
@@ -215,10 +224,6 @@ char	ft_is_alnum(char c);
 // tokenizer.c
 t_str_list	*tokenize(char	*command);
 void	print_tokens(t_str_list *tokens);
-
-// handlers.c
-void	install_handlers(void);
-void	uninstall_handlers(void);
 
 // read_input.c
 char	read_input(t_status *status);

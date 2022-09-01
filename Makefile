@@ -17,6 +17,7 @@ SRC = \
 	error.c \
 	expansion.c \
 	handlers.c \
+	heredoc.c \
 	history.c \
 	main.c \
 	minishell.c \

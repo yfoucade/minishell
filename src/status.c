@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 11:56:03 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/01 11:00:29 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	close_pipe_end(int *tab, int end)
 
 char	set_error_msg(t_status *status, char *str)
 {
+	free(status->error_msg);
 	status->error_msg = ft_strdup(str);
 	if (!status->error_msg)
 		return (ERR_MALLOC);
