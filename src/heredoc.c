@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/01 11:04:53 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/01 13:12:53 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	create_heredoc(t_status *status, char *delim)
 	waitpid(pid, &status->child_exit_status, 0);
 	install_handlers();
 	close(pipe_fd[1]);
-	if (WIFSTOPPED(status->child_exit_status))
+	if (!WIFEXITED(status->child_exit_status))
 	{
 		printf("\n");
 		status->return_value = FAILURE;
