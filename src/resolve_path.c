@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:43:33 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:01:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*search_in_directory(char	*dirname, char *target)
 	return (res);
 }
 
-char	*search_paths(char *command)
+char	*search_paths(t_status *status, char *command)
 {
 	char	*paths;
 	char	*absolute_path;
@@ -79,7 +79,7 @@ char	*search_paths(char *command)
 	t_str_list	*tmp_path;
 
 	absolute_path = NULL;
-	paths = getenv("PATH");
+	paths = ft_getenv(status, "PATH");
 	if (!paths)
 		return (NULL);
 	lst_paths = ft_split(paths, ':');
@@ -95,7 +95,7 @@ char	*search_paths(char *command)
 	return (absolute_path);
 }
 
-t_command	*resolve_path(char	*command)
+t_command	*resolve_path(t_status *status, char	*command)
 {
 	t_command	*res;
 
@@ -109,7 +109,7 @@ t_command	*resolve_path(char	*command)
 	else
 	{
 		if (t_command_set_fun_ptr(&res, search_builtins(command)))
-			t_command_set_path(&res, search_paths(command), TRUE);
+			t_command_set_path(&res, search_paths(status, command), TRUE);
 	}
 	return (res);
 }

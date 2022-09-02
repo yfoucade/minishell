@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/01 13:02:20 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:03:10 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ unsigned char	parse_curr_command(t_status *status)
 		printf("minishell: ambiguous redirect\n");
 		return (0);
 	}
-	status->command = resolve_path(status->args[0]);
+	status->command = resolve_path(status, status->args[0]);
 	return (SUCCESS);
 }
 
