@@ -16,6 +16,7 @@ SRC = \
 	environ.c \
 	error.c \
 	expansion.c \
+	get_next_line.c \
 	handlers.c \
 	heredoc.c \
 	history.c \
