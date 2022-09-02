@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 12:40:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:42:25 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/02 11:36:01 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 char	read_input(t_status *status)
 {
-	status->input = readline(PS1);
+	if (status->ft_isatty)
+		status->input = readline(PS1);
+	else
+		status->input = get_next_line(STDIN_FILENO);
 	if (!status->input)
 	{
 		ft_exit(status);

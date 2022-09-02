@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/01 10:43:43 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/02 14:46:28 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,22 @@
 # ifndef ENVIRON
 #  define ENVIRON
 extern char	**environ;
+# endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
+# ifndef EOL
+#  define EOL -2
+# endif
+
+# ifndef ERROR
+#  define ERROR -1
+# endif
+
+# ifndef READING
+#  define READING 1
 # endif
 
 # include <errno.h>
@@ -34,7 +50,6 @@ extern char	**environ;
 # define FALSE 0
 # define SUCCESS 0
 # define FAILURE 1
-# define ERROR 1
 # define PS1 "$ "
 # define PS2 "> "
 
@@ -94,6 +109,7 @@ typedef struct s_command
 typedef struct s_status
 {
 	char			*input;
+	char			ft_isatty;
 	t_str_list		*pipelines;
 	t_str_list		*commands;
 	t_str_list		*curr_command;
@@ -132,6 +148,12 @@ typedef struct s_env_variable
 	char	*value;
 }	t_env_variable;
 
+typedef struct s_file_buffer
+{
+	char	buf[BUFFER_SIZE + 1];
+	int		current_index;
+}	t_file_buffer;
+
 // array.c
 void	free_array(char **array);
 
@@ -169,6 +191,10 @@ void	malloc_error(t_status *status);
 // expansion.c
 char	*expand(t_status *status, char *command);
 char	expand_array_elements(t_status *status, char **array);
+
+// get_next_line.c
+char	*get_next_line(int fd);
+int		get_chunk(int fd, char *chunk_buf);
 
 // handlers.c
 void	install_handlers(void);
@@ -229,7 +255,7 @@ void	print_tokens(t_str_list *tokens);
 char	read_input(t_status *status);
 
 // resolve_path.c
-t_command	*resolve_path(char	*command);
+t_command	*resolve_path(t_status *status, char	*command);
 
 // str_list.c
 void	free_str_list(t_str_list *str_list);
