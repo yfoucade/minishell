@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 11:36:23 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 14:03:28 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	write_until_delim(t_status *status, int fd, char *delim)
 		if (!line)
 			exit(1);
 		if (!ft_strcmp(line, delim))
+		{
+			free(line);
 			return ;
+		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -60,6 +63,7 @@ void	seek_delim(char *delim)
 	{
 		if (!ft_strcmp(line, delim))
 			break;
+		free(line);
 		line = get_next_line(STDIN_FILENO);
 		trim_right_newline(line);
 	}
@@ -78,11 +82,13 @@ char	create_heredoc(t_status *status, char *delim)
 		heredoc_handlers();
 		close(pipe_fd[0]);
 		write_until_delim(status, pipe_fd[1], delim);
+		free_parsed_command(status);
+		free_status(status);
 		exit(0);
 	}
 	uninstall_handlers();
 	waitpid(pid, &status->child_exit_status, 0);
-	install_handlers();
+	install_handlers(status);
 	close(pipe_fd[1]);
 	if (!WIFEXITED(status->child_exit_status))
 	{
