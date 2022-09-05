@@ -6,20 +6,24 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 01:21:37 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:39:47 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	g_stop_non_int;
 
 int	main(void)
 {
 	t_status	status;
 
 	// print_str_tab(environ);
-	install_handlers();
+	g_stop_non_int = FALSE;
 	init_status(&status);
+	install_handlers(&status);
 	status.environ = copy_environ(environ);
+	add_custom_variables(&status);
 	run_shell(&status);
 	free_status(&status);
 	free_array(environ);
