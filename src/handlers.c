@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 00:07:46 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/01 10:36:59 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:40:09 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,31 @@ void	waiting_child(int sig)
 	printf("\n");
 }
 
-void	install_handlers(void)
+void	non_interactive_sigint_handler(int sig)
+{
+	(void)sig;
+	g_stop_non_int = TRUE;
+}
+
+void	install_handlers(t_status *status)
 {
 	__sighandler_t	ret;
 
 	ret = signal(SIGQUIT, SIG_IGN);
 	if (ret == SIG_ERR)
 		early_exit();
-	ret = signal(SIGINT, sigint_handler);
-	if (ret == SIG_ERR)
-		early_exit();
+	if (status->ft_isatty)
+	{
+		ret = signal(SIGINT, sigint_handler);
+		if (ret == SIG_ERR)
+			early_exit();
+	}
+	else
+	{
+		ret = signal(SIGINT, non_interactive_sigint_handler);
+		if (ret == SIG_ERR)
+			early_exit();
+	}
 }
 
 void	waiting_handlers(void)
@@ -74,9 +89,6 @@ void	uninstall_handlers(void)
 {
 	__sighandler_t	ret;
 
-	ret = signal(SIGQUIT, SIG_IGN);
-	if (ret == SIG_ERR)
-		exit(1);
 	ret = signal(SIGINT, SIG_IGN);
 	if (ret == SIG_ERR)
 		exit(1);
