@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 17:02:59 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:28:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	is_valid_identifier(char *str)
 	return (TRUE);
 }
 
-void	replace_env_variable(t_status *status, t_env_variable *env_variable)
+void	replace_env_variable(t_status *status, char *name, char *value)
 {
 	char	**env_copy;
 	char	*put_in_env;
@@ -53,18 +53,18 @@ void	replace_env_variable(t_status *status, t_env_variable *env_variable)
 	env_copy = status->environ;
 	while (*env_copy)
 	{
-		if (ft_startswith(env_variable->name, *env_copy))
+		if (ft_startswith(name, *env_copy))
 			break;
 		++env_copy;
 	}
-	put_in_env = ft_strcat(env_variable->name, "=");
-	put_in_env = ft_strcat_free(put_in_env, env_variable->value, TRUE, FALSE);
+	put_in_env = ft_strcat(name, "=");
+	put_in_env = ft_strcat_free(put_in_env, value, TRUE, FALSE);
 	free(*env_copy);
 	*env_copy = put_in_env;
 	return ;
 }
 
-void	add_env_variable(t_status *status, t_env_variable *env_variable)
+void	add_env_variable(t_status *status, char *name, char *value)
 {
 	char	**new_env;
 	char	**tmp_old_env;
@@ -83,12 +83,20 @@ void	add_env_variable(t_status *status, t_env_variable *env_variable)
 			exit (1);
 		}
 	}
-	put_in_env = ft_strcat(env_variable->name, "=");
-	put_in_env = ft_strcat_free(put_in_env, env_variable->value, TRUE, FALSE);
+	put_in_env = ft_strcat(name, "=");
+	put_in_env = ft_strcat_free(put_in_env, value, TRUE, FALSE);
 	*(tmp_new_env++) = put_in_env;
 	*tmp_new_env = NULL;
 	free_array(status->environ);
 	status->environ = new_env;
+}
+
+void	replace_or_add(t_status *status, char *name, char *value)
+{
+	if (ft_getenv(status, name))
+		replace_env_variable(status, name, value);
+	else
+		add_env_variable(status, name, value);
 }
 
 void	export(t_status *status)
@@ -108,10 +116,8 @@ void	export(t_status *status)
 			status->exit_status = 1;
 			printf("export: `%s': not a valid identifier\n", env_variable->name);
 		}
-		else if (ft_getenv(status, env_variable->name))
-			replace_env_variable(status, env_variable);
 		else
-			add_env_variable(status, env_variable);
+			replace_or_add(status, env_variable->name, env_variable->value);
 		free(env_variable->name);
 		free(env_variable->value);
 		free(env_variable);

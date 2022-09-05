@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/02 14:46:28 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:52:01 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ extern char	**environ;
 # define FALSE 0
 # define SUCCESS 0
 # define FAILURE 1
-# define PS1 "$ "
-# define PS2 "> "
 
 # define PIPE_OUT 0
 # define PIPE_IN 1
@@ -171,7 +169,9 @@ void	ft_exit(t_status *status);
 
 // builtin_export.c
 t_env_variable	*parse_env_variable(char *str); // used by unset, to move
+void	add_env_variable(t_status *status, char *name, char *value);
 char	is_valid_identifier(char *str); //same
+void	replace_or_add(t_status *status, char *name, char *value);
 void	export(t_status *status);
 
 // builtin_pwd.c
@@ -184,6 +184,8 @@ void	unset(t_status *status);
 int		array_size(char **array);
 char	**copy_environ(char **env);
 char	*ft_getenv(t_status *status, char *variable);
+char	init_environ(t_status *status);
+void	add_custom_variables(t_status *status);
 
 // error.c
 void	malloc_error(t_status *status);
