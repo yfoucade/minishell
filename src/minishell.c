@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/02 16:03:10 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 13:04:28 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ void	postprocess_redirections(t_status *status)
 void	execute_commands(t_status *status)
 {
 	status->curr_command = status->commands;
-	while (status->curr_command)
+	while (status->curr_command && !g_stop_non_int)
 	{
 		if (parse_curr_command(status))
 			return ;
@@ -284,9 +284,10 @@ void	execute_commands(t_status *status)
 				status->child_id = fork();
 				if (!status->child_id)
 					subshell(status);
-				waiting_handlers();
+				if (status->ft_isatty)
+					waiting_handlers();
 				waitpid(status->child_id, &status->child_exit_status, 0);
-				install_handlers();
+				install_handlers(status);
 				set_exit_status(status);
 			}
 			else
@@ -300,6 +301,8 @@ void	execute_commands(t_status *status)
 		status->curr_command = status->curr_command->next;
 		free_parsed_command(status);
 	}
+	if (g_stop_non_int)
+		free_and_exit(status);
 }
 
 char	is_valid_quoting(char *str)
