@@ -1,10 +1,3 @@
-[] do not declare extern char **environ
-instead, use getenv when necessary.
-initialize status->environ with PATH (using getenv), PS1, and PS2 (and colors).
-when looking for an environment variable, search in status->environ (ft_getenv).
-if it does not exist, search in environ (using getenv). It it is found in environ,
-add it in status->environ.
-
 [] install different handlers depending on whether it is interactive or not.
 
 [] in non-interactive mode, the handler sets a global variable to some value.
