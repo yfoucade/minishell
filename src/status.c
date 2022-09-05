@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/02 16:27:13 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:37:24 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,10 @@ void	set_exit_status(t_status *status)
 		status->exit_status = WEXITSTATUS(status->child_exit_status);
 	else
 		status->exit_status = 1;
+}
+
+void	free_and_exit(t_status *status)
+{
+	free_status(status);
+	exit(1);
 }
