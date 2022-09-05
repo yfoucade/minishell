@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 11:52:01 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:40:23 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # ifndef ENVIRON
 #  define ENVIRON
 extern char	**environ;
+# endif
+
+# ifndef STOP_NON_INT
+#  define STOP_NON_INT
+extern char	g_stop_non_int;
 # endif
 
 # ifndef BUFFER_SIZE
@@ -199,7 +204,7 @@ char	*get_next_line(int fd);
 int		get_chunk(int fd, char *chunk_buf);
 
 // handlers.c
-void	install_handlers(void);
+void	install_handlers(t_status *status);
 void	waiting_handlers(void);
 void	heredoc_handlers(void);
 void	uninstall_handlers(void);
@@ -226,6 +231,7 @@ char	set_error_msg(t_status *status, char *str);
 void	flush_error_msg(t_status *status);
 void	free_parsed_command(t_status *status);
 void	set_exit_status(t_status *status);
+void	free_and_exit(t_status *status);
 
 // ft_strutils.c
 int		ft_strlen(char	*str);
