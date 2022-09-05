@@ -5,6 +5,9 @@ when looking for an environment variable, search in status->environ (ft_getenv).
 if it does not exist, search in environ (using getenv). It it is found in environ,
 add it in status->environ.
 
-[] make status a global variable
-
 [] install different handlers depending on whether it is interactive or not.
+
+[] in non-interactive mode, the handler sets a global variable to some value.
+after preprocessing a command, check that global variable. If the value indicates
+that the program should stop, then free status and exit. Otherwise, execute command
+or flush preprocessing error message.
