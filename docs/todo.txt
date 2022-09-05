@@ -1,10 +1,10 @@
-- fix variable expansion
-	- if braces, ${EXEMPLE}, check that what is between braces is a name.
-	- if ?, $?, replace by exit_status of previous command (thus needs status).
-	- if name, $chars, stop at first char that is not a 'name'.
-	  name = [_a-zA-Z][_a-zA-Z0-9]*
-	- if, $c, where c is not the start of a name, nor ? or {, then do not interpret $.
-	- look for bad or ambiguous redirections.
-	- do not interpret single quotes inside double quotes.
-$ echo "Hello '$USER'"
-Hello '$USER'
+[] do not declare extern char **environ
+instead, use getenv when necessary.
+initialize status->environ with PATH (using getenv), PS1, and PS2 (and colors).
+when looking for an environment variable, search in status->environ (ft_getenv).
+if it does not exist, search in environ (using getenv). It it is found in environ,
+add it in status->environ.
+
+[] make status a global variable
+
+[] install different handlers depending on whether it is interactive or not.
