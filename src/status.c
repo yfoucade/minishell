@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/02 11:23:41 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:27:13 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_status(t_status *status)
 {
 	status->input = NULL;
 	status->ft_isatty = isatty(STDIN_FILENO);
+	errno = 0;
 	status->pipelines = NULL;
 	status->commands = NULL;
 	status->curr_command = NULL;
