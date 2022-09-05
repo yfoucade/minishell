@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 02:29:37 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:36:23 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	write_until_delim(t_status *status, int fd, char *delim)
 	while (TRUE)
 	{
 		if (status->ft_isatty)
-			line = readline(PS2);
+			line = readline(ft_getenv(status, "PS2"));
 		else
 		{
 			line = get_next_line(STDIN_FILENO);

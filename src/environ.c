@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 15:04:05 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:03:22 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:58:08 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ char	*ft_getenv(t_status *status, char *variable)
 	}
 	free(full_start);
 	return (NULL);
+}
+
+void	add_custom_variables(t_status *status)
+{
+	replace_or_add(status, "PS1", "$ ");
+	replace_or_add(status, "PS2", "> ");
 }
