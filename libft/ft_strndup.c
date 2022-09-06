@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:32:34 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 16:35:15 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:16:10 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_strndup(char *str, int n)
 {
 	char	*res;
 	int		i;
-	
+
 	res = malloc(n + 1);
 	if (!res)
 		return (NULL);

@@ -6,13 +6,13 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:32:32 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 16:35:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:14:42 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strlen(char	*str)
+int	ft_strlen(char	*str)
 {
 	int	res;
 
