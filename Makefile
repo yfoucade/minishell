@@ -41,17 +41,22 @@ INCLUDE = $(addprefix $(INCLUDE_DIR)/, $(HEADERS))
 
 all: ${NAME}
 
-${NAME}: ${OBJ}
-	${CC} ${CFLAGS} -o ${NAME} ${OBJ} -lreadline
+${NAME}: libft/libft.a ${OBJ}
+	@ ${CC} ${CFLAGS} -o ${NAME} ${OBJ} -L libft -lreadline -lft 
 
 %.o: %.c ${INCLUDE}
-	${CC} -c ${CFLAGS} -I${INCLUDE_DIR} -o $@ $<
+	@ ${CC} -c ${CFLAGS} -I${INCLUDE_DIR} -o $@ $<
+
+libft/libft.a:
+	@ make -C libft
 
 clean:
-	${RM} ${OBJ}
+	@ make -C libft clean
+	@ ${RM} ${OBJ}
 
 fclean: clean
-	${RM} ${NAME}
+	@ make -C libft fclean
+	@ ${RM} ${NAME}
 
 re: fclean all
 

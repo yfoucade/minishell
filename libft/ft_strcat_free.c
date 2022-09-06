@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   ft_strcat_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 13:32:15 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/22 16:31:07 by yfoucade         ###   ########.fr       */
+/*   Created: 2022/09/06 16:32:23 by yfoucade          #+#    #+#             */
+/*   Updated: 2022/09/06 16:34:16 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-unsigned char	pwd(t_status *status)
+char	*ft_strcat_free(char *s1, char *s2, char free_s1, char free_s2)
 {
-	char	*absolute_pathname;
+	char	*res;
 
-	(void)status;
-	absolute_pathname = getcwd(NULL, 0);
-	printf("%s\n", absolute_pathname);
-	free(absolute_pathname);
-	return (0);
-}
-
-unsigned char	cd(t_status *status)
-{
-	int	ret;
-
-	ret = chdir(status->args[1]);
-	return (ret);
+	res = ft_strcat(s1, s2);
+	if (!res)
+		return (NULL);
+	if (free_s1)
+		free(s1);
+	if (free_s2)
+		free(s2);
+	return (res);
 }
