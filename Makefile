@@ -27,7 +27,6 @@ SRC = \
 	resolve_path.c \
 	status.c \
 	str_list.c \
-	strutils.c \
 	t_command_utils.c \
 	tokenizer.c \
 
