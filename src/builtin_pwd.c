@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 13:50:35 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 15:29:24 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:21:17 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	pwd(t_status *status)
 	{
 		status->exit_status = errno;
 		status->return_value = errno;
-		perror("pwd"); // no redirection of stderr
+		set_error_msg(status, strerror(errno));
 	}
 	else
 	{
 		status->exit_status = FAILURE;
 		status->return_value = FAILURE;
-		ft_putfd("pwd: Unknown error\n", 2);
+		set_error_msg(status, "pwd: Unknown error\n");
 	}
 }
