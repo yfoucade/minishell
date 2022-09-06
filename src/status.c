@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 12:37:24 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 20:40:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	free_status(t_status *status)
 	free(status->input);
 	free_str_list(status->pipelines);
 	free_str_list(status->commands);
-	// points to an element of status->commands, no need to free.
-	// free_str_list(status->curr_command);
 	free_str_list(status->tokens);
 	free_str_list(status->lst_args);
 	free_str_list(status->lst_redirections);
@@ -99,7 +97,6 @@ char	set_error_msg(t_status *status, char *str)
 {
 	free(status->error_msg);
 	status->error_msg = ft_strdup(str);
-	// if status->error_msg does not end with '\n', add a newline character.
 	if (!status->error_msg)
 		return (ERR_MALLOC);
 	return (SUCCESS);
@@ -109,7 +106,9 @@ void	flush_error_msg(t_status *status)
 {
 	if (!status->error_msg)
 		return ;
-	printf("%s", status->error_msg);
+	ft_putfd(status->error_msg, STDERR_FILENO);
+	if (status->error_msg[ft_strlen(status->error_msg) - 1] != '\n')
+		ft_putfd("\n", STDERR_FILENO);
 	free(status->error_msg);
 	status->error_msg = NULL;
 	status->return_value = 0;

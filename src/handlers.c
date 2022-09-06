@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 00:07:46 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 12:40:09 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 20:22:59 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	return;
+	return ;
 }
 
 void	waiting_child(int sig)

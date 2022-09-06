@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/26 16:54:21 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:27:58 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*find_chunk_end(char *command)
 
 void	add_next_chunk(t_str_list **chunks, char **str)
 {
-	char	*end;
+	char		*end;
 	t_str_list	*tmp;
 	t_str_list	*new_chunk;
 
@@ -250,7 +250,7 @@ char	*concatenate(t_str_list *chunks)
 char	*expand(t_status *status, char *str)
 {
 	t_str_list	*chunks;
-	char	*res;
+	char		*res;
 
 	if (*str == '\'')
 		return (ft_strdup(str));
@@ -290,15 +290,15 @@ char	replace_by_expansion(t_status *status, char *str, char **dest)
 {
 	t_str_list	*three_type_split;
 	t_str_list	*tmp_list;
-	char	*expansion;
-	char	*tmp_str;
-	char	user_input_quotes;
+	char		*expansion;
+	char		*tmp_str;
+	char		user_input_quotes;
 
 	three_type_split = split_three_type(str);
 	tmp_list = three_type_split;
 	while (tmp_list)
 	{
-		user_input_quotes = *tmp_list->str == '\'' || *tmp_list->str == '"';
+		user_input_quotes = (*tmp_list->str == '\'') + (*tmp_list->str == '"');
 		tmp_str = expand(status, tmp_list->str);
 		if (user_input_quotes)
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);

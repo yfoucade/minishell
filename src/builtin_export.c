@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 11:28:06 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 20:22:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	replace_env_variable(t_status *status, char *name, char *value)
 	while (*env_copy)
 	{
 		if (ft_startswith(name, *env_copy))
-			break;
+			break ;
 		++env_copy;
 	}
 	put_in_env = ft_strcat(name, "=");
@@ -101,7 +101,7 @@ void	replace_or_add(t_status *status, char *name, char *value)
 
 void	export(t_status *status)
 {
-	char	**args;
+	char			**args;
 	t_env_variable	*env_variable;
 
 	args = status->args;

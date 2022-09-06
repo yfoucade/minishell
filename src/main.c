@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 12:39:47 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:23:38 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(void)
 {
 	t_status	status;
 
-	// print_str_tab(environ);
 	g_stop_non_int = FALSE;
 	init_status(&status);
 	install_handlers(&status);

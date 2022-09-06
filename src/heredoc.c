@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 14:03:28 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 20:22:41 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	write_until_delim(t_status *status, int fd, char *delim)
 
 void	seek_delim(char *delim)
 {
-	char *line;
+	char	*line;
 
 	line = get_next_line(STDIN_FILENO);
 	trim_right_newline(line);
 	while (line)
 	{
 		if (!ft_strcmp(line, delim))
-			break;
+			break ;
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 		trim_right_newline(line);

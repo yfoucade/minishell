@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/02 16:01:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 18:42:01 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ char	*relative_path(char *command)
 
 char	*search_in_directory(char	*dirname, char *target)
 {
-	char	*res;
-	DIR		*dirp;
+	char			*res;
+	DIR				*dirp;
 	struct dirent	*direntry;
 
+	// manage errors correctly. set status variables.
 	res = NULL;
 	dirp = opendir(dirname);
 	if (!dirp)
@@ -73,8 +74,8 @@ char	*search_in_directory(char	*dirname, char *target)
 
 char	*search_paths(t_status *status, char *command)
 {
-	char	*paths;
-	char	*absolute_path;
+	char		*paths;
+	char		*absolute_path;
 	t_str_list	*lst_paths;
 	t_str_list	*tmp_path;
 
@@ -88,7 +89,7 @@ char	*search_paths(t_status *status, char *command)
 	{
 		absolute_path = search_in_directory(tmp_path->str, command);
 		if (absolute_path)
-			break;
+			break ;
 		tmp_path = tmp_path->next;
 	}
 	free_str_list(lst_paths);

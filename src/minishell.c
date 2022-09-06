@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 13:04:28 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 20:27:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ char	is_valid_pipeline(t_str_list *commands)
 
 void	subshell(t_status *status)
 {
-	// make redirections
-	// resolve file
-	// install_child_handlers();
 	if (status->in_fd != STDIN_FILENO)
 		dup2(status->in_fd, STDIN_FILENO);
 	else if (status->in_pipe)
@@ -43,7 +40,8 @@ void	subshell(t_status *status)
 		dup2(status->out_fd, STDOUT_FILENO);
 	else if (status->out_pipe)
 		dup2(status->out_pipe[1], STDOUT_FILENO);
-	execve(status->command->u_command_ref.command_path, status->args, status->environ);
+	execve(status->command->u_command_ref.command_path,
+		status->args, status->environ);
 	exit(0);
 }
 
@@ -114,9 +112,11 @@ char	parse_status(t_status *status)
 			status->lst_args = lst_add(&status->lst_args, tokens_copy->str);
 		else
 		{
-			status->lst_redirections = lst_add(&status->lst_redirections, tokens_copy->str);
+			status->lst_redirections = lst_add(
+					&status->lst_redirections, tokens_copy->str);
 			tokens_copy = tokens_copy->next;
-			status->lst_redirections = lst_add(&status->lst_redirections, tokens_copy->str);
+			status->lst_redirections = lst_add(
+					&status->lst_redirections, tokens_copy->str);
 		}
 		tokens_copy = tokens_copy->next;
 	}
@@ -124,7 +124,6 @@ char	parse_status(t_status *status)
 	status->redirections = lst_to_array(status->lst_redirections);
 	return (SUCCESS);
 }
-
 
 unsigned char	parse_curr_command(t_status *status)
 {
@@ -165,7 +164,6 @@ void	process_output(t_status *status)
 
 void	execute_builtin(t_status *status)
 {
-	// first process redirections.
 	status->exit_status = 0;
 	process_output(status);
 	status->command->u_command_ref.fun_ptr(status);
@@ -226,19 +224,19 @@ char	redirect_input(t_status *status, char *type, char *path_or_delim)
 
 char	preprocess_redirections(t_status *status)
 {
-	char	**tmp_redirections;
+	char	**redirs;
 	char	ret;
 
 	if (status->curr_command->next)
 		create_pipe(&status->out_pipe);
-	tmp_redirections = status->redirections;
-	while (*tmp_redirections)
+	redirs = status->redirections;
+	while (*redirs)
 	{
-		if (**tmp_redirections == '>')
-			ret = redirect_output(status, *tmp_redirections, *(tmp_redirections + 1));
+		if (**redirs == '>')
+			ret = redirect_output(status, *redirs, *(redirs + 1));
 		else
-			ret = redirect_input(status, *tmp_redirections, *(tmp_redirections + 1));
-		tmp_redirections += 2;
+			ret = redirect_input(status, *redirs, *(redirs + 1));
+		redirs += 2;
 		if (ret)
 			return (FAILURE);
 	}
@@ -332,7 +330,7 @@ void	execute_pipeline(t_status *status)
 	status->commands = ft_split_unquoted_c(status->curr_pipeline, '|');
 	if (!status->commands)
 		malloc_error(status);
-	else if(!is_valid_pipeline(status->commands))
+	else if (!is_valid_pipeline(status->commands))
 	{
 		set_error_msg(status, "minishell: pipeline error\n");
 		status->return_value = ERR_PIPELINE;
