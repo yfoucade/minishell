@@ -6,11 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 17:28:07 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/16 11:22:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 17:55:07 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 void	free_str_list(t_str_list *str_list)
 {

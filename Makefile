@@ -5,7 +5,6 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 SRC_DIR = src
 SRC = \
-	array.c \
 	builtin_cd.c \
 	builtin_echo.c \
 	builtin_env.c \
@@ -26,8 +25,6 @@ SRC = \
 	read_input.c \
 	resolve_path.c \
 	status.c \
-	str_list.c \
-	strutils.c \
 	t_command_utils.c \
 	tokenizer.c \
 

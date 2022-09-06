@@ -2,6 +2,8 @@ NAME = libft.a
 
 SRC = \
 	count.c \
+	free_array.c \
+	free_str_list.c \
 	ft_is_alnum.c \
 	ft_is_alpha.c \
 	ft_split.c \
