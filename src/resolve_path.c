@@ -6,13 +6,13 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 18:42:01 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 21:56:48 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-builtin_ptr	search_builtins(char *command)
+t_builtin_ptr	search_builtins(char *command)
 {
 	if (!ft_strcmp(command, "pwd"))
 		return (&pwd);

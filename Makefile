@@ -12,8 +12,11 @@ SRC = \
 	builtin_export.c\
 	builtin_pwd.c \
 	builtin_unset.c \
+	concatenate.c \
 	environ.c \
 	error.c \
+	expansion_find_end.c \
+	expansion_split.c \
 	expansion.c \
 	get_next_line.c \
 	handlers.c \

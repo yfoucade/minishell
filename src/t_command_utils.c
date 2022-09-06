@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 14:44:53 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 20:28:30 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/06 21:56:57 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_command	*new_t_command(void)
 	return (res);
 }
 
-char	t_command_set_fun_ptr(t_command **command, builtin_ptr fun_ptr)
+char	t_command_set_fun_ptr(t_command **command, t_builtin_ptr fun_ptr)
 {
 	if (!fun_ptr)
 		return (FAILURE);
