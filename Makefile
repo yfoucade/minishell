@@ -24,6 +24,7 @@ SRC = \
 	history.c \
 	main.c \
 	minishell.c \
+	parse_name.c \
 	print_utils.c \
 	read_input.c \
 	resolve_path.c \
@@ -45,7 +46,7 @@ ${NAME}: libft/libft.a ${OBJ}
 	@ ${CC} ${CFLAGS} -o ${NAME} ${OBJ} -L libft -lreadline -lft 
 
 %.o: %.c ${INCLUDE}
-	@ ${CC} -c ${CFLAGS} -I${INCLUDE_DIR} -o $@ $<
+	@ ${CC} -c ${CFLAGS} -I${INCLUDE_DIR} -Ilibft -o $@ $<
 
 libft/libft.a:
 	@ make -C libft

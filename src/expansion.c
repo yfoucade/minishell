@@ -6,66 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 23:43:27 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/07 12:36:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_value(t_status *status, char *name)
-{
-	if ('0' <= *name && *name <= '9')
-		return (ft_strndup("minishell", 10 * (*name == '0')));
-	return (ft_strdup(ft_getenv(status, name)));
-}
-
-char	*uctoa(unsigned char n)
-{
-	char	*res;
-	int		i;
-
-	res = malloc(4);
-	i = 0;
-	if (n >= 100)
-		res[i++] = '0' + n / 100;
-	n %= 100;
-	if (i || n >= 10)
-		res[i++] = '0' + n / 10;
-	n %= 10;
-	res[i++] = '0' + n;
-	res[i] = '\0';
-	return (res);
-}
-
-// str = "?" or "name" or "{name}"
-char	*parse_name(t_status *status, char *str)
-{
-	int		len;
-	char	*name;
-	char	*value;
-
-	name = NULL;
-	len = ft_strlen(str);
-	if (*str == '?')
-		return (uctoa(status->exit_status));
-	else if (*str == '{')
-	{
-		name = ft_strndup(str + 1, len - 2);
-		if (!is_valid_identifier(name))
-		{
-			free(name);
-			status->return_value = FAILURE;
-			status->exit_status = FAILURE;
-			set_error_msg(status, "invalid identifier\n");
-			return (NULL);
-		}
-	}
-	else
-		name = ft_strdup(str);
-	value = get_value(status, name);
-	free(name);
-	return (value);
-}
 
 char	substitute_one(t_status *status, t_str_list *chunk)
 {

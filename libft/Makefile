@@ -25,6 +25,7 @@ SRC = \
 	lst_add_n.c \
 	lst_to_array.c \
 	trim.c \
+	uctoa.c \
 
 OBJ = ${SRC:.c=.o}
 
