@@ -29,6 +29,7 @@ SRC = \
 	read_input.c \
 	resolve_path.c \
 	status.c \
+	substitute.c \
 	t_command_utils.c \
 	tokenizer.c \
 

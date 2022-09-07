@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 12:37:58 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:44:18 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,10 @@ void			free_and_exit(t_status *status);
 
 // str_list.c
 void			free_str_list(t_str_list *str_list);
+
+// substitute.c
+char	substitute_one(t_status *status, t_str_list *chunk);
+t_str_list	*substitute_all(t_status *status, t_str_list *chunks);
 
 // t_command_utils.c
 void			t_command_set_type(t_command **command, char type);
