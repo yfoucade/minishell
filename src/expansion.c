@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 17:43:33 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:49:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,35 @@ char	*expand(t_status *status, char *str)
 	return (res);
 }
 
-char	replace_by_expansion(t_status *status, char *str, char **dest)
+char	expand_lst(t_status *status, t_str_list *lst)
 {
-	t_str_list	*three_type_split;
-	t_str_list	*tmp_list;
-	char		*expansion;
-	char		*tmp_str;
-	char		user_input_quotes;
+	char	user_input_quotes;
+	char	*tmp_str;
+	char	*expansion;
 
-	three_type_split = split_three_type(str);
-	tmp_list = three_type_split;
-	while (tmp_list)
+	while (lst)
 	{
-		user_input_quotes = (*tmp_list->str == '\'') + (*tmp_list->str == '"');
-		tmp_str = expand(status, tmp_list->str);
+		user_input_quotes = (*lst->str == '\'') + (*lst->str == '"');
+		tmp_str = expand(status, lst->str);
 		if (user_input_quotes)
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
 		else
 			expansion = ft_strdup(tmp_str);
 		free(tmp_str);
-		free(tmp_list->str);
-		tmp_list->str = expansion;
-		tmp_list = tmp_list->next;
+		free(lst->str);
+		lst->str = expansion;
+		lst = lst->next;
 	}
+	return (SUCCESS);
+}
+
+char	replace_by_expansion(t_status *status, char *str, char **dest)
+{
+	t_str_list	*three_type_split;
+	char		*expansion;
+
+	three_type_split = split_three_type(str);
+	expand_lst(status, three_type_split);
 	expansion = concatenate(three_type_split);
 	free_str_list(three_type_split);
 	free(*dest);
