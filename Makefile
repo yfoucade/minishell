@@ -27,15 +27,19 @@ SRC = \
 	main.c \
 	minishell.c \
 	parse_name.c \
+	parse.c \
 	pipe.c \
 	pipeline.c \
 	print_utils.c \
 	read_input.c \
+	redir_postprocess.c \
+	redir_preprocess.c \
 	resolve_path.c \
 	status.c \
 	substitute.c \
 	t_command_utils.c \
 	tokenizer.c \
+	tokens.c \
 
 OBJ = $(addprefix $(SRC_DIR)/, $(SRC:.c=.o))
 

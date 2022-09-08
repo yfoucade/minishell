@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 11:08:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 11:50:23 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,18 +236,41 @@ void			run_shell(t_status *environ);
 // parse_name.c
 char			*parse_name(t_status *status, char *str);
 
+// parse.c
+char			parse(t_str_list *tokens, t_str_list **args,
+					t_str_list **redirections);
+char			parse_status(t_status *status);
+unsigned char	parse_curr_command(t_status *status);
+
 //pipe.c
 void			free_pipe(int **tab);
 void			create_pipe(int **tab);
 void			close_pipe_end(int *tab, int end);
 
 //pipeline.c
+char			is_valid_quoting(char *str);
+char			is_valid_pipeline(t_str_list *commands);
 void			save_prev_pipeline(t_status *status);
 void			free_curr_pipeline(t_status *status);
 void			free_pipelines(t_status *status);
 
+// print_utils.c
+void			print_str_tab(char **str_tab);
+void			ft_putfd(char *str, int fd);
+void			ft_putstr(char *str);
+
 // read_input.c
 char			read_input(t_status *status);
+
+// redir_postprocess.c
+void			postprocess_redirections(t_status *status);
+
+// redir_preprocess.c
+void			process_output(t_status *status);
+char			redirect_output(t_status *status, char *type, char *pathname);
+char			input_from_file(t_status *status, char *path);
+char			redir_input(t_status *status, char *type, char *path_or_delim);
+char			preprocess_redirections(t_status *status);
 
 // resolve_path.c
 t_command		*resolve_path(t_status *status, char	*command);
@@ -279,9 +302,9 @@ void			t_command_free(t_command **command);
 t_str_list		*tokenize(char	*command);
 void			print_tokens(t_str_list *tokens);
 
-// print_utils.c
-void			print_str_tab(char **str_tab);
-void			ft_putfd(char *str, int fd);
-void			ft_putstr(char *str);
+// tokens.c
+char			is_operator(char *token);
+char			is_word(char *token);
+char			is_valid_syntax(t_str_list	*tokens);
 
 #endif
