@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 15:04:05 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/05 11:58:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:46:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,25 @@ void	add_custom_variables(t_status *status)
 {
 	replace_or_add(status, "PS1", "$ ");
 	replace_or_add(status, "PS2", "> ");
+}
+
+t_env_variable	*parse_env_variable(char *str)
+{
+	t_env_variable	*res;
+	char			*equal_sign;
+
+	res = malloc(sizeof(t_env_variable));
+	if (!res)
+		return (NULL);
+	equal_sign = ft_strchr(str, '=');
+	res->name = ft_strndup(str, equal_sign - str);
+	res->value = ft_strdup(equal_sign + (*equal_sign == '='));
+	if (!res->name || !res->value)
+	{
+		free(res->name);
+		free(res->value);
+		free(res);
+		return (NULL);
+	}
+	return (res);
 }

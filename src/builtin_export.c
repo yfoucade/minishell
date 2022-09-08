@@ -6,32 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 20:22:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:46:14 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env_variable	*parse_env_variable(char *str)
-{
-	t_env_variable	*res;
-	char			*equal_sign;
-
-	res = malloc(sizeof(t_env_variable));
-	if (!res)
-		return (NULL);
-	equal_sign = ft_strchr(str, '=');
-	res->name = ft_strndup(str, equal_sign - str);
-	res->value = ft_strdup(equal_sign + (*equal_sign == '='));
-	if (!res->name || !res->value)
-	{
-		free(res->name);
-		free(res->value);
-		free(res);
-		return (NULL);
-	}
-	return (res);
-}
 
 char	is_valid_identifier(char *str)
 {

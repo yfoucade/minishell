@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:24:25 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:47:26 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ void			env(t_status *status);
 void			ft_exit(t_status *status);
 
 // builtin_export.c
-t_env_variable	*parse_env_variable(char *str); // used by unset, to move
 void			add_env_variable(t_status *status, char *name, char *value);
 char			is_valid_identifier(char *str); //same
 void			replace_or_add(t_status *status, char *name, char *value);
@@ -187,11 +186,13 @@ char			*concatenate(t_str_list *chunks);
 int				array_size(char **array);
 char			**copy_environ(char **env);
 char			*ft_getenv(t_status *status, char *variable);
-char			init_environ(t_status *status);
 void			add_custom_variables(t_status *status);
+t_env_variable	*parse_env_variable(char *str);
 
 // error.c
 void			malloc_error(t_status *status);
+char			set_error_msg(t_status *status, char *str);
+void			flush_error_msg(t_status *status);
 
 // expansion_find_end.c
 char			*find_variable_end(char *s);
@@ -227,7 +228,17 @@ void			decide_add_history(t_status *environ);
 void			run_shell(t_status *environ);
 
 // parse_name.c
-char	*parse_name(t_status *status, char *str);
+char			*parse_name(t_status *status, char *str);
+
+//pipe.c
+void			free_pipe(int **tab);
+void			create_pipe(int **tab);
+void			close_pipe_end(int *tab, int end);
+
+//pipeline.c
+void			save_prev_pipeline(t_status *status);
+void			free_curr_pipeline(t_status *status);
+void			free_pipelines(t_status *status);
 
 // read_input.c
 char			read_input(t_status *status);
@@ -238,14 +249,6 @@ t_command		*resolve_path(t_status *status, char	*command);
 // status.c
 void			init_status(t_status *environ);
 void			free_status(t_status *status);
-void			save_prev_pipeline(t_status *status);
-void			free_curr_pipeline(t_status *status);
-void			free_pipelines(t_status *status);
-void			free_pipe(int **tab);
-void			create_pipe(int **tab);
-void			close_pipe_end(int *tab, int end);
-char			set_error_msg(t_status *status, char *str);
-void			flush_error_msg(t_status *status);
 void			free_parsed_command(t_status *status);
 void			set_exit_status(t_status *status);
 void			free_and_exit(t_status *status);
@@ -254,8 +257,8 @@ void			free_and_exit(t_status *status);
 void			free_str_list(t_str_list *str_list);
 
 // substitute.c
-char	substitute_one(t_status *status, t_str_list *chunk);
-t_str_list	*substitute_all(t_status *status, t_str_list *chunks);
+char			substitute_one(t_status *status, t_str_list *chunk);
+t_str_list		*substitute_all(t_status *status, t_str_list *chunks);
 
 // t_command_utils.c
 void			t_command_set_type(t_command **command, char type);

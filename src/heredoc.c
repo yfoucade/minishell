@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 20:22:41 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 11:02:37 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,16 @@ void	seek_delim(char *delim)
 	free(line);
 }
 
+void	heredoc(t_status *status, int pipe_fd[2], char *delim)
+{
+	heredoc_handlers();
+	close(pipe_fd[0]);
+	write_until_delim(status, pipe_fd[1], delim);
+	free_parsed_command(status);
+	free_status(status);
+	exit(0);
+}
+
 char	create_heredoc(t_status *status, char *delim)
 {
 	pid_t	pid;
@@ -78,14 +88,7 @@ char	create_heredoc(t_status *status, char *delim)
 	pipe(pipe_fd);
 	pid = fork();
 	if (!pid)
-	{
-		heredoc_handlers();
-		close(pipe_fd[0]);
-		write_until_delim(status, pipe_fd[1], delim);
-		free_parsed_command(status);
-		free_status(status);
-		exit(0);
-	}
+		heredoc(status, pipe_fd, delim);
 	uninstall_handlers();
 	waitpid(pid, &status->child_exit_status, 0);
 	install_handlers(status);

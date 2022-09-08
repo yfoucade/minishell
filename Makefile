@@ -26,6 +26,8 @@ SRC = \
 	main.c \
 	minishell.c \
 	parse_name.c \
+	pipe.c \
+	pipeline.c \
 	print_utils.c \
 	read_input.c \
 	resolve_path.c \

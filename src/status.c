@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 20:40:50 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:43:15 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,63 +55,6 @@ void	free_status(t_status *status)
 	free(status->prev_pipeline);
 	free(status->command);
 	free(status->error_msg);
-}
-
-void	save_prev_pipeline(t_status *status)
-{
-	free(status->prev_pipeline);
-	status->prev_pipeline = status->curr_pipeline;
-	status->curr_pipeline = NULL;
-}
-
-void	free_curr_pipeline(t_status *status)
-{
-	free(status->curr_pipeline);
-	status->curr_pipeline = NULL;
-}
-
-void	free_pipelines(t_status *status)
-{
-	free_str_list(status->pipelines);
-	status->pipelines = NULL;
-}
-
-void	free_pipe(int **tab)
-{
-	free(*tab);
-	*tab = NULL;
-}
-
-void	create_pipe(int **tab)
-{
-	*tab = malloc(sizeof(**tab) * 2);
-	pipe(*tab);
-}
-
-void	close_pipe_end(int *tab, int end)
-{
-	close(tab[end]);
-}
-
-char	set_error_msg(t_status *status, char *str)
-{
-	free(status->error_msg);
-	status->error_msg = ft_strdup(str);
-	if (!status->error_msg)
-		return (ERR_MALLOC);
-	return (SUCCESS);
-}
-
-void	flush_error_msg(t_status *status)
-{
-	if (!status->error_msg)
-		return ;
-	ft_putfd(status->error_msg, STDERR_FILENO);
-	if (status->error_msg[ft_strlen(status->error_msg) - 1] != '\n')
-		ft_putfd("\n", STDERR_FILENO);
-	free(status->error_msg);
-	status->error_msg = NULL;
-	status->return_value = 0;
 }
 
 void	free_parsed_command(t_status *status)
