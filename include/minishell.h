@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 16:55:57 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 23:34:08 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ typedef struct s_status
 	t_command		*command;
 	unsigned char	return_value;
 	char			*error_msg;
-	int				run;
 	pid_t			child_id;
 	int				child_exit_status;
 	unsigned char	exit_status;
