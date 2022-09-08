@@ -1,1 +1,4 @@
 [] when killing heredoc child process (sigint), free memory.
+[] before executing a command, check if there has been an error during preprocessing.
+	- ex: '$ echo ${42}' should not print empty line.
+[] 
