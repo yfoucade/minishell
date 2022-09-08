@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:48:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 11:50:54 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:47:47 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	parse(t_str_list *tokens, t_str_list **args, t_str_list **redirections)
 	*redirections = NULL;
 	while (tokens)
 	{
-		//todo: check failure after each update
 		if (is_word(tokens->str))
 			*args = lst_add(args, tokens->str);
 		else
@@ -39,7 +38,6 @@ char	parse_status(t_status *status)
 	tokens_copy = status->tokens;
 	while (tokens_copy)
 	{
-		//todo: check failure after each update
 		if (is_word(tokens_copy->str))
 			status->lst_args = lst_add(&status->lst_args, tokens_copy->str);
 		else
@@ -68,11 +66,6 @@ unsigned char	parse_curr_command(t_status *status)
 		status->tokens = NULL;
 	}
 	parse_status(status);
-	// do not set error messages here. Instead, pass a flag to tell whether
-	// to check for ambiguous redirects or not
-	// (always look for bad substitution).
-	// return value should tell which error happened. values in 'status' should
-	// be set within the function expand_array_elements().
 	if (expand_array_elements(status, status->args))
 	{
 		printf("minishell: bad substitution\n");

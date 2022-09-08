@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 11:50:23 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:55:57 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,12 @@ void			export(t_status *status);
 // builtin_pwd.c
 void			pwd(t_status *status);
 
-//builtin_search.c
-t_builtin_ptr	search_builtins(char *command);
-
 // builtin_unset.c
 void			unset(t_status *status);
+
+//builtin_utils.c
+t_builtin_ptr	search_builtins(char *command);
+void			execute_builtin(t_status *status);
 
 // concatenate.c
 int				get_total_size(t_str_list *chunks);

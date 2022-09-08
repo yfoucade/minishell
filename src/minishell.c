@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 11:46:44 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:53:52 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@ void	subshell(t_status *status)
 	exit(0);
 }
 
-void	execute_builtin(t_status *status)
+void	summon_child(t_status *status)
 {
-	status->exit_status = 0;
-	process_output(status);
-	status->command->u_command_ref.fun_ptr(status);
+	status->child_id = fork();
+	if (!status->child_id)
+		subshell(status);
+	if (status->ft_isatty)
+		waiting_handlers();
+	waitpid(status->child_id, &status->child_exit_status, 0);
+	install_handlers(status);
+	set_exit_status(status);
 }
 
 void	execute_commands(t_status *status)
@@ -46,16 +51,7 @@ void	execute_commands(t_status *status)
 			if (status->command->command_type == CMD_BUILTIN)
 				execute_builtin(status);
 			else if (status->command->command_type == CMD_ABS_PATH)
-			{
-				status->child_id = fork();
-				if (!status->child_id)
-					subshell(status);
-				if (status->ft_isatty)
-					waiting_handlers();
-				waitpid(status->child_id, &status->child_exit_status, 0);
-				install_handlers(status);
-				set_exit_status(status);
-			}
+				summon_child(status);
 			else
 			{
 				ft_putfd("command not found\n", STDERR_FILENO);
@@ -63,7 +59,6 @@ void	execute_commands(t_status *status)
 			}
 		}
 		postprocess_redirections(status);
-		// use macros to interpret status (man waitpid)
 		status->curr_command = status->curr_command->next;
 		free_parsed_command(status);
 	}

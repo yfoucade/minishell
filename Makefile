@@ -11,8 +11,8 @@ SRC = \
 	builtin_exit.c \
 	builtin_export.c\
 	builtin_pwd.c \
-	builtin_search.c \
 	builtin_unset.c \
+	builtin_utils.c \
 	concatenate.c \
 	environ.c \
 	error.c \

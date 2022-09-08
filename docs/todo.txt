@@ -1,4 +1,14 @@
 [] when killing heredoc child process (sigint), free memory.
 [] before executing a command, check if there has been an error during preprocessing.
 	- ex: '$ echo ${42}' should not print empty line.
-[] 
+[] In execute_command() (in minishell.c), use macros to interpret
+	exit status (man waitpid) after executing command in child process.
+[] In parse.c:
+	- in parse(), check failure after each update
+	- in parse_status(), idem
+	- in parse_curr_command(),
+		// do not set error messages here. Instead, pass a flag to tell whether
+		// to check for ambiguous redirects or not
+		// (always look for bad substitution).
+		// return value should tell which error happened. values in 'status' should
+		// be set within the function expand_array_elements().
