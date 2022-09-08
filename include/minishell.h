@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:47:26 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 11:08:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ void			add_custom_variables(t_status *status);
 t_env_variable	*parse_env_variable(char *str);
 
 // error.c
+void			early_exit(void);
 void			malloc_error(t_status *status);
 char			set_error_msg(t_status *status, char *str);
 void			flush_error_msg(t_status *status);
@@ -212,11 +213,16 @@ char			expand_array_elements(t_status *status, char **array);
 char			*get_next_line(int fd);
 int				get_chunk(int fd, char *chunk_buf);
 
-// handlers.c
+// handler_installers.c
 void			install_handlers(t_status *status);
 void			waiting_handlers(void);
 void			heredoc_handlers(void);
 void			uninstall_handlers(void);
+
+// handlers.c
+void			sigint_handler(int sig);
+void			waiting_child(int sig);
+void			non_interactive_sigint_handler(int sig);
 
 // heredoc.c
 char			create_heredoc(t_status *status, char *delim);

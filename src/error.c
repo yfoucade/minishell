@@ -6,11 +6,17 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:43:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 11:05:00 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	early_exit(void)
+{
+	perror("minishell");
+	exit(1);
+}
 
 void	malloc_error(t_status *status)
 {

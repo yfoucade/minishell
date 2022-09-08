@@ -20,6 +20,7 @@ SRC = \
 	expansion_split.c \
 	expansion.c \
 	get_next_line.c \
+	handler_installers.c \
 	handlers.c \
 	heredoc.c \
 	history.c \
