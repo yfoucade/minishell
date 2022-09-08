@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 17:44:18 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:24:25 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,9 @@ void			export(t_status *status);
 
 // builtin_pwd.c
 void			pwd(t_status *status);
+
+//builtin_search.c
+t_builtin_ptr	search_builtins(char *command);
 
 // builtin_unset.c
 void			unset(t_status *status);

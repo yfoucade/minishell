@@ -6,30 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 21:56:48 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:23:37 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_builtin_ptr	search_builtins(char *command)
-{
-	if (!ft_strcmp(command, "pwd"))
-		return (&pwd);
-	if (!ft_strcmp(command, "cd"))
-		return (&cd);
-	if (!ft_strcmp(command, "echo"))
-		return (&echo);
-	if (!ft_strcmp(command, "export"))
-		return (&export);
-	if (!ft_strcmp(command, "unset"))
-		return (&unset);
-	if (!ft_strcmp(command, "env"))
-		return (&env);
-	if (!ft_strcmp(command, "exit"))
-		return (&ft_exit);
-	return (NULL);
-}
 
 char	*relative_path(char *command)
 {
@@ -40,34 +21,38 @@ char	*relative_path(char *command)
 	return (res);
 }
 
+char	*construct_path(DIR *dirp, char *dirname, struct dirent *direntry)
+{
+	char	*res;
+
+	res = ft_strcat(dirname, "/");
+	res = ft_strcat_free(res, direntry->d_name, TRUE, FALSE);
+	closedir(dirp);
+	return (res);
+}
+
 char	*search_in_directory(char	*dirname, char *target)
 {
 	char			*res;
 	DIR				*dirp;
 	struct dirent	*direntry;
 
-	// manage errors correctly. set status variables.
 	res = NULL;
 	dirp = opendir(dirname);
 	if (!dirp)
 	{
-		perror("search_in_directory: ");
+		perror("search_in_directory");
 		return (NULL);
 	}
 	direntry = readdir(dirp);
 	while (direntry)
 	{
-		if (!ft_strcmp(target, direntry->d_name))
-		{
-			res = ft_strcat_free(dirname, "/", FALSE, FALSE);
-			res = ft_strcat_free(res, direntry->d_name, TRUE, FALSE);
-			closedir(dirp);
-			return (res);
-		}
+		if (!ft_strcmp(target, direntry->d_name) && direntry->d_type != DT_DIR)
+			return (construct_path(dirp, dirname, direntry));
 		direntry = readdir(dirp);
 	}
 	if (errno)
-		perror("minishell: ");
+		perror("minishell");
 	closedir(dirp);
 	return (res);
 }

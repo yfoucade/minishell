@@ -6,38 +6,39 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 01:36:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/24 02:32:49 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:35:04 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_copy_exept(t_status *status, char *str)
+void	copy_except_loop(char **old_env, char **new_env, char *ignore)
 {
-	char	*full_start;
-	char	**new_env;
-	char	**tmp_old_env;
-	char	**tmp_new_env;
-
-	new_env = malloc(sizeof(char *) * (array_size(status->environ)));
-	tmp_new_env = new_env;
-	tmp_old_env = status->environ;
-	full_start = ft_strcat(str, "=");
-	while (*tmp_old_env)
+	while (*old_env)
 	{
-		if (!ft_startswith(full_start, *tmp_old_env))
+		if (!ft_startswith(ignore, *old_env))
 		{
-			*tmp_new_env = ft_strdup(*tmp_old_env);
-			if (!*tmp_new_env)
+			*new_env = ft_strdup(*old_env);
+			if (!*new_env)
 			{
 				free_array(new_env);
 				exit (1);
 			}
-			++tmp_new_env;
+			++new_env;
 		}
-		++tmp_old_env;
+		++old_env;
 	}
-	*tmp_new_env = NULL;
+	*new_env = NULL;
+}
+
+void	copy_except(t_status *status, char *str)
+{
+	char	*full_start;
+	char	**new_env;
+
+	new_env = malloc(sizeof(char *) * (array_size(status->environ)));
+	full_start = ft_strcat(str, "=");
+	copy_except_loop(status->environ, new_env, full_start);
 	free(full_start);
 	free_array(status->environ);
 	status->environ = new_env;
@@ -52,6 +53,6 @@ void	unset(t_status *status)
 	{
 		if (!is_valid_identifier(*args) || !ft_getenv(status, *args))
 			continue ;
-		ft_copy_exept(status, *args);
+		copy_except(status, *args);
 	}
 }
