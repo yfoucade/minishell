@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 23:39:36 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:37:07 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	init_status(t_status *status)
 
 void	free_status(t_status *status)
 {
+	if (!status)
+		return ;
 	free(status->input);
 	free_str_list(status->pipelines);
 	free_str_list(status->commands);
