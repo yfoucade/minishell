@@ -6,43 +6,39 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 14:58:40 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:51:53 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	install(t_status *status, int signum, __sighandler_t handler)
+{
+	if (signal(signum, handler) == SIG_ERR)
+		panic(status);
+}
+
 void	install_handlers(t_status *status)
 {
-	char	istty;
-
-	istty = status->ft_isatty;
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		early_exit();
-	if (istty && (signal(SIGINT, sigint_handler) == SIG_ERR))
-		early_exit();
-	if (!istty && signal(SIGINT, non_interactive_sigint_handler) == SIG_ERR)
-		early_exit();
+	install(status, SIGQUIT, SIG_IGN);
+	if (status->ft_isatty)
+		install(status, SIGINT, sigint_handler);
+	else
+		install(status, SIGINT, non_interactive_sigint_handler);
 }
 
-void	waiting_handlers(void)
+void	waiting_handlers(t_status *status)
 {
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		early_exit();
-	if (signal(SIGINT, waiting_child) == SIG_ERR)
-		early_exit();
+	install(status, SIGINT, waiting_child);
 }
 
-void	heredoc_handlers(void)
+void	heredoc_handlers(t_status *status)
 {
-	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-		early_exit();
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-		early_exit();
+	install(status, SIGQUIT, SIG_DFL);
+	install(status, SIGINT, SIG_DFL);
 }
 
-void	uninstall_handlers(void)
+void	uninstall_handlers(t_status *status)
 {
-	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-		early_exit();
+	install(status, SIGINT, SIG_IGN);
 }
