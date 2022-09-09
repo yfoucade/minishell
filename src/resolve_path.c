@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:23:37 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:40:55 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*relative_path(char *command)
 {
 	char	*res;
 
+	// todo: replace getenv with ft_getenv, this means that we need 'status'
 	res = ft_strcat_free(getenv("PWD"), "/", FALSE, FALSE);
 	res = ft_strcat_free(res, command, TRUE, FALSE);
 	return (res);
