@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 11:07:17 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:58:40 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,35 @@
 
 void	install_handlers(t_status *status)
 {
-	__sighandler_t	ret;
+	char	istty;
 
-	ret = signal(SIGQUIT, SIG_IGN);
-	if (ret == SIG_ERR)
+	istty = status->ft_isatty;
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		early_exit();
-	if (status->ft_isatty)
-	{
-		ret = signal(SIGINT, sigint_handler);
-		if (ret == SIG_ERR)
-			early_exit();
-	}
-	else
-	{
-		ret = signal(SIGINT, non_interactive_sigint_handler);
-		if (ret == SIG_ERR)
-			early_exit();
-	}
+	if (istty && (signal(SIGINT, sigint_handler) == SIG_ERR))
+		early_exit();
+	if (!istty && signal(SIGINT, non_interactive_sigint_handler) == SIG_ERR)
+		early_exit();
 }
 
 void	waiting_handlers(void)
 {
-	__sighandler_t	ret;
-
-	ret = signal(SIGQUIT, SIG_IGN);
-	if (ret == SIG_ERR)
-		exit(1);
-	ret = signal(SIGINT, waiting_child);
-	if (ret == SIG_ERR)
-		exit(1);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		early_exit();
+	if (signal(SIGINT, waiting_child) == SIG_ERR)
+		early_exit();
 }
 
 void	heredoc_handlers(void)
 {
-	__sighandler_t	ret;
-
-	ret = signal(SIGQUIT, SIG_DFL);
-	if (ret == SIG_ERR)
-		exit(1);
-	ret = signal(SIGINT, SIG_DFL);
-	if (ret == SIG_ERR)
-		exit(1);
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+		early_exit();
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		early_exit();
 }
 
 void	uninstall_handlers(void)
 {
-	__sighandler_t	ret;
-
-	ret = signal(SIGINT, SIG_IGN);
-	if (ret == SIG_ERR)
-		exit(1);
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+		early_exit();
 }
