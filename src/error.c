@@ -6,15 +6,21 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 11:05:00 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:59:35 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	early_exit(void)
+void	panic(t_status *status)
 {
-	perror("minishell");
+	if (errno)
+		perror("minishell");
+	else if (status && status->error_msg)
+		flush_error_msg(status);
+	else
+		ft_putfd("minishell: Fatal error\n", STDERR_FILENO);
+	free_status(status);
 	exit(1);
 }
 
