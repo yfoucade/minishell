@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 23:34:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:59:31 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void			add_custom_variables(t_status *status);
 t_env_variable	*parse_env_variable(char *str);
 
 // error.c
-void			early_exit(void);
+void			panic(t_status *status);
 void			malloc_error(t_status *status);
 char			set_error_msg(t_status *status, char *str);
 void			flush_error_msg(t_status *status);
@@ -215,9 +215,9 @@ int				get_chunk(int fd, char *chunk_buf);
 
 // handler_installers.c
 void			install_handlers(t_status *status);
-void			waiting_handlers(void);
-void			heredoc_handlers(void);
-void			uninstall_handlers(void);
+void			waiting_handlers(t_status *status);
+void			heredoc_handlers(t_status *status);
+void			uninstall_handlers(t_status *status);
 
 // handlers.c
 void			sigint_handler(int sig);

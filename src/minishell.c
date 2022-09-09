@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 16:53:52 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:53:12 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	summon_child(t_status *status)
 	if (!status->child_id)
 		subshell(status);
 	if (status->ft_isatty)
-		waiting_handlers();
+		waiting_handlers(status);
 	waitpid(status->child_id, &status->child_exit_status, 0);
 	install_handlers(status);
 	set_exit_status(status);
