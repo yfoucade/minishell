@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:43:15 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/08 23:39:36 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	init_status(t_status *status)
 	status->curr_pipeline = NULL;
 	status->prev_pipeline = NULL;
 	status->command = NULL;
-	status->error_msg = NULL;
 	status->return_value = 0;
+	status->error_msg = NULL;
 	status->exit_status = 0;
 	status->in_fd = STDIN_FILENO;
 	status->out_fd = STDOUT_FILENO;
