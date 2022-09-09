@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 15:04:05 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:46:20 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/09 16:32:55 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	array_size(char **array)
 {
 	int	res;
 
+	if (!array)
+		return (0);
 	res = 0;
 	while (*(array++))
 		++res;
@@ -30,7 +32,7 @@ char	**copy_environ(char **env)
 
 	copy = (char **)malloc(sizeof(*copy) * (array_size(env) + 1));
 	if (!copy)
-		return (NULL);
+		panic(NULL);
 	tmp_env = env;
 	tmp_copy = copy;
 	while (*tmp_env)
@@ -39,7 +41,7 @@ char	**copy_environ(char **env)
 		if (!*(tmp_copy - 1))
 		{
 			free_array(copy);
-			return (NULL);
+			panic(NULL);
 		}
 	}
 	*tmp_copy = NULL;
