@@ -30,7 +30,6 @@ SRC = \
 	parse.c \
 	pipe.c \
 	pipeline.c \
-	print_utils.c \
 	read_input.c \
 	redir_postprocess.c \
 	redir_preprocess.c \
