@@ -24,6 +24,7 @@ SRC = \
 	lst_add.c \
 	lst_add_n.c \
 	lst_to_array.c \
+	print_utils.c \
 	trim.c \
 	uctoa.c \
 

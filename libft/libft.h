@@ -6,18 +6,24 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 17:01:24 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 12:28:45 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/12 16:17:22 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <errno.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 // # include <stddef.h>
 
 # define FALSE 0
 # define TRUE 1
+
+# define SUCCESS 0
+# define FAILURE 1
 
 typedef struct s_str_list
 {
@@ -43,9 +49,12 @@ char		*ft_strndup(char *str, int n);
 char		is_blank_chr(char c);
 char		is_blank_str(char *str);
 char		is_meta(char c);
-t_str_list	*lst_add_n(t_str_list **lst, char *str, char *end);
+char		lst_add_n(t_str_list **lst, char *str, char *end);
 t_str_list	*lst_add(t_str_list **lst, char *str);
 char		**lst_to_array(t_str_list *lst);
+char		ft_putfd(char *str, int fd);
+char		ft_putstr(char *str);
+void		print_str_tab(char **str_tab);
 char		*trim(char *str);
 char		*uctoa(unsigned char n);
 
