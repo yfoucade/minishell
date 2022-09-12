@@ -25,12 +25,13 @@
 		[x] sigint_handler
 		[x] non_interactive_sigint_handler
 	[] run_shell
-		[] read_input
-			[] get_next_line
-				[] get_chunk
-			[] ft_exit
-			[] ft_split_unquoted_c
-				[] lst_add_n
+		[x] read_input
+			[x] get_next_line
+				[x] get_chunk
+			[x] ft_exit
+			[x] ft_split_unquoted_c
+				[x] lst_add_n					//now returns a char
+			[x] flush_error_msg
 		[] malloc_error
 		[] decide_add_history
 			[] is_blank_str
@@ -52,7 +53,6 @@
 					[] free_str_list
 					[] parse_status
 						[] lst_add
-							[] lst_add_n
 						[] lst_to_array
 					[] expand_array_elements
 						[] replace_by_expansion
