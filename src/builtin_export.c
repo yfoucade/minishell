@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:46:14 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:54:49 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,58 +24,79 @@ char	is_valid_identifier(char *str)
 	return (TRUE);
 }
 
-void	replace_env_variable(t_status *status, char *name, char *value)
+char	replace_env_variable(t_status *status, char *name, char *value)
 {
 	char	**env_copy;
 	char	*put_in_env;
+	char	*full_start;
 
 	env_copy = status->environ;
+	full_start = ft_strcat(name, "=");
+	if (!full_start)
+		return (FAILURE);
 	while (*env_copy)
 	{
-		if (ft_startswith(name, *env_copy))
+		if (ft_startswith(full_start, *env_copy))
 			break ;
 		++env_copy;
 	}
-	put_in_env = ft_strcat(name, "=");
-	put_in_env = ft_strcat_free(put_in_env, value, TRUE, FALSE);
+	free(full_start);
+	if (!*env_copy)
+		return (FAILURE);
+	put_in_env = ft_strcat_free(ft_strcat(name, "="), value, TRUE, FALSE);
+	if (!put_in_env)
+		return (FAILURE);
 	free(*env_copy);
 	*env_copy = put_in_env;
-	return ;
+	return (SUCCESS);
 }
 
-void	add_env_variable(t_status *status, char *name, char *value)
+void	copy_array_values(char **old, char **new)
+{
+	if (!old || !new)
+		return ;
+	while (*old)
+		*(new++) = *(old++);
+	*new = NULL;
+}
+
+char	add_env_variable(t_status *status, char *name, char *value)
 {
 	char	**new_env;
-	char	**tmp_old_env;
 	char	**tmp_new_env;
 	char	*put_in_env;
 
 	new_env = malloc(sizeof(char *) * (array_size(status->environ) + 2));
 	tmp_new_env = new_env;
-	tmp_old_env = status->environ;
-	while (*tmp_old_env)
+	copy_array_values(status->environ, tmp_new_env);
+	put_in_env = ft_strcat_free(ft_strcat(name, "="), value, TRUE, FALSE);
+	if (!new_env || !put_in_env)
 	{
-		*(tmp_new_env++) = ft_strdup(*(tmp_old_env++));
-		if (!*(tmp_new_env - 1))
-		{
-			free_array(new_env);
-			exit (1);
-		}
+		free_array(new_env);
+		return (FAILURE);
 	}
-	put_in_env = ft_strcat(name, "=");
-	put_in_env = ft_strcat_free(put_in_env, value, TRUE, FALSE);
+	while (*tmp_new_env)
+		++tmp_new_env;
 	*(tmp_new_env++) = put_in_env;
 	*tmp_new_env = NULL;
-	free_array(status->environ);
+	free(status->environ);
 	status->environ = new_env;
+	return (SUCCESS);
 }
 
-void	replace_or_add(t_status *status, char *name, char *value)
+char	replace_or_add(t_status *status, char *name, char *value)
 {
 	if (ft_getenv(status, name))
-		replace_env_variable(status, name, value);
+	{
+		if (replace_env_variable(status, name, value))
+			return (FAILURE);
+	}
 	else
-		add_env_variable(status, name, value);
+	{
+		if (add_env_variable(status, name, value))
+			return (FAILURE);
+	}
+	return (SUCCESS);
 }
 
 void	export(t_status *status)

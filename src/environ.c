@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 15:04:05 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 16:32:55 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:56:16 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ char	*ft_getenv(t_status *status, char *variable)
 	char	*full_start;
 
 	full_start = ft_strcat(variable, "=");
+	if (!full_start)
+		return (NULL);
 	env = status->environ;
 	while (*env)
 	{
@@ -68,10 +70,13 @@ char	*ft_getenv(t_status *status, char *variable)
 	return (NULL);
 }
 
-void	add_custom_variables(t_status *status)
+char	add_custom_variables(t_status *status)
 {
-	replace_or_add(status, "PS1", "$ ");
-	replace_or_add(status, "PS2", "> ");
+	if (replace_or_add(status, "PS1", "$ "))
+		return (FAILURE);
+	if (replace_or_add(status, "PS2", "> "))
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 t_env_variable	*parse_env_variable(char *str)

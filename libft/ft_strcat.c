@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:32:25 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 16:34:23 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:38:40 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strcat(char *s1, char *s2)
 	char	*tmp;
 
 	res = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!res)
+		return (NULL);
 	tmp = res;
 	if (s1)
 		while (*s1)

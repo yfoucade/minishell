@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 16:49:50 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 21:56:03 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:05:18 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,18 @@ void	print_str_tab(char **str_tab)
 	}
 }
 
-void	ft_putfd(char *str, int fd)
+char	ft_putfd(char *str, int fd)
 {
-	write(fd, str, ft_strlen(str));
+	if (write(fd, str, ft_strlen(str)) == -1)
+	{
+		perror("minishell");
+		errno = 0;
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }
 
-void	ft_putstr(char *str)
+char	ft_putstr(char *str)
 {
-	ft_putfd(str, 1);
+	return (ft_putfd(str, STDOUT_FILENO));
 }

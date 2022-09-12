@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 15:59:31 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:05:30 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,9 @@ void			env(t_status *status);
 void			ft_exit(t_status *status);
 
 // builtin_export.c
-void			add_env_variable(t_status *status, char *name, char *value);
+char			add_env_variable(t_status *status, char *name, char *value);
 char			is_valid_identifier(char *str); //same
-void			replace_or_add(t_status *status, char *name, char *value);
+char			replace_or_add(t_status *status, char *name, char *value);
 void			export(t_status *status);
 
 // builtin_pwd.c
@@ -186,7 +186,7 @@ char			*concatenate(t_str_list *chunks);
 int				array_size(char **array);
 char			**copy_environ(char **env);
 char			*ft_getenv(t_status *status, char *variable);
-void			add_custom_variables(t_status *status);
+char			add_custom_variables(t_status *status);
 t_env_variable	*parse_env_variable(char *str);
 
 // error.c
@@ -256,8 +256,8 @@ void			free_pipelines(t_status *status);
 
 // print_utils.c
 void			print_str_tab(char **str_tab);
-void			ft_putfd(char *str, int fd);
-void			ft_putstr(char *str);
+char			ft_putfd(char *str, int fd);
+char			ft_putstr(char *str);
 
 // read_input.c
 char			read_input(t_status *status);

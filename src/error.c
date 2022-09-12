@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 15:59:35 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:10:42 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ char	set_error_msg(t_status *status, char *str)
 
 void	flush_error_msg(t_status *status)
 {
-	if (!status->error_msg)
+	if (!status || !status->error_msg)
 		return ;
 	ft_putfd(status->error_msg, STDERR_FILENO);
 	if (status->error_msg[ft_strlen(status->error_msg) - 1] != '\n')
 		ft_putfd("\n", STDERR_FILENO);
 	free(status->error_msg);
 	status->error_msg = NULL;
-	status->return_value = 0;
+	// status->return_value = 0; // not here, make sure to put it elsewhere
 }
