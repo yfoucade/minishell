@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 17:40:55 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/12 22:45:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*search_paths(t_status *status, char *command)
 	return (absolute_path);
 }
 
-t_command	*resolve_path(t_status *status, char	*command)
+t_command	*resolve_path(t_status *status, char *command)
 {
 	t_command	*res;
 
