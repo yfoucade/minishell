@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 12:40:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 18:25:03 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/12 23:07:33 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,14 @@ char	read_input(t_status *status)
 	else
 		status->input = get_next_line(STDIN_FILENO);
 	if (!status->input)
-	{
 		ft_exit(status);
-	}
 	status->pipelines = ft_split_unquoted_c(status->input, '\n');
-	if (!status->pipelines)
-	{
-		free_status(status);
-		perror("minishell: ");
-		exit(0);
-	}
 	free(status->input);
 	status->input = NULL;
+	if (!status->pipelines)
+	{
+		flush_error_msg(status, "Could not interpret pipeline\n");
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
