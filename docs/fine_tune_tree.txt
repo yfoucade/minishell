@@ -32,11 +32,11 @@
 			[x] ft_split_unquoted_c
 				[x] lst_add_n					//now returns a char
 			[x] flush_error_msg
-		[] malloc_error
-		[] decide_add_history
-			[] is_blank_str
-				[] is_blank_chr
-			[] ft_strcmp
+		[x] malloc_error
+		[x] decide_add_history
+			[x] is_blank_str
+				[x] is_blank_chr
+			[x] ft_strcmp
 		[] execute_pipeline
 			[] is_valid_quoting
 			[] set_error_msg
