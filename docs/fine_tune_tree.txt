@@ -20,10 +20,10 @@
 					[x] ft_strcat_free
 				[x] add_env_variable
 					[x] copy_array_values
-	[] install_handlers
-		[] install
-		[] sigint_handler
-		[] non_interactive_sigint_handler
+	[x] install_handlers
+		[x] install
+		[x] sigint_handler
+		[x] non_interactive_sigint_handler
 	[] run_shell
 		[] read_input
 			[] get_next_line
