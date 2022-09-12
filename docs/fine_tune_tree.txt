@@ -1,29 +1,29 @@
 [] main
-	[] init_status
+	[x] init_status
+		[x] copy_environ
+			[x] array_size
+			[x] panic
+				[x] flush_error_msg
+					[x] ft_putfd
+					[x] ft_strlen
+				[x] free_status
+			[x] ft_strdup
+				[x] ft_strndup
+			[x] free_array
+		[x] add_custom_variables
+			[x] replace_or_add
+				[x] ft_getenv
+					[x] ft_strcat
+					[x] ft_startswith
+					[x] ft_strchr
+				[x] replace_env_variable
+					[x] ft_strcat_free
+				[x] add_env_variable
+					[x] copy_array_values
 	[] install_handlers
 		[] install
-			[] panic
-				[] flush_error_msg
-					[] ft_putfd
-					[] ft_strlen
-				[] ft_putfd
-				[] free_status
 		[] sigint_handler
 		[] non_interactive_sigint_handler
-	[] copy_environ
-		[] array_size
-		[] ft_strdup
-			[] ft_strndup
-		[] free_array
-	[] add_custom_variables
-		[] replace_or_add
-			[] ft_getenv
-				[] ft_strcat
-				[] ft_startswith
-				[] ft_strchr
-			[] replace_env_variable
-				[] ft_strcat_free
-			[] add_env_variable
 	[] run_shell
 		[] read_input
 			[] get_next_line
