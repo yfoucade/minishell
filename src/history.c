@@ -6,21 +6,21 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:25:43 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/19 17:56:15 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/13 00:48:23 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	decide_add_history(t_status *environ)
+void	decide_add_history(t_status *status)
 {
-	if (is_blank_str(environ->curr_pipeline))
+	if (is_blank_str(status->curr_pipeline))
 		return ;
-	if (!(environ->prev_pipeline))
+	if (!(status->prev_pipeline))
 	{
-		add_history(environ->curr_pipeline);
+		add_history(status->curr_pipeline);
 		return ;
 	}
-	if (ft_strcmp(environ->prev_pipeline, environ->curr_pipeline))
-		add_history(environ->curr_pipeline);
+	if (ft_strcmp(status->prev_pipeline, status->curr_pipeline))
+		add_history(status->curr_pipeline);
 }
