@@ -6,30 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:48:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 16:47:47 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/12 22:51:54 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	parse(t_str_list *tokens, t_str_list **args, t_str_list **redirections)
-{
-	*args = NULL;
-	*redirections = NULL;
-	while (tokens)
-	{
-		if (is_word(tokens->str))
-			*args = lst_add(args, tokens->str);
-		else
-		{
-			*redirections = lst_add(redirections, tokens->str);
-			tokens = tokens->next;
-			*redirections = lst_add(redirections, tokens->str);
-		}
-		tokens = tokens->next;
-	}
-	return (SUCCESS);
-}
 
 char	parse_status(t_status *status)
 {
@@ -39,14 +20,17 @@ char	parse_status(t_status *status)
 	while (tokens_copy)
 	{
 		if (is_word(tokens_copy->str))
-			status->lst_args = lst_add(&status->lst_args, tokens_copy->str);
+		{
+			if (lst_add(&status->lst_args, tokens_copy->str))
+				return (FAILURE);
+		}
 		else
 		{
-			status->lst_redirections = lst_add(
-					&status->lst_redirections, tokens_copy->str);
+			if (lst_add(&status->lst_redirections, tokens_copy->str))
+				return (FAILURE);
 			tokens_copy = tokens_copy->next;
-			status->lst_redirections = lst_add(
-					&status->lst_redirections, tokens_copy->str);
+			if (lst_add(&status->lst_redirections, tokens_copy->str))
+				return (FAILURE);
 		}
 		tokens_copy = tokens_copy->next;
 	}
