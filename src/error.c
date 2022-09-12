@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/13 00:38:37 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/13 00:49:59 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	panic(t_status *status)
 
 void	malloc_error(t_status *status)
 {
+	(void)status;
 	printf("minishell: malloc error\n");
 }
 
