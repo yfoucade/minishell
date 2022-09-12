@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 15:53:12 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/13 00:04:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,13 @@ void	run_shell(t_status *status)
 			status->curr_pipeline = ft_strdup(tmp->str);
 			if (!status->curr_pipeline)
 				malloc_error(status);
-			if (*status->curr_pipeline)
+			else if (*status->curr_pipeline)
 			{
 				decide_add_history(status);
 				execute_pipeline(status);
+				// flush in execute_commands()
 				if (status->return_value)
-					flush_error_msg(status);
+					flush_error_msg(status, NULL);
 				save_prev_pipeline(status);
 			}
 			free_curr_pipeline(status);
