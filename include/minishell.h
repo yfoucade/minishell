@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/10 11:05:30 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/12 23:07:18 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ t_env_variable	*parse_env_variable(char *str);
 void			panic(t_status *status);
 void			malloc_error(t_status *status);
 char			set_error_msg(t_status *status, char *str);
-void			flush_error_msg(t_status *status);
+void			flush_error_msg(t_status *status, char *str);
 
 // expansion_find_end.c
 char			*find_variable_end(char *s);
@@ -253,11 +253,6 @@ char			is_valid_pipeline(t_str_list *commands);
 void			save_prev_pipeline(t_status *status);
 void			free_curr_pipeline(t_status *status);
 void			free_pipelines(t_status *status);
-
-// print_utils.c
-void			print_str_tab(char **str_tab);
-char			ft_putfd(char *str, int fd);
-char			ft_putstr(char *str);
 
 // read_input.c
 char			read_input(t_status *status);
