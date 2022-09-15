@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:48:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 22:51:54 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 01:36:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,34 @@ char	parse_status(t_status *status)
 	}
 	status->args = lst_to_array(status->lst_args);
 	status->redirections = lst_to_array(status->lst_redirections);
+	if (!status->args || !status->redirections)
+		return (FAILURE);
 	return (SUCCESS);
 }
 
-unsigned char	parse_curr_command(t_status *status)
+char	parse_curr_command(t_status *status)
 {
-	status->tokens = tokenize(status->curr_command->str);
+	if (tokenize(status, status->curr_command->str))
+		return (FAILURE);
 	if (!is_valid_syntax(status->tokens))
 	{
-		set_error_msg(status, "minishell: missing file name\n");
-		status->return_value = ERR_FILENAME_MISSING;
-		free_str_list(status->tokens);
-		status->tokens = NULL;
+		set_error_msg(status, "minishell: missing file name or delimiter\n");
+		status->tmp_exit = FAILURE;
+		return (FAILURE);
 	}
-	parse_status(status);
+	if (parse_status(status))
+		return (FAILURE);
 	if (expand_array_elements(status, status->args))
 	{
-		printf("minishell: bad substitution\n");
-		return (0);
+		set_error_msg(status, "minishell: bad substitution\n");
+		status->tmp_exit = FAILURE;
+		return (FAILURE);
 	}
 	if (expand_array_elements(status, status->redirections))
 	{
-		printf("minishell: ambiguous redirect\n");
-		return (0);
+		set_error_msg(status, "minishell: bad substitution\n");
+		status->tmp_exit = FAILURE;
+		return (FAILURE);
 	}
 	status->command = resolve_path(status, status->args[0]);
 	return (SUCCESS);

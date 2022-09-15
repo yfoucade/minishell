@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 17:49:20 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 00:35:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ char	*expand(t_status *status, char *str)
 	if (*str == '\'')
 		return (ft_strdup(str));
 	chunks = construct_raw_linked_list(str);
+	if (!chunks)
+		return (NULL);
 	chunks = substitute_all(status, chunks);
+	if (!chunks)
+	{
+		free_str_list(chunks);
+		return (NULL);
+	}
 	res = concatenate(chunks);
 	free_str_list(chunks);
 	return (res);
@@ -39,11 +46,16 @@ char	expand_lst(t_status *status, t_str_list *lst)
 	{
 		user_input_quotes = (*lst->str == '\'') + (*lst->str == '"');
 		tmp_str = expand(status, lst->str);
+		if (!tmp_str)
+			return (FAILURE);
 		if (user_input_quotes)
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
 		else
 			expansion = ft_strdup(tmp_str);
+		
 		free(tmp_str);
+		if (!expansion)
+			return (FAILURE);
 		free(lst->str);
 		lst->str = expansion;
 		lst = lst->next;
@@ -57,9 +69,17 @@ char	replace_by_expansion(t_status *status, char *str, char **dest)
 	char		*expansion;
 
 	three_type_split = split_three_type(str);
-	expand_lst(status, three_type_split);
+	if (!three_type_split)
+		return (FAILURE);
+	if (expand_lst(status, three_type_split))
+	{
+		free_str_list(three_type_split);
+		return (FAILURE);
+	}
 	expansion = concatenate(three_type_split);
 	free_str_list(three_type_split);
+	if (!expansion)
+		return (FAILURE);
 	free(*dest);
 	*dest = expansion;
 	return (SUCCESS);

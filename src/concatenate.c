@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 23:43:31 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 23:43:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 01:02:11 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char	*concatenate(t_str_list *chunks)
 
 	size = get_total_size(chunks);
 	res = malloc(size + 1);
+	if (!res)
+		return (NULL);
 	fill(res, chunks);
 	return (res);
 }

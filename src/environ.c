@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 15:04:05 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/10 11:56:16 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 01:00:53 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*ft_getenv(t_status *status, char *variable)
 	char	*full_start;
 
 	full_start = ft_strcat(variable, "=");
-	if (!full_start)
-		return (NULL);
+	if (!full_start || !variable)
+		return (free(full_start), free(variable), NULL);
 	env = status->environ;
 	while (*env)
 	{

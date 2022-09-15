@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 12:36:47 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 12:36:53 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 00:48:57 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*parse_name(t_status *status, char *str)
 	char	*name;
 	char	*value;
 
-	name = NULL;
 	len = ft_strlen(str);
 	if (*str == '?')
 		return (uctoa(status->exit_status));
@@ -28,9 +27,8 @@ char	*parse_name(t_status *status, char *str)
 		if (!is_valid_identifier(name))
 		{
 			free(name);
-			status->return_value = FAILURE;
-			status->exit_status = FAILURE;
-			set_error_msg(status, "invalid identifier\n");
+			status->tmp_exit = FAILURE;
+			set_error_msg(status, "minishell: invalid identifier\n");
 			return (NULL);
 		}
 	}

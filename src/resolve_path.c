@@ -6,18 +6,17 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 22:45:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:11:07 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*relative_path(char *command)
+char	*relative_path(t_status *status, char *command)
 {
 	char	*res;
 
-	// todo: replace getenv with ft_getenv, this means that we need 'status'
-	res = ft_strcat_free(getenv("PWD"), "/", FALSE, FALSE);
+	res = ft_strcat_free(ft_getenv(status, "PWD"), "/", FALSE, FALSE);
 	res = ft_strcat_free(res, command, TRUE, FALSE);
 	return (res);
 }
@@ -67,9 +66,9 @@ char	*search_paths(t_status *status, char *command)
 
 	absolute_path = NULL;
 	paths = ft_getenv(status, "PATH");
-	if (!paths)
-		return (NULL);
 	lst_paths = ft_split(paths, ':');
+	if (!paths || !lst_paths)
+		return (free(paths), free_str_list(lst_paths), NULL);
 	tmp_path = lst_paths;
 	while (tmp_path)
 	{
@@ -90,13 +89,22 @@ t_command	*resolve_path(t_status *status, char *command)
 	if (!res)
 		return (NULL);
 	if (*command == '/')
-		t_command_set_path(&res, command, FALSE);
+	{
+		if (t_command_set_path(&res, command, FALSE))
+			return (free(res), NULL);
+	}
 	else if (*ft_strchr(command, '/'))
-		t_command_set_path(&res, relative_path(command), TRUE);
+	{
+		if (t_command_set_path(&res, relative_path(status, command), TRUE))
+			return (free(res), NULL);
+	}
 	else
 	{
 		if (t_command_set_fun_ptr(&res, search_builtins(command)))
-			t_command_set_path(&res, search_paths(status, command), TRUE);
+		{
+			if (t_command_set_path(&res, search_paths(status, command), TRUE))
+				return (free(res), NULL);
+		}
 	}
 	return (res);
 }

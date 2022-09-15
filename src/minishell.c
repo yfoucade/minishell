@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/13 00:04:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 02:46:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	subshell(t_status *status)
 		dup2(status->out_pipe[1], STDOUT_FILENO);
 	execve(status->command->u_command_ref.command_path,
 		status->args, status->environ);
-	exit(0);
 }
 
 void	summon_child(t_status *status)
@@ -44,24 +43,24 @@ void	execute_commands(t_status *status)
 	status->curr_command = status->commands;
 	while (status->curr_command && !g_stop_non_int)
 	{
-		if (parse_curr_command(status))
-			return ;
-		if (!preprocess_redirections(status))
+		if (!parse_curr_command(status) && !preprocess_redirections(status))
 		{
 			if (status->command->command_type == CMD_BUILTIN)
-				execute_builtin(status);
+				status->tmp_exit = execute_builtin(status);
 			else if (status->command->command_type == CMD_ABS_PATH)
 				summon_child(status);
 			else
 			{
 				ft_putfd("command not found\n", STDERR_FILENO);
-				status->exit_status = 127;
+				status->tmp_exit = 127;
 			}
 		}
+		flush_error_msg(status, NULL);
 		postprocess_redirections(status);
 		status->curr_command = status->curr_command->next;
 		free_parsed_command(status);
 	}
+	status->exit_status = status->tmp_exit;
 	if (g_stop_non_int)
 		free_and_exit(status);
 }
@@ -70,18 +69,18 @@ void	execute_pipeline(t_status *status)
 {
 	if (!is_valid_quoting(status->curr_pipeline))
 	{
-		set_error_msg(status, "minishell: quoting error\n");
-		status->return_value = ERR_QUOTE;
+		flush_error_msg(status, "quoting error\n");
 		status->exit_status = 1;
 		return ;
 	}
 	status->commands = ft_split_unquoted_c(status->curr_pipeline, '|');
-	if (!status->commands)
-		malloc_error(status);
-	else if (!is_valid_pipeline(status->commands))
+	if (!is_valid_pipeline(status->commands))
 	{
-		set_error_msg(status, "minishell: pipeline error\n");
-		status->return_value = ERR_PIPELINE;
+		free_str_list(status->commands);
+		status->commands = NULL;
+		flush_error_msg(status, "pipeline error\n");
+		status->exit_status = ERR_PIPELINE;
+		return ;
 	}
 	execute_commands(status);
 	free_str_list(status->commands);
@@ -106,9 +105,6 @@ void	run_shell(t_status *status)
 			{
 				decide_add_history(status);
 				execute_pipeline(status);
-				// flush in execute_commands()
-				if (status->return_value)
-					flush_error_msg(status, NULL);
 				save_prev_pipeline(status);
 			}
 			free_curr_pipeline(status);
