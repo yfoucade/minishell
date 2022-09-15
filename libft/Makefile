@@ -1,6 +1,7 @@
 NAME = libft.a
 
 SRC = \
+	copy_array.c \
 	count.c \
 	free_array.c \
 	free_str_list.c \

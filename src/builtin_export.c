@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:31:13 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:42:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,6 @@ char	replace_env_variable(t_status *status, char *name, char *value)
 	free(*env_copy);
 	*env_copy = put_in_env;
 	return (SUCCESS);
-}
-
-void	copy_array_values(char **old, char **new)
-{
-	if (!old || !new)
-		return ;
-	while (*old)
-		*(new++) = *(old++);
-	*new = NULL;
 }
 
 char	add_env_variable(t_status *status, char *name, char *value)

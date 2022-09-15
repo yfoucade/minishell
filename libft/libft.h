@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 17:01:24 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 18:12:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:44:46 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_str_list
 	struct s_str_list	*next;
 }	t_str_list;
 
+void		copy_array_values(char **old, char **new);
 void		free_array(char **array);
 void		free_str_list(t_str_list *str_list);
 char		ft_is_alnum(char c);
