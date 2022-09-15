@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:32:41 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:36:40 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:52:41 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ char	lst_add_n(t_str_list **lst, char *str, char *end)
 		return (FAILURE);
 	new->str = ft_strndup(str, end - str);
 	if (!new->str)
-	{
-		free(new);
-		return (FAILURE);
-	}
+		return (free(new), FAILURE);
 	new->next = NULL;
 	if (!*lst)
 		*lst = new;
