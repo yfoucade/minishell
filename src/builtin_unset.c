@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 01:36:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 02:31:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:32:27 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	copy_except_loop(char **old_env, char **new_env, char *ignore)
 			*new_env = *old_env;
 			++new_env;
 		}
+		else
+			free(*old_env);
 		++old_env;
 	}
 	*new_env = NULL;

@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 02:26:16 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:31:13 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	add_env_variable(t_status *status, char *name, char *value)
 	if (!new_env || !put_in_env)
 	{
 		free_array(new_env);
+		free(put_in_env);
 		return (FAILURE);
 	}
 	while (*tmp_new_env)
