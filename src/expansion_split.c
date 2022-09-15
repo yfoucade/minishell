@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 23:37:29 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:25:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 04:03:33 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ char	add_next_chunk(t_str_list **chunks, char **str)
 	new_chunk->next = NULL;
 	new_chunk->str = ft_strndup(*str, end - *str);
 	if (!new_chunk->str)
-	{
-		free(new_chunk);
-		return (FAILURE);
-	}
+		return (free(new_chunk), FAILURE);
 	*str = end;
 	if (!*chunks)
 		*chunks = new_chunk;
@@ -77,11 +74,7 @@ t_str_list	*split_three_type(char *str)
 		}
 		tmp = ft_strndup(str, end - str);
 		if (lst_add(&res, tmp))
-		{
-			free(tmp);
-			free_str_list(res);
-			return (NULL);
-		}
+			return (free(tmp), free_str_list(res), NULL);
 		free(tmp);
 		str = end;
 	}

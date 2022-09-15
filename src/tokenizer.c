@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:47:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/14 21:05:12 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 04:13:15 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,20 @@ char	*find_token_end(char *command)
 
 char	add_next_token(t_str_list **tokens, char **command)
 {
-	char		*end;
-	t_str_list	*tmp;
-	t_str_list	*new_token;
+	char	*end;
+	char	*str;
 
 	while (is_blank_chr(**command))
 		(*command)++;
 	if (!**command)
 		return (SUCCESS);
 	end = find_token_end(*command);
-	new_token = malloc(sizeof(*new_token));
-	if (!new_token)
-		return (FAILURE);
-	new_token->next = NULL;
-	new_token->str = ft_strndup(*command, end - *command);
-	if (!new_token->str)
-		return (FAILURE);
+	str = ft_strndup(*command, end - *command);
 	*command = end;
-	if (!*tokens)
-		*tokens = new_token;
-	else
-	{
-		tmp = *tokens;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_token;
-	}
+	if (!str)
+		return (FAILURE);
+	if (lst_add(tokens, str))
+		return (free(str), FAILURE);
 	return (SUCCESS);
 }
 
