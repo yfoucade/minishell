@@ -1,4 +1,4 @@
-[] main
+[x] main
 	[x] init_status
 		[x] copy_environ
 			[x] array_size
@@ -24,7 +24,7 @@
 		[x] install
 		[x] sigint_handler
 		[x] non_interactive_sigint_handler
-	[] run_shell
+	[x] run_shell
 		[x] read_input
 			[x] get_next_line
 				[x] get_chunk
@@ -37,87 +37,89 @@
 			[x] is_blank_str
 				[x] is_blank_chr
 			[x] ft_strcmp
-		[] execute_pipeline
-			[] is_valid_quoting
-			[] set_error_msg
-			[] is_valid_pipeline
+		[x] execute_pipeline
+			[x] is_valid_quoting
+			[x] flush_error_msg
+			[x] is_valid_pipeline
 			[] execute_commands
-				[] parse_curr_command
-					[] tokenize
-						[] add_next_token
-							[] find_token_end
-								[] is_meta
-					[] is_valid_syntax
-						[] is_operator
-						[] is_word
-					[] free_str_list
-					[] parse_status
-						[] lst_add
-						[] lst_to_array
-					[] expand_array_elements
-						[] replace_by_expansion
-							[] split_three_type
-							[] expand_lst
-								[] expand
-									[] construct_raw_linked_list
-										[] add_next_chunk
-											[] find_chunk_end
-												[] find_variable_end
-													[] ft_is_alpha
-													[] ft_is_alnum
-												[] find_constant_end
-									[] substitute_all
-										[] substitute_one
-											[] parse_name
-									[] concatenate
-										[] get_total_size
-										[] fill
-					[] resolve_path
-						[] new_t_command
-						[] t_command_set_path
-							[] t_command_set_type
-						[] relative_path
-						[] t_command_set_fun_ptr
-						[] search_builtins
-							[] pwd
-							[] cd
-							[] echo
-								[] ft_is_flag
-							[] export
-								[] parse_env_variable
-								[] is_valid_identifier
-							[] unset
-								[] copy_except
-									[] copy_except_loop
-							[] env
-							[] ft_exit
-						[] search_paths
-							[] ft_split
-							[] search_in_directory
-								[] construct_path
-				[] preprocess_redirections
-					[] create_pipe
-					[] redirect_output
-					[] redir_input
-						[] close_pipe_end
-						[] free_pipe
-						[] create_heredoc
-							[] heredoc
-								[] heredoc_handlers
-								[] write_until_delim
-									[] trim_right_newline
-								[] free_parsed_command
-							[] uninstall_handlers
-							[] seek_delim
-						[] input_from_file
-				[] execute_builtin
-					[] process_output
-				[] summon_child
-					[] subshell
-					[] waiting_handlers
-					[] set_exit_status
-				[] postprocess_redirections
-				[] free_and_exit
-		[] save_prev_pipeline
-		[] free_curr_pipeline
-		[] free_pipelines
+				[x] parse_curr_command
+					[x] tokenize
+						[x] add_next_token
+							[x] find_token_end
+								[x] is_meta
+					[x] is_valid_syntax
+						[x] is_operator
+						[x] is_word
+					[x] set_error_msg
+					[x] parse_status
+						[x] lst_add
+						[x] lst_to_array
+					[x] expand_array_elements
+						[x] replace_by_expansion
+							[x] split_three_type
+							[x] expand_lst
+								[x] expand
+									[x] construct_raw_linked_list
+										[x] add_next_chunk
+											[x] find_chunk_end
+												[x] find_variable_end
+													[x] ft_is_alpha
+													[x] ft_is_alnum
+												[x] find_constant_end
+									[x] substitute_all
+										[x] substitute_one
+											[x] parse_name
+												[x] uctoa
+												[x] is_valid_identifier
+									[x] concatenate
+										[x] get_total_size
+										[x] fill
+					[x] resolve_path
+						[x] new_t_command
+						[x] t_command_set_path
+							[x] t_command_set_type
+						[x] relative_path
+						[x] t_command_set_fun_ptr
+						[x] search_builtins
+							[x] pwd
+							[x] cd
+							[x] echo
+								[x] ft_is_flag
+							[x] export
+								[x] parse_env_variable
+								[x] is_valid_identifier
+							[x] unset
+								[x] copy_except
+									[x] copy_except_loop
+							[x] env
+							[x] ft_exit
+						[x] search_paths
+							[x] ft_split
+							[x] search_in_directory
+								[x] construct_path
+				[x] preprocess_redirections
+					[x] create_pipe
+					[x] redirect_output
+					[x] redir_input
+						[x] close_pipe_end
+						[x] free_pipe
+						[x] create_heredoc
+							[x] heredoc
+								[x] heredoc_handlers
+								[x] write_until_delim
+									[x] trim_right_newline
+								[x] free_parsed_command
+							[x] uninstall_handlers
+							[x] seek_delim
+						[x] input_from_file
+				[x] execute_builtin
+					[x] process_output
+				[x] summon_child
+					[x] subshell
+					[x] waiting_handlers
+					[x] set_exit_status
+				[x] postprocess_redirections
+				[x] free_and_exit
+		[x] save_prev_pipeline
+		[x] free_curr_pipeline
+		[x] free_pipelines
