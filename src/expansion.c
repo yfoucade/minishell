@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 00:35:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:35:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	expand_lst(t_status *status, t_str_list *lst)
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
 		else
 			expansion = ft_strdup(tmp_str);
-		
 		free(tmp_str);
 		if (!expansion)
 			return (FAILURE);

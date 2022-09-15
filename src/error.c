@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/13 00:49:59 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:35:17 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,4 @@ void	flush_error_msg(t_status *status, char *str)
 		ft_putfd("minishell: ", STDERR_FILENO);
 		ft_putfd(str, STDERR_FILENO);
 	}
-	// status->return_value = 0; // not here, make sure to put it elsewhere
 }

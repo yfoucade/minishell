@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 01:37:45 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:41:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ extern char	g_stop_non_int;
 # define ERR_PIPELINE 3
 # define ERR_FILENAME_MISSING 4
 
+# define UC unsigned char
+
 struct		s_status;
 struct		s_command;
 
-typedef unsigned char(*t_builtin_ptr)(struct s_status *);
+typedef UC	(*t_builtin_ptr)(struct s_status *);
 
 // todo: change for struct s_program and t_program
 typedef struct s_command
