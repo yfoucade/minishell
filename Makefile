@@ -46,7 +46,7 @@ INCLUDE_DIR = include
 HEADERS = minishell.h
 INCLUDE = $(addprefix $(INCLUDE_DIR)/, $(HEADERS))
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft/libft.a
 
 all: ${NAME}
 
