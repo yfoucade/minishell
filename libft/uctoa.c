@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:46:33 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 11:46:48 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 00:49:12 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*uctoa(unsigned char n)
 	int		i;
 
 	res = malloc(4);
+	if (!res)
+		return (NULL);
 	i = 0;
 	if (n >= 100)
 		res[i++] = '0' + n / 100;

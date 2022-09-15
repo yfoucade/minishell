@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:32:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 16:22:08 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 02:06:05 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_str_list	*ft_split(char *str, char c)
 	t_str_list	*res;
 	char		*end;
 
+	if (!str)
+		return (NULL);
 	res = NULL;
 	while (*str)
 	{
