@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:47:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 18:41:13 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/14 21:05:12 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*find_token_end(char *command)
 	return (command);
 }
 
-void	add_next_token(t_str_list **tokens, char **command)
+char	add_next_token(t_str_list **tokens, char **command)
 {
 	char		*end;
 	t_str_list	*tmp;
@@ -46,11 +46,15 @@ void	add_next_token(t_str_list **tokens, char **command)
 	while (is_blank_chr(**command))
 		(*command)++;
 	if (!**command)
-		return ;
+		return (SUCCESS);
 	end = find_token_end(*command);
 	new_token = malloc(sizeof(*new_token));
+	if (!new_token)
+		return (FAILURE);
 	new_token->next = NULL;
 	new_token->str = ft_strndup(*command, end - *command);
+	if (!new_token->str)
+		return (FAILURE);
 	*command = end;
 	if (!*tokens)
 		*tokens = new_token;
@@ -61,16 +65,24 @@ void	add_next_token(t_str_list **tokens, char **command)
 			tmp = tmp->next;
 		tmp->next = new_token;
 	}
+	return (SUCCESS);
 }
 
-t_str_list	*tokenize(char	*command)
+char	tokenize(t_status *status, char	*command)
 {
 	t_str_list	*res;
 
 	res = NULL;
 	while (*command)
 	{
-		add_next_token(&res, &command);
+		if (add_next_token(&res, &command))
+		{
+			free_str_list(res);
+			status->tmp_exit = FAILURE;
+			set_error_msg(status, "minishell: error during tokenization\n");
+			return (FAILURE);
+		}
 	}
-	return (res);
+	status->tokens = res;
+	return (SUCCESS);
 }
