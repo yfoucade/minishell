@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/10 00:04:57 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 03:09:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ void	free_parsed_command(t_status *status)
 	status->args = NULL;
 	free_array(status->redirections);
 	status->redirections = NULL;
-	if (status->command->command_type == CMD_ABS_PATH)
-		free(status->command->u_command_ref.command_path);
-	status->command->command_type = 0;
+	if (status->command)
+	{
+		if (status->command->command_type == CMD_ABS_PATH)
+			free(status->command->u_command_ref.command_path);
+	}
 	free(status->command);
 	status->command = NULL;
 }
@@ -83,9 +85,9 @@ void	free_parsed_command(t_status *status)
 void	set_exit_status(t_status *status)
 {
 	if (WIFEXITED(status->child_exit_status))
-		status->exit_status = WEXITSTATUS(status->child_exit_status);
+		status->tmp_exit = WEXITSTATUS(status->child_exit_status);
 	else
-		status->exit_status = 1;
+		status->tmp_exit = 1;
 }
 
 void	free_and_exit(t_status *status)
