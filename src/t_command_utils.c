@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 14:44:53 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 21:56:57 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 01:50:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,16 @@ char	t_command_set_fun_ptr(t_command **command, t_builtin_ptr fun_ptr)
 
 char	t_command_set_path(t_command **command, char *path, char free_path)
 {
-	if (path)
+	if (!path)
+		return (FAILURE);
+	(*command)->u_command_ref.command_path = ft_strdup(path);
+	if (!(*command)->u_command_ref.command_path)
 	{
-		(*command)->u_command_ref.command_path = ft_strdup(path);
-		if (!(*command)->u_command_ref.command_path)
-		{
-			if (free_path)
-				free(path);
-			return (FAILURE);
-		}
-		t_command_set_type(command, CMD_ABS_PATH);
+		if (free_path)
+			free(path);
+		return (FAILURE);
 	}
+	t_command_set_type(command, CMD_ABS_PATH);
 	if (free_path)
 		free(path);
 	return (SUCCESS);
