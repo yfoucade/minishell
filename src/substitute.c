@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:43:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/07 17:43:35 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 00:34:50 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ char	substitute_one(t_status *status, t_str_list *chunk)
 	char	*value;
 
 	if (*chunk->str != '$' || !chunk->str[1])
-		return (0);
+		return (SUCCESS);
 	value = parse_name(status, chunk->str + 1);
+	if (!value)
+		return (FAILURE);
 	free(chunk->str);
 	chunk->str = value;
-	return (0);
+	return (SUCCESS);
 }
 
 t_str_list	*substitute_all(t_status *status, t_str_list *chunks)
