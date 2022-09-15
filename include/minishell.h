@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 23:07:18 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 01:37:45 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ extern char	g_stop_non_int;
 struct		s_status;
 struct		s_command;
 
-typedef void(*t_builtin_ptr)(struct s_status *);
+typedef unsigned char(*t_builtin_ptr)(struct s_status *);
 
 // todo: change for struct s_program and t_program
 typedef struct s_command
@@ -124,6 +124,7 @@ typedef struct s_status
 	char			*error_msg;
 	pid_t			child_id;
 	int				child_exit_status;
+	unsigned char	tmp_exit;
 	unsigned char	exit_status;
 	int				in_fd;
 	int				out_fd;
@@ -150,32 +151,32 @@ typedef struct s_file_buffer
 }	t_file_buffer;
 
 // builtin_cd.c
-void			cd(t_status *status);
+unsigned char	cd(t_status *status);
 
 // builtin_echo.c
-void			echo(t_status *status);
+unsigned char	echo(t_status *status);
 
 // builtin_env.c
-void			env(t_status *status);
+unsigned char	env(t_status *status);
 
 // builtin_exit.c
-void			ft_exit(t_status *status);
+unsigned char	ft_exit(t_status *status);
 
 // builtin_export.c
 char			add_env_variable(t_status *status, char *name, char *value);
 char			is_valid_identifier(char *str); //same
 char			replace_or_add(t_status *status, char *name, char *value);
-void			export(t_status *status);
+unsigned char	export(t_status *status);
 
 // builtin_pwd.c
-void			pwd(t_status *status);
+unsigned char	pwd(t_status *status);
 
 // builtin_unset.c
-void			unset(t_status *status);
+unsigned char	unset(t_status *status);
 
 //builtin_utils.c
 t_builtin_ptr	search_builtins(char *command);
-void			execute_builtin(t_status *status);
+unsigned char	execute_builtin(t_status *status);
 
 // concatenate.c
 int				get_total_size(t_str_list *chunks);
@@ -201,7 +202,7 @@ char			*find_constant_end(char *command);
 char			*find_chunk_end(char *command);
 
 // expansion_split.c
-void			add_next_chunk(t_str_list **chunks, char **str);
+char			add_next_chunk(t_str_list **chunks, char **str);
 t_str_list		*construct_raw_linked_list(char *str);
 t_str_list		*split_three_type(char *str);
 
@@ -240,7 +241,7 @@ char			*parse_name(t_status *status, char *str);
 char			parse(t_str_list *tokens, t_str_list **args,
 					t_str_list **redirections);
 char			parse_status(t_status *status);
-unsigned char	parse_curr_command(t_status *status);
+char			parse_curr_command(t_status *status);
 
 //pipe.c
 void			free_pipe(int **tab);
@@ -294,7 +295,7 @@ char			t_command_set_path(
 void			t_command_free(t_command **command);
 
 // tokenizer.c
-t_str_list		*tokenize(char	*command);
+char			tokenize(t_status *status, char	*command);
 void			print_tokens(t_str_list *tokens);
 
 // tokens.c
