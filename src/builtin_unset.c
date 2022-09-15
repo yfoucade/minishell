@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 01:36:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 10:35:04 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 02:31:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ void	copy_except_loop(char **old_env, char **new_env, char *ignore)
 	{
 		if (!ft_startswith(ignore, *old_env))
 		{
-			*new_env = ft_strdup(*old_env);
-			if (!*new_env)
-			{
-				free_array(new_env);
-				exit (1);
-			}
+			*new_env = *old_env;
 			++new_env;
 		}
 		++old_env;
@@ -37,14 +32,19 @@ void	copy_except(t_status *status, char *str)
 	char	**new_env;
 
 	new_env = malloc(sizeof(char *) * (array_size(status->environ)));
+	if (!new_env)
+	{
+		flush_error_msg(NULL, NULL);
+		return ;
+	}
 	full_start = ft_strcat(str, "=");
 	copy_except_loop(status->environ, new_env, full_start);
 	free(full_start);
-	free_array(status->environ);
+	free(status->environ);
 	status->environ = new_env;
 }
 
-void	unset(t_status *status)
+unsigned char	unset(t_status *status)
 {
 	char	**args;
 
@@ -55,4 +55,5 @@ void	unset(t_status *status)
 			continue ;
 		copy_except(status, *args);
 	}
+	return (SUCCESS);
 }

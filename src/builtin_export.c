@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 13:54:49 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/15 02:26:16 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	replace_or_add(t_status *status, char *name, char *value)
 	return (SUCCESS);
 }
 
-void	export(t_status *status)
+unsigned char	export(t_status *status)
 {
 	char			**args;
 	t_env_variable	*env_variable;
@@ -109,17 +109,15 @@ void	export(t_status *status)
 	{
 		status->exit_status = 0;
 		env_variable = parse_env_variable(*args);
-		if (!env_variable || !env_variable->name || !env_variable->value)
-			exit(1);
+		if (!env_variable)
+			continue ;
 		if (!is_valid_identifier(env_variable->name))
-		{
-			status->exit_status = 1;
 			printf("export: `%s': not a valid identifier\n", env_variable->name);
-		}
 		else
 			replace_or_add(status, env_variable->name, env_variable->value);
 		free(env_variable->name);
 		free(env_variable->value);
 		free(env_variable);
 	}
+	return (SUCCESS);
 }

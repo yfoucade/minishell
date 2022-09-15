@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:11:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/08/25 00:28:18 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/13 12:58:12 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_is_flag(char *s)
 	return (TRUE);
 }
 
-void	echo(t_status *status)
+unsigned char	echo(t_status *status)
 {
 	char	print_newline;
 	char	prefix_whitespace;
@@ -47,5 +47,5 @@ void	echo(t_status *status)
 	}
 	if (print_newline)
 		ft_putfd("\n", status->out_fd);
-	return ;
+	return (SUCCESS);
 }

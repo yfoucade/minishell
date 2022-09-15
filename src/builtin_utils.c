@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_search.c                                   :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 10:23:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/08 16:54:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/13 12:54:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_builtin_ptr	search_builtins(char *command)
 	return (NULL);
 }
 
-void	execute_builtin(t_status *status)
+unsigned char	execute_builtin(t_status *status)
 {
 	status->exit_status = 0;
 	process_output(status);
-	status->command->u_command_ref.fun_ptr(status);
+	return (status->command->u_command_ref.fun_ptr(status));
 }
