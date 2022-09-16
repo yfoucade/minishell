@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:41:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:47:42 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@
 # include <unistd.h>
 # include <dirent.h>
 # include "libft.h"
-
-# ifndef ENVIRON
-#  define ENVIRON
-
-extern char	**environ;
-
-# endif
 
 # ifndef STOP_NON_INT
 #  define STOP_NON_INT
@@ -274,7 +267,7 @@ char			preprocess_redirections(t_status *status);
 t_command		*resolve_path(t_status *status, char	*command);
 
 // status.c
-void			init_status(t_status *environ);
+void			init_status(t_status *environ, char **env);
 void			free_status(t_status *status);
 void			free_parsed_command(t_status *status);
 void			set_exit_status(t_status *status);

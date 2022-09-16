@@ -6,13 +6,13 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:09:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:47:27 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_status(t_status *status)
+void	init_status(t_status *status, char **env)
 {
 	status->input = NULL;
 	status->ft_isatty = isatty(STDIN_FILENO);
@@ -25,7 +25,7 @@ void	init_status(t_status *status)
 	status->lst_redirections = NULL;
 	status->args = NULL;
 	status->redirections = NULL;
-	status->environ = copy_environ(environ);
+	status->environ = copy_environ(env);
 	status->in_pipe = NULL;
 	status->out_pipe = NULL;
 	status->curr_pipeline = NULL;
