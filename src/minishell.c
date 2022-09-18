@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 02:46:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:06:38 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,17 @@ void	execute_commands(t_status *status)
 	{
 		if (!parse_curr_command(status) && !preprocess_redirections(status))
 		{
-			if (status->command->command_type == CMD_BUILTIN)
-				status->tmp_exit = execute_builtin(status);
-			else if (status->command->command_type == CMD_ABS_PATH)
-				summon_child(status);
-			else
+			if (!status->command
+				|| (status->command->command_type != CMD_BUILTIN
+					&& status->command->command_type != CMD_ABS_PATH))
 			{
 				ft_putfd("command not found\n", STDERR_FILENO);
 				status->tmp_exit = 127;
 			}
+			else if (status->command->command_type == CMD_BUILTIN)
+				status->tmp_exit = execute_builtin(status);
+			else if (status->command->command_type == CMD_ABS_PATH)
+				summon_child(status);
 		}
 		flush_error_msg(status, NULL);
 		postprocess_redirections(status);
