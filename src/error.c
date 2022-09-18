@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:35:17 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/18 23:10:04 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	panic(t_status *status)
 void	malloc_error(t_status *status)
 {
 	(void)status;
-	printf("minishell: malloc error\n");
+	ft_putfd("minishell: malloc error\n", STDERR_FILENO);
 }
 
 char	set_error_msg(t_status *status, char *str)
