@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/18 22:28:38 by jallerha         ###   ########.fr       */
+/*   Created: 2022/02/22 14:52:08 by jallerha          #+#    #+#             */
+/*   Updated: 2022/09/18 22:23:54 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-unsigned char	ft_exit(t_status *status)
+int	ft_atoi(const char *s)
 {
-	int	exit_code;
-	int	args;
+	int		signe;
+	int		i;
+	long	n;
 
-	exit_code = 0;
-	args = array_size(status->args);
-	if (status->ft_isatty)
-		ft_putfd("exit\n", STDERR_FILENO);
-	if (args == 2)
-		exit_code = ft_atoi(status->args[1]);
-	else if (args > 2)
+	signe = 1;
+	i = 0;
+	n = 0;
+	while (is_blank_chr(s[i]))
+		i++;
+	if (s[i] == '-' || s[i] == '+')
 	{
-		ft_putfd("exit: too many arguments\n", STDERR_FILENO);
-		return (1);
+		if (s[i] == '-')
+			signe = -1;
+		i++;
 	}
-	rl_clear_history();
-	free_status(status);
-	exit(exit_code);
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		if (n * signe > 2147483647)
+			return (-1);
+		else if (n * signe < -2147483648)
+			return (0);
+		n = n * 10 + s[i] - '0';
+		i++;
+	}
+	return (n * signe);
 }

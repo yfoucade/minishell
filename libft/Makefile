@@ -28,6 +28,7 @@ SRC = \
 	print_utils.c \
 	trim.c \
 	uctoa.c \
+	ft_atoi.c \
 
 OBJ = ${SRC:.c=.o}
 
