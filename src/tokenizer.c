@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:47:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 04:13:15 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:12:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	add_next_token(t_str_list **tokens, char **command)
 		return (FAILURE);
 	if (lst_add(tokens, str))
 		return (free(str), FAILURE);
+	free(str);
 	return (SUCCESS);
 }
 

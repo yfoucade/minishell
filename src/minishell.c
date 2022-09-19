@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/18 15:06:38 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:21:23 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	execute_commands(t_status *status)
 				|| (status->command->command_type != CMD_BUILTIN
 					&& status->command->command_type != CMD_ABS_PATH))
 			{
-				ft_putfd("command not found\n", STDERR_FILENO);
-				status->tmp_exit = 127;
+				status->tmp_exit = ft_cmd_not_found(status->args[0]);
 			}
 			else if (status->command->command_type == CMD_BUILTIN)
 				status->tmp_exit = execute_builtin(status);

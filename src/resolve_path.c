@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 22:33:40 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:11:07 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:17:03 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,19 @@ char	*construct_path(DIR *dirp, char *dirname, struct dirent *direntry)
 	res = ft_strcat(dirname, "/");
 	res = ft_strcat_free(res, direntry->d_name, TRUE, FALSE);
 	closedir(dirp);
+	errno = 0;
 	return (res);
 }
 
 char	*search_in_directory(char	*dirname, char *target)
 {
-	char			*res;
 	DIR				*dirp;
 	struct dirent	*direntry;
 
-	res = NULL;
 	dirp = opendir(dirname);
 	if (!dirp)
 	{
-		perror("search_in_directory");
+		errno = 0;
 		return (NULL);
 	}
 	direntry = readdir(dirp);
@@ -51,10 +50,9 @@ char	*search_in_directory(char	*dirname, char *target)
 			return (construct_path(dirp, dirname, direntry));
 		direntry = readdir(dirp);
 	}
-	if (errno)
-		perror("minishell");
 	closedir(dirp);
-	return (res);
+	errno = 0;
+	return (NULL);
 }
 
 char	*search_paths(t_status *status, char *command)
@@ -86,7 +84,7 @@ t_command	*resolve_path(t_status *status, char *command)
 	t_command	*res;
 
 	res = new_t_command();
-	if (!res)
+	if (!res || !command || !*command)
 		return (NULL);
 	if (*command == '/')
 	{

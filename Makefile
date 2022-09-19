@@ -1,7 +1,6 @@
-# todo: remove -g from CFLAGS
 NAME = minishell
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = src
 SRC = \
@@ -19,6 +18,7 @@ SRC = \
 	expansion_find_end.c \
 	expansion_split.c \
 	expansion.c \
+	ft_access.c \
 	get_next_line.c \
 	handler_installers.c \
 	handlers.c \

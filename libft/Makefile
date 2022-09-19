@@ -1,5 +1,9 @@
 NAME = libft.a
 
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror
+
 SRC = \
 	copy_array.c \
 	count.c \
@@ -40,7 +44,7 @@ ${NAME}: ${OBJ}
 	@ ar rcs ${NAME} ${OBJ}
 
 %.o: %.c libft.h
-	@ gcc -c -I. $<
+	@ ${CC} ${CFLAGS} -c -I. $<
 
 clean:
 	@ ${RM} ${OBJ}

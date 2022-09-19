@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:48:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 01:36:50 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:17:27 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ char	parse_curr_command(t_status *status)
 	}
 	if (parse_status(status))
 		return (FAILURE);
-	if (expand_array_elements(status, status->args))
+	if (expand_array_elements(status, status->redirections))
 	{
 		set_error_msg(status, "minishell: bad substitution\n");
 		status->tmp_exit = FAILURE;
 		return (FAILURE);
 	}
-	if (expand_array_elements(status, status->redirections))
+	if (expand_array_elements(status, status->args))
 	{
 		set_error_msg(status, "minishell: bad substitution\n");
 		status->tmp_exit = FAILURE;

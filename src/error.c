@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 12:05:36 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/18 23:10:04 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:46:43 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,13 @@ void	flush_error_msg(t_status *status, char *str)
 		ft_putfd("minishell: ", STDERR_FILENO);
 		ft_putfd(str, STDERR_FILENO);
 	}
+}
+
+int	ft_cmd_not_found(char *command)
+{
+	if (!command)
+		return (0);
+	ft_putfd(command, STDERR_FILENO);
+	ft_putfd(": command not found\n", STDERR_FILENO);
+	return (127);
 }

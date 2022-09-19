@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/16 14:47:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:44:42 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -57,6 +58,13 @@ extern char	g_stop_non_int;
 # define PIPE_OUT 0
 # define PIPE_IN 1
 
+# define NO_ACCESS 0x0
+# define READABLE 0x1
+# define WRITEABLE 0x2
+# define EXECUTABLE 0x4
+# define IS_DIR 0x8
+# define EXISTS 0x10
+
 # define BLK "\e[0;30m"
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -70,9 +78,6 @@ extern char	g_stop_non_int;
 # define CMD_BUILTIN 1
 # define CMD_ABS_PATH 2
 # define CMD_NOT_FOUND 3
-
-# define IGNORE_AMBIGUOUS 0
-# define ERROR_ON_AMBIGUOUS 1
 
 # define ERR_MALLOC 1
 # define ERR_QUOTE 2
@@ -190,6 +195,7 @@ void			panic(t_status *status);
 void			malloc_error(t_status *status);
 char			set_error_msg(t_status *status, char *str);
 void			flush_error_msg(t_status *status, char *str);
+int				ft_cmd_not_found(char *command);
 
 // expansion_find_end.c
 char			*find_variable_end(char *s);
@@ -204,6 +210,9 @@ t_str_list		*split_three_type(char *str);
 // expansion.c
 char			*expand(t_status *status, char *command);
 char			expand_array_elements(t_status *status, char **array);
+
+// ft_access.c
+int				ft_access(char *path);
 
 // get_next_line.c
 char			*get_next_line(int fd);
