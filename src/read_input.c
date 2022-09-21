@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 12:40:22 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/12 23:07:33 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:33:21 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ char	read_input(t_status *status)
 		status->input = get_next_line(STDIN_FILENO);
 	if (!status->input)
 		ft_exit(status);
+	if (ft_strnlen(status->input, 1) == 0)
+	{
+		free(status->input);
+		return (SUCCESS);
+	}
 	status->pipelines = ft_split_unquoted_c(status->input, '\n');
 	free(status->input);
 	status->input = NULL;
