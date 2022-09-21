@@ -6,21 +6,11 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:33:12 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/20 20:02:46 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:30:47 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-unsigned int	ft_strnlen(char *s, unsigned int n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (s[i] && i < n)
-		i++;
-	return (i);
-}
 
 unsigned char	env(t_status *status)
 {
