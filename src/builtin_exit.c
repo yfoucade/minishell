@@ -6,24 +6,40 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 12:40:28 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:17:33 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_str_num(char *s)
+int			ft_valid_length(char *s)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
+	while (is_blank_chr(s[i]) || s[i] == '-' || s[i] == '+')
 		i++;
-	}
+	if (ft_strnlen(s + i, 20) > 19)
+		return (0);
 	return (1);
+}
+
+long long	ft_exitcode(char *arg, int *valid)
+{
+	unsigned long long	code;
+	int					negative;
+
+	negative = 0;
+	code = ft_atoull(arg, &negative);
+	if (negative && code > 9223372036854775808ULL)
+		*valid = 0;
+	else if (!negative && code > 9223372036854775807ULL)
+		*valid = 0;
+	if (!ft_valid_length(arg))
+		*valid = 0;
+	if (negative)
+		code = -code;
+	return (code);
 }
 
 void	clean_exit(t_status *status, int exit_code)
@@ -33,30 +49,38 @@ void	clean_exit(t_status *status, int exit_code)
 	exit(exit_code);
 }
 
+/**
+ * @brief Exit shells
+ * No args = last command exit code
+ * One arg = arg exit code (must be ll range)
+ * Two or more args = error (and no exit)
+ * Invalid arg = error (exit code 2)
+ * @param status Status structure
+ * @return unsigned char Status code
+ */
 unsigned char	ft_exit(t_status *status)
 {
-	int	exit_code;
-	int	args;
+	int			args;
+	int			valid;
+	long long	code;
 
-	exit_code = 0;
+	valid = 1;
 	args = array_size(status->args);
 	if (status->ft_isatty)
 		ft_putfd("exit\n", STDERR_FILENO);
-	if (!status->args)
-		clean_exit(status, 0);
-	if (args == 1)
-		clean_exit(status, 0);
-	if (args == 2 && !ft_str_num(status->args[1]))
-	{
-		ft_putfd("exit: non numeric argument\n", STDERR_FILENO);
-		clean_exit(status, 2);
-	}
-	if (args == 2)
-		clean_exit(status, ft_atoi(status->args[1]));
 	if (args > 2)
 	{
 		ft_putfd("exit: too many arguments\n", STDERR_FILENO);
-		return (1);
+		return (FAILURE);
 	}
-	return (0);
+	if (args <= 1)
+		clean_exit(status, status->return_value); // TODO: check if this is correct
+	code = ft_exitcode(status->args[1], &valid);
+	if (!valid)
+	{
+		ft_putfd("exit: non numeric argument\n", STDERR_FILENO);
+		code = 2;
+	}
+	clean_exit(status, code);
+	return (SUCCESS);
 }
