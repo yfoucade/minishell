@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/22 12:17:33 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:00:14 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ unsigned char	ft_exit(t_status *status)
 		return (FAILURE);
 	}
 	if (args <= 1)
-		clean_exit(status, status->return_value); // TODO: check if this is correct
+		clean_exit(status, status->tmp_exit);
 	code = ft_exitcode(status->args[1], &valid);
 	if (!valid)
 	{
