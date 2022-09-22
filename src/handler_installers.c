@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler_installers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 15:51:53 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:27:20 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,34 @@ void	install(t_status *status, int signum, __sighandler_t handler)
 		panic(status);
 }
 
-void	install_handlers(t_status *status)
+void	install_handlers(t_status *status, int caller)
 {
-	install(status, SIGQUIT, SIG_IGN);
-	if (status->ft_isatty)
-		install(status, SIGINT, sigint_handler);
-	else
-		install(status, SIGINT, non_interactive_sigint_handler);
+	if (caller == PARENT)
+	{
+		if (status->ft_isatty)
+		{
+			install(status, SIGINT, parent_handler);
+			install(status, SIGQUIT, parent_handler);
+		}
+		else
+		{
+			install(status, SIGINT, non_interactive_parent_handler);
+			install(status, SIGQUIT, non_interactive_parent_handler);
+		}
+	}
+	else if (caller == CHILD)
+	{
+		if (status->ft_isatty)
+		{
+			install(status, SIGINT, child_handler);
+			install(status, SIGQUIT, child_handler);
+		}
+		else
+		{
+			install(status, SIGINT, non_interactive_child_handler);
+			install(status, SIGQUIT, non_interactive_child_handler);
+		}
+	}
 }
 
 void	waiting_handlers(t_status *status)
@@ -41,4 +62,5 @@ void	heredoc_handlers(t_status *status)
 void	uninstall_handlers(t_status *status)
 {
 	install(status, SIGINT, SIG_IGN);
+	install(status, SIGQUIT, SIG_IGN);
 }

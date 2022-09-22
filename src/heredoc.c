@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 15:53:05 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:48:15 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	heredoc(t_status *status, int pipe_fd[2], char *delim)
 	exit(0);
 }
 
+// Might need to uninstall handlers later
 char	create_heredoc(t_status *status, char *delim)
 {
 	pid_t	pid;
@@ -91,7 +92,7 @@ char	create_heredoc(t_status *status, char *delim)
 		heredoc(status, pipe_fd, delim);
 	uninstall_handlers(status);
 	waitpid(pid, &status->child_exit_status, 0);
-	install_handlers(status);
+	install_handlers(status, CHILD);
 	close(pipe_fd[1]);
 	if (!WIFEXITED(status->child_exit_status))
 	{

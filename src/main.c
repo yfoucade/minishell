@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 21:25:10 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/16 14:48:25 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:26:34 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(int ac, char **av, char **env)
 	(void)ac, (void)av;
 	g_stop_non_int = FALSE;
 	init_status(&status, env);
-	install_handlers(&status);
+	install_handlers(&status, PARENT);
 	run_shell(&status);
 }

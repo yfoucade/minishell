@@ -6,7 +6,7 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 12:21:23 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:31:50 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	summon_child(t_status *status)
 		subshell(status);
 	if (status->ft_isatty)
 		waiting_handlers(status);
+	uninstall_handlers(status);
+	install_handlers(status, CHILD);
 	waitpid(status->child_id, &status->child_exit_status, 0);
-	install_handlers(status);
+	uninstall_handlers(status);
+	install_handlers(status, PARENT);
 	set_exit_status(status);
 }
 

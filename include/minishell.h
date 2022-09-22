@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 13:44:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:27:47 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ extern char	g_stop_non_int;
 # ifndef READING
 #  define READING 1
 # endif
+
+# define CHILD 0
+# define PARENT 1
 
 # define TRUE 1
 # define FALSE 0
@@ -219,15 +222,17 @@ char			*get_next_line(int fd);
 int				get_chunk(int fd, char *chunk_buf);
 
 // handler_installers.c
-void			install_handlers(t_status *status);
+void			install_handlers(t_status *status, int caller);
 void			waiting_handlers(t_status *status);
 void			heredoc_handlers(t_status *status);
 void			uninstall_handlers(t_status *status);
 
 // handlers.c
-void			sigint_handler(int sig);
+void			parent_handler(int sig);
 void			waiting_child(int sig);
-void			non_interactive_sigint_handler(int sig);
+void			non_interactive_parent_handler(int sig);
+void			child_handler(int sig);
+void			non_interactive_child_handler(int sig);
 
 // heredoc.c
 char			create_heredoc(t_status *status, char *delim);
