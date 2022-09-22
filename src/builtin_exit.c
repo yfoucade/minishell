@@ -6,13 +6,13 @@
 /*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/22 15:00:14 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:25:37 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			ft_valid_length(char *s)
+int	ft_valid_length(char *s)
 {
 	int		i;
 
