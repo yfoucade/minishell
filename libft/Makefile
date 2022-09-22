@@ -34,6 +34,7 @@ SRC = \
 	trim.c \
 	uctoa.c \
 	ft_atoi.c \
+	ft_atoull.c \
 
 OBJ = ${SRC:.c=.o}
 
