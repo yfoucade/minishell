@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_command_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 14:44:53 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 13:40:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:24:33 by jallerha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	t_command_set_path(t_command **command, char *path, char free_path)
 {
 	int	mask;
 
+	if (!path)
+		return (FAILURE);
 	mask = ft_access(path);
 	(*command)->u_command_ref.command_path = ft_strdup(path);
 	if (free_path)

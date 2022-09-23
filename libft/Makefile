@@ -21,6 +21,7 @@ SRC = \
 	ft_strcmp.c \
 	ft_strdup.c \
 	ft_strlen.c \
+	ft_strnlen.c \
 	ft_strndup.c \
 	is_blank_chr.c \
 	is_blank_str.c \
@@ -33,6 +34,7 @@ SRC = \
 	trim.c \
 	uctoa.c \
 	ft_atoi.c \
+	ft_atoull.c \
 
 OBJ = ${SRC:.c=.o}
 
