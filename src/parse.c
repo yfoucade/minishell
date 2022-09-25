@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:48:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 12:17:27 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:09:20 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	parse_curr_command(t_status *status)
 		return (FAILURE);
 	if (!is_valid_syntax(status->tokens))
 	{
-		set_error_msg(status, "minishell: missing file name or delimiter\n");
+		set_error_msg(status, "missing file name or delimiter\n");
 		status->tmp_exit = FAILURE;
 		return (FAILURE);
 	}
@@ -55,13 +55,13 @@ char	parse_curr_command(t_status *status)
 		return (FAILURE);
 	if (expand_array_elements(status, status->redirections))
 	{
-		set_error_msg(status, "minishell: bad substitution\n");
+		set_error_msg(status, "bad substitution\n");
 		status->tmp_exit = FAILURE;
 		return (FAILURE);
 	}
 	if (expand_array_elements(status, status->args))
 	{
-		set_error_msg(status, "minishell: bad substitution\n");
+		set_error_msg(status, "bad substitution\n");
 		status->tmp_exit = FAILURE;
 		return (FAILURE);
 	}
