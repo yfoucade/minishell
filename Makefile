@@ -12,6 +12,7 @@ SRC = \
 	builtin_pwd.c \
 	builtin_unset.c \
 	builtin_utils.c \
+	child_process.c \
 	concatenate.c \
 	environ.c \
 	error.c \

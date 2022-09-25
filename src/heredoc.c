@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 03:37:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 04:08:03 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ void	write_until_delim(t_status *status, int fd, char *delim)
 		if (status->ft_isatty)
 			line = readline(ft_getenv(status, "PS2"));
 		else
-		{
 			line = get_next_line(STDIN_FILENO);
-			trim_right_newline(line);
-		}
+		trim_right_newline(line);
 		if (!line)
 		{
 			free_parsed_command(status);

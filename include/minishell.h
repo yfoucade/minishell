@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 03:45:12 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 04:21:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,10 @@ unsigned char	unset(t_status *status);
 //builtin_utils.c
 t_builtin_ptr	search_builtins(char *command);
 unsigned char	execute_builtin(t_status *status);
+
+// child_process.c
+void			execute(t_status *status);
+void			reap_child(t_status *status);
 
 // concatenate.c
 int				get_total_size(t_str_list *chunks);
