@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 10:23:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/13 12:54:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:42:47 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ t_builtin_ptr	search_builtins(char *command)
 
 unsigned char	execute_builtin(t_status *status)
 {
-	status->exit_status = 0;
-	process_output(status);
-	return (status->command->u_command_ref.fun_ptr(status));
+	unsigned char	ret;
+
+	ret = status->command->u_command_ref.fun_ptr(status);
+	free_status(status);
+	exit(ret);
 }
