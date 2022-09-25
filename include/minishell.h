@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 13:44:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:45:12 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ void			uninstall_handlers(t_status *status);
 void			sigint_handler(int sig);
 void			waiting_child(int sig);
 void			non_interactive_sigint_handler(int sig);
+void			heredoc_handler(int sig);
 
 // heredoc.c
 char			create_heredoc(t_status *status, char *delim);

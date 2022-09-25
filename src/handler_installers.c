@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:11 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/09 15:51:53 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:44:51 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	waiting_handlers(t_status *status)
 void	heredoc_handlers(t_status *status)
 {
 	install(status, SIGQUIT, SIG_DFL);
-	install(status, SIGINT, SIG_DFL);
+	install(status, SIGINT, heredoc_handler);
 }
 
 void	uninstall_handlers(t_status *status)
