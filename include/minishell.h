@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 04:21:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:18:58 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ t_builtin_ptr	search_builtins(char *command);
 unsigned char	execute_builtin(t_status *status);
 
 // child_process.c
-void			execute(t_status *status);
+char			execute(t_status *status);
 void			reap_child(t_status *status);
 
 // concatenate.c
