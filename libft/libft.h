@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 17:01:24 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/22 12:08:32 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:54:55 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char					ft_putfd(char *str, int fd);
 char					ft_putstr(char *str);
 void					print_str_list(t_str_list *lst);
 void					print_str_tab(char **str_tab);
+char					*trim_and_free(char *str);
 char					*trim(char *str);
 char					*uctoa(unsigned char n);
 int						ft_atoi(const char *s);

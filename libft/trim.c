@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 16:32:46 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/06 16:36:35 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:54:15 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,16 @@ char	*trim(char *str)
 			end = res;
 	}
 	res = ft_strndup(start, end + 1 - start);
+	return (res);
+}
+
+char	*trim_and_free(char *str)
+{
+	char	*res;
+
+	res = trim(str);
+	if (!res)
+		return (NULL);
+	free(str);
 	return (res);
 }
