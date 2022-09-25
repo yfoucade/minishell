@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:47:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 12:12:56 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:09:49 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	tokenize(t_status *status, char	*command)
 		{
 			free_str_list(res);
 			status->tmp_exit = FAILURE;
-			set_error_msg(status, "minishell: error during tokenization\n");
+			set_error_msg(status, "error during tokenization\n");
 			return (FAILURE);
 		}
 	}
