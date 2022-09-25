@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 03:02:14 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:20:04 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	execute(t_status *status)
 {
+	if (status->command->command_type == CMD_BUILTIN
+		&& status->command->u_command_ref.fun_ptr == &ft_exit
+		&& !status->in_pipe
+		&& !status->out_pipe)
+		ft_exit(status);
 	status->child_id = fork();
 	if (!status->child_id)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/22 15:25:37 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:21:54 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ unsigned char	ft_exit(t_status *status)
 
 	valid = 1;
 	args = array_size(status->args);
-	if (status->ft_isatty)
+	if (status->ft_isatty && !status->in_pipe && !status->out_pipe)
 		ft_putfd("exit\n", STDERR_FILENO);
 	if (args > 2)
 	{
@@ -74,7 +74,7 @@ unsigned char	ft_exit(t_status *status)
 		return (FAILURE);
 	}
 	if (args <= 1)
-		clean_exit(status, status->tmp_exit);
+		clean_exit(status, status->exit_status);
 	code = ft_exitcode(status->args[1], &valid);
 	if (!valid)
 	{
