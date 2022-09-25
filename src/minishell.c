@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 03:20:04 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 04:00:54 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	execute(t_status *status)
 	status->child_id = fork();
 	if (!status->child_id)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (status->out_pipe)
 			close_pipe_end(status->out_pipe, PIPE_OUT);
 		if (status->in_fd != STDIN_FILENO)
