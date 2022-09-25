@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 03:21:54 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:38:38 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ long long	ft_exitcode(char *arg, int *valid)
 
 void	clean_exit(t_status *status, int exit_code)
 {
+	free_parsed_command(status);
 	free_status(status);
 	rl_clear_history();
 	exit(exit_code);
