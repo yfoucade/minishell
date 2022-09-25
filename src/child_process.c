@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 04:19:00 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 13:18:49 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:38:06 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,19 @@ void	dup_file_descriptors(t_status *status)
 	if (status->out_pipe)
 		close_pipe_end(status->out_pipe, PIPE_OUT);
 	if (status->in_fd != STDIN_FILENO)
+	{
 		dup2(status->in_fd, STDIN_FILENO);
+		if (status->in_pipe)
+			close(status->in_pipe[0]);
+	}
 	else if (status->in_pipe)
 		dup2(status->in_pipe[0], STDIN_FILENO);
 	if (status->out_fd != STDOUT_FILENO)
+	{
 		dup2(status->out_fd, STDOUT_FILENO);
+		if (status->out_pipe)
+			close(status->out_pipe[1]);
+	}
 	else if (status->out_pipe)
 		dup2(status->out_pipe[1], STDOUT_FILENO);
 }
