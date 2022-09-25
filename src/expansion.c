@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:35:50 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:19:11 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,18 @@ char	replace_by_expansion(t_status *status, char *str, char **dest)
 	return (SUCCESS);
 }
 
+char	is_heredoc_operator(char *str)
+{
+	return (str[0] == '<' && str[1] == '<');
+}
+
 char	expand_array_elements(t_status *status, char **array)
 {
 	while (*array)
 	{
-		if (replace_by_expansion(status, *array, array))
+		if (is_heredoc_operator(*array))
+			++array;
+		else if (replace_by_expansion(status, *array, array))
 			return (FAILURE);
 		++array;
 	}
