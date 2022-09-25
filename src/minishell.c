@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 02:49:59 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:55:39 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,10 @@ void	execute_pipeline(t_status *status)
 		status->exit_status = ERR_PIPELINE;
 		return ;
 	}
+	if (status->ft_isatty)
+		waiting_handlers(status);
 	execute_commands(status);
+	install_handlers(status);
 	free_str_list(status->commands);
 	status->commands = NULL;
 	return ;
