@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 13:44:42 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 04:21:19 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,10 @@ unsigned char	unset(t_status *status);
 t_builtin_ptr	search_builtins(char *command);
 unsigned char	execute_builtin(t_status *status);
 
+// child_process.c
+void			execute(t_status *status);
+void			reap_child(t_status *status);
+
 // concatenate.c
 int				get_total_size(t_str_list *chunks);
 void			fill(char *res, t_str_list *chunks);
@@ -228,6 +232,7 @@ void			uninstall_handlers(t_status *status);
 void			sigint_handler(int sig);
 void			waiting_child(int sig);
 void			non_interactive_sigint_handler(int sig);
+void			heredoc_handler(int sig);
 
 // heredoc.c
 char			create_heredoc(t_status *status, char *delim);

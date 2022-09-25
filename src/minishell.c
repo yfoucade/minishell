@@ -3,43 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/19 12:21:23 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/25 04:18:56 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	subshell(t_status *status)
-{
-	if (status->in_fd != STDIN_FILENO)
-		dup2(status->in_fd, STDIN_FILENO);
-	else if (status->in_pipe)
-		dup2(status->in_pipe[0], STDIN_FILENO);
-	if (status->out_fd != STDOUT_FILENO)
-		dup2(status->out_fd, STDOUT_FILENO);
-	else if (status->out_pipe)
-		dup2(status->out_pipe[1], STDOUT_FILENO);
-	execve(status->command->u_command_ref.command_path,
-		status->args, status->environ);
-}
-
-void	summon_child(t_status *status)
-{
-	status->child_id = fork();
-	if (!status->child_id)
-		subshell(status);
-	if (status->ft_isatty)
-		waiting_handlers(status);
-	waitpid(status->child_id, &status->child_exit_status, 0);
-	install_handlers(status);
-	set_exit_status(status);
-}
-
 void	execute_commands(t_status *status)
 {
+	int	n_children;
+
+	n_children = 0;
 	status->curr_command = status->commands;
 	while (status->curr_command && !g_stop_non_int)
 	{
@@ -48,20 +25,17 @@ void	execute_commands(t_status *status)
 			if (!status->command
 				|| (status->command->command_type != CMD_BUILTIN
 					&& status->command->command_type != CMD_ABS_PATH))
-			{
 				status->tmp_exit = ft_cmd_not_found(status->args[0]);
-			}
-			else if (status->command->command_type == CMD_BUILTIN)
-				status->tmp_exit = execute_builtin(status);
-			else if (status->command->command_type == CMD_ABS_PATH)
-				summon_child(status);
+			else if (++n_children)
+				execute(status);
 		}
 		flush_error_msg(status, NULL);
 		postprocess_redirections(status);
 		status->curr_command = status->curr_command->next;
 		free_parsed_command(status);
 	}
-	status->exit_status = status->tmp_exit;
+	while (n_children--)
+		reap_child(status);
 	if (g_stop_non_int)
 		free_and_exit(status);
 }
@@ -83,7 +57,10 @@ void	execute_pipeline(t_status *status)
 		status->exit_status = ERR_PIPELINE;
 		return ;
 	}
+	if (status->ft_isatty)
+		waiting_handlers(status);
 	execute_commands(status);
+	install_handlers(status);
 	free_str_list(status->commands);
 	status->commands = NULL;
 	return ;

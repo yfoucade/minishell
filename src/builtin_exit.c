@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 02:23:34 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 12:38:04 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ long long	ft_exitcode(char *arg, int *valid)
 
 void	clean_exit(t_status *status, int exit_code)
 {
+	free_parsed_command(status);
 	free_status(status);
 	rl_clear_history();
 	exit(exit_code);
@@ -66,7 +67,7 @@ unsigned char	ft_exit(t_status *status)
 
 	valid = 1;
 	args = array_size(status->args);
-	if (status->ft_isatty)
+	if (status->ft_isatty && !status->in_pipe && !status->out_pipe)
 		ft_putfd("exit\n", STDERR_FILENO);
 	if (args > 2)
 	{
