@@ -6,37 +6,11 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 02:55:39 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:00:32 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	subshell(t_status *status)
-{
-	if (status->in_fd != STDIN_FILENO)
-		dup2(status->in_fd, STDIN_FILENO);
-	else if (status->in_pipe)
-		dup2(status->in_pipe[0], STDIN_FILENO);
-	if (status->out_fd != STDOUT_FILENO)
-		dup2(status->out_fd, STDOUT_FILENO);
-	else if (status->out_pipe)
-		dup2(status->out_pipe[1], STDOUT_FILENO);
-	execve(status->command->u_command_ref.command_path,
-		status->args, status->environ);
-}
-
-void	summon_child(t_status *status)
-{
-	status->child_id = fork();
-	if (!status->child_id)
-		subshell(status);
-	if (status->ft_isatty)
-		waiting_handlers(status);
-	waitpid(status->child_id, &status->child_exit_status, 0);
-	install_handlers(status);
-	set_exit_status(status);
-}
 
 void	execute(t_status *status)
 {
