@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:39:14 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/22 15:25:37 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:23:34 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ unsigned char	ft_exit(t_status *status)
 		return (FAILURE);
 	}
 	if (args <= 1)
-		clean_exit(status, status->tmp_exit);
+		clean_exit(status, status->exit_status);
 	code = ft_exitcode(status->args[1], &valid);
 	if (!valid)
 	{
