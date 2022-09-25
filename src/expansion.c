@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 11:54:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 15:19:11 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:54:08 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	expand_lst(t_status *status, t_str_list *lst)
 		if (user_input_quotes)
 			expansion = ft_strndup(tmp_str + 1, ft_strlen(tmp_str) - 2);
 		else
-			expansion = ft_strdup(tmp_str);
+			expansion = trim_and_free(ft_strdup(tmp_str));
 		free(tmp_str);
 		if (!expansion)
 			return (FAILURE);
