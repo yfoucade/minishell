@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:38:44 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 03:00:32 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:02:14 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execute(t_status *status)
 			execute_builtin(status);
 		else if (status->command->command_type == CMD_ABS_PATH)
 			execve(status->command->u_command_ref.command_path,
-		status->args, status->environ);
+				status->args, status->environ);
 	}
 }
 
@@ -56,14 +56,9 @@ void	execute_commands(t_status *status)
 			if (!status->command
 				|| (status->command->command_type != CMD_BUILTIN
 					&& status->command->command_type != CMD_ABS_PATH))
-			{
 				status->tmp_exit = ft_cmd_not_found(status->args[0]);
-			}
-			else
-			{
-				++n_children;
+			else if (++n_children)
 				execute(status);
-			}
 		}
 		flush_error_msg(status, NULL);
 		postprocess_redirections(status);
