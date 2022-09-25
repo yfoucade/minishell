@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/15 03:42:19 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:05:22 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ unsigned char	export(t_status *status)
 		if (!env_variable)
 			continue ;
 		if (!is_valid_identifier(env_variable->name))
-			printf("export: `%s': not a valid identifier\n", env_variable->name);
+			print_invalid_identifier(*args);
 		else
 			replace_or_add(status, env_variable->name, env_variable->value);
 		free(env_variable->name);

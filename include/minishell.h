@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 13:18:58 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:07:03 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,9 @@ unsigned char	env(t_status *status);
 
 // builtin_exit.c
 unsigned char	ft_exit(t_status *status);
+
+// builtin_export_error.c
+void			print_invalid_identifier(char *identifier);
 
 // builtin_export.c
 char			add_env_variable(t_status *status, char *name, char *value);
