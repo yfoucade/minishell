@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/27 13:19:09 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:36:49 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,7 @@ char			parse_curr_command(t_status *status);
 void			free_pipe(int **tab);
 void			create_pipe(int **tab);
 void			close_pipe_end(int *tab, int end);
+void			close_pipes(t_status *status);
 
 //pipeline.c
 char			is_valid_quoting(char *str);
