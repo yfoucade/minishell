@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 14:05:22 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:32:02 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ unsigned char	export(t_status *status)
 	t_env_variable	*env_variable;
 
 	args = status->args;
+	if (!args[1])
+		return (env(status));
 	while (*++args)
 	{
 		status->exit_status = 0;
