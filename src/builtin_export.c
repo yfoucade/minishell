@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:49:09 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/27 12:32:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:21:08 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ unsigned char	export(t_status *status)
 
 	args = status->args;
 	if (!args[1])
+	{
+		status->hide_empty = FALSE;
 		return (env(status));
+	}
 	while (*++args)
 	{
 		status->exit_status = 0;

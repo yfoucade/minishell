@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallerha <jallerha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 02:33:12 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/21 12:47:27 by jallerha         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:23:47 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,20 @@ unsigned char	env(t_status *status)
 	i = -1;
 	env = status->environ;
 	if (!env)
+	{
+		status->hide_empty = TRUE;
 		return (SUCCESS);
+	}
 	while (env[++i])
 	{
-		if (ft_strnlen(ft_strchr(env[i], '='), 2) < 2)
+		if (ft_strnlen(ft_strchr(env[i], '='), 2) < 2 && status->hide_empty)
 			continue ;
 		if (ft_putfd(env[i], status->out_fd) || ft_putfd("\n", status->out_fd))
+		{
+			status->hide_empty = TRUE;
 			return (FAILURE);
+		}
 	}
+	status->hide_empty = TRUE;
 	return (SUCCESS);
 }

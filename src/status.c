@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:06:03 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 02:08:02 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:19:45 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_status(t_status *status, char **env)
 	status->return_value = 0;
 	status->error_msg = NULL;
 	status->exit_status = 0;
+	status->hide_empty = TRUE;
 	status->in_fd = STDIN_FILENO;
 	status->out_fd = STDOUT_FILENO;
 	if (add_custom_variables(status))

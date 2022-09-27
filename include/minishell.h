@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 17:00:18 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 14:07:03 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:19:09 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef struct s_status
 	unsigned char	exit_status;
 	int				in_fd;
 	int				out_fd;
+	char			hide_empty;
 }	t_status;
 
 typedef struct s_redirection
