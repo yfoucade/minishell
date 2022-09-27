@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 10:23:49 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 02:42:47 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:47:10 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ unsigned char	execute_builtin(t_status *status)
 	unsigned char	ret;
 
 	ret = status->command->u_command_ref.fun_ptr(status);
+	close_pipes(status);
 	free_status(status);
 	exit(ret);
 }
