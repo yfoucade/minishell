@@ -6,7 +6,7 @@
 /*   By: yfoucade <yfoucade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 10:13:52 by yfoucade          #+#    #+#             */
-/*   Updated: 2022/09/25 04:08:03 by yfoucade         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:41:26 by yfoucade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	heredoc(t_status *status, int pipe_fd[2], char *delim)
 	heredoc_handlers(status);
 	close(pipe_fd[0]);
 	write_until_delim(status, pipe_fd[1], delim);
+	close(pipe_fd[1]);
 	free_parsed_command(status);
 	free_status(status);
 	exit(0);
